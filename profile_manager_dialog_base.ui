@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProfileManagerDialogBase</class>
+ <widget class="QDialog" name="ProfileManagerDialogBase">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>648</width>
+    <height>512</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Profile Manager</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
+  <widget class="QDialogButtonBox" name="closeDialog">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>480</y>
+     <width>101</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Close</set>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>641</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab_profiles">
+    <attribute name="title">
+     <string>Profiles</string>
+    </attribute>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>37</y>
+       <width>171</width>
+       <height>394</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QPushButton" name="createProfileButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>151</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>New profile</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="removeProfileButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>110</y>
+        <width>151</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove profile</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="editProfileButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>151</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Rename profile</string>
+      </property>
+     </widget>
+     <widget class="Line" name="line_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>140</y>
+        <width>241</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="copyProfileButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>151</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Copy profile</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QListWidget" name="list_profiles">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>37</y>
+       <width>438</width>
+       <height>394</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>18</y>
+       <width>151</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Profiles</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_datasources">
+    <attribute name="title">
+     <string>Import</string>
+    </attribute>
+    <widget class="QFrame" name="frame">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>37</y>
+       <width>171</width>
+       <height>394</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QPushButton" name="importButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>180</y>
+        <width>151</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Import</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBoxNamesSource">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>151</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>151</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Select source profile</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="removeSourcesButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>150</y>
+        <width>151</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="choseProfileLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>151</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Select target profile</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBoxNamesTarget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>151</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="Line" name="line">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>210</y>
+        <width>241</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_checkAll">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>120</y>
+        <width>151</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Check everything</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QTabWidget" name="tabWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>10</y>
+       <width>441</width>
+       <height>422</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab_inner_datasources">
+      <attribute name="title">
+       <string>Datasources</string>
+      </attribute>
+      <widget class="QTreeWidget" name="treeWidgetTarget">
+       <property name="geometry">
+        <rect>
+         <x>8</x>
+         <y>200</y>
+         <width>421</width>
+         <height>181</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>Datasources</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTreeWidget" name="treeWidgetSource">
+       <property name="geometry">
+        <rect>
+         <x>8</x>
+         <y>10</y>
+         <width>421</width>
+         <height>181</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>Datasources</string>
+        </property>
+       </column>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_plugins">
+      <attribute name="title">
+       <string>Plugins</string>
+      </attribute>
+      <widget class="QListWidget" name="list_plugins">
+       <property name="geometry">
+        <rect>
+         <x>-1</x>
+         <y>27</y>
+         <width>438</width>
+         <height>171</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="list_plugins_target">
+       <property name="geometry">
+        <rect>
+         <x>-1</x>
+         <y>227</y>
+         <width>438</width>
+         <height>165</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>5</y>
+         <width>67</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Source</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>205</y>
+         <width>67</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Target</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_models">
+      <attribute name="title">
+       <string>Other (Import only)</string>
+      </attribute>
+      <widget class="QFrame" name="frame_3">
+       <property name="geometry">
+        <rect>
+         <x>5</x>
+         <y>5</y>
+         <width>426</width>
+         <height>231</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QCheckBox" name="models_check">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>391</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Models</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="scripts_check">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>391</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Scripts</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="bookmark_check">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>371</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Bookmarks</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="styles_check">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>130</y>
+          <width>401</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Styles + Labels</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="favourites_check">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>381</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Favourites</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="functions_check">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>190</y>
+          <width>391</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Functions</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="ui_check">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>160</y>
+          <width>361</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>UI customization (e.g. hidden toolbar icons)</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
