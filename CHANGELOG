@@ -1,3 +1,6 @@
+## Version 0.2 (12.01.2022)
+* Fixed plugin for Mac/BSD
+
 ## Version 0.16 (21.07.2020)
 * Added English - German translation
 * Import custom QGIS UI Settings
