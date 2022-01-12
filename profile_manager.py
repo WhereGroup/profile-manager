@@ -52,7 +52,7 @@ class ProfileManager:
 
     def __init__(self, iface):
         """Constructor.
-        
+
         :param iface: An interface instance that will be passed to this class
             which provides the hook by which you can manipulate the QGIS
             application at run time.
@@ -79,7 +79,7 @@ class ProfileManager:
         # initialize plugin directory
         self.plugin_dir = path.dirname(__file__)
         # initialize locale
-        
+
         locale = QSettings().value('locale/userLocale')[0:2]
         locale_path = path.join(
             self.plugin_dir,
@@ -90,7 +90,7 @@ class ProfileManager:
             self.translator = QTranslator()
             self.translator.load(locale_path)
             QCoreApplication.installTranslator(self.translator)
-        
+
 
         # Declare instance attributes
         self.actions = []
@@ -257,21 +257,21 @@ class ProfileManager:
             self.qgis_path = '{home_path}/AppData/Roaming/QGIS/QGIS3/profiles'.format(home_path=Path.home()).replace("\\", "/")
             self.ini_path = (self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini")
             self.operating_system = "windows"
-        elif platform.startswith('linux'):
-            self.qgis_path = '{home_path}/.local/share/QGIS/QGIS3/profiles'.format(home_path=Path.home())
-            self.ini_path = self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini"
-            self.operating_system = "linux"
-        else:
+        elif platform is 'darwin':
             self.qgis_path = '{home_path}/Library/Application Support/QGIS/QGIS3/profiles'.format(home_path=Path.home())
             self.ini_path = self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/qgis.org/QGIS3.ini"
             self.operating_system = "mac"
             self.interface_handler.adjust_to_macOSDark()
+        else:
+            self.qgis_path = '{home_path}/.local/share/QGIS/QGIS3/profiles'.format(home_path=Path.home())
+            self.ini_path = self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini"
+            self.operating_system = "unix"
 
     def adjust_to_operating_system(self, path_to_adjust):
         """Adjusts path to current OS"""
         if self.operating_system is "windows":
             return path_to_adjust.replace("/", "\\")
-        elif self.operating_system is "linux":
+        elif self.operating_system is "unix":
             return path_to_adjust.replace("\\", "/")
         else:
             return path_to_adjust.replace("\\", "/").replace("/QGIS/QGIS3.ini", "/qgis.org/QGIS3.ini")
@@ -328,7 +328,7 @@ class ProfileManager:
                 self.data_source_handler.remove_sources()
                 self.update_data_sources(True)
 
-        
+
         if self.is_ok_button_clicked:
             self.message_box_factory.create_message_box(self.tr("Success"), self.tr("Datasources have been successfully removed!\n\nPlease refresh the QGIS Browser to see the changes!"),
                                                             self.tr("Datasource Removed"))
@@ -388,7 +388,7 @@ class ProfileManager:
         }
 
         return ini_paths
-    
+
     def get_qgis_version(self):
         return Qgis.QGIS_VERSION_INT
 
@@ -396,7 +396,7 @@ class ProfileManager:
         """Refreshes the browser of the qgis instance from which this plugin was started"""
         iface.mainWindow().findChildren(QWidget, 'Browser')[0].refresh()
         iface.mainWindow().findChildren(QWidget, 'Browser2')[0].refresh()
-        
+
     def remove_readonly(self, func, path, excinfo):
         """Removes readonly access from directory"""
         chmod(path, S_IWRITE)
