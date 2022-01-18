@@ -6,7 +6,7 @@
 name=Profile Manager
 qgisMinimumVersion=3.12
 description=Makes handling profiles easy by giving you an UI to easily import settings from one profile to another
-version=0.20
+version=0.21
 author=(C) 2020 by WhereGroup GmbH / Stefan Giese & Dominik Szill
 email=stefan.giese@wheregroup.com; dominik.szill@wheregroup.com
 
