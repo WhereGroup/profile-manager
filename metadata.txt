@@ -27,6 +27,7 @@ tags=profilemanager, manager, profiles, python
 homepage=https://wheregroup.com/
 category=Plugins
 icon=icon.png
+tracker=https://github.com/dszillWG/profile-manager/issues
 # experimental flag
 experimental=True
 
