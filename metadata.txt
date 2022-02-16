@@ -12,7 +12,7 @@ email=stefan.giese@wheregroup.com; dominik.szill@wheregroup.com
 
 about=A QGIS Plugin that provides an UI to easily manage your profiles and import various settings from one profile to another
 
-repository=https://repo.wheregroup.com/dszill/profile-manager
+repository=https://github.com/dszillWG/profile-manager
 # End of mandatory metadata
 
 # Recommended items:
