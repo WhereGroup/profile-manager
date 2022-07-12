@@ -3,6 +3,7 @@
 from sqlite3 import connect
 from os import path
 from shutil import copy
+import sys
 
 
 class StyleHandler:
@@ -25,14 +26,17 @@ class StyleHandler:
         self.target_db_cursor = self.target_db.cursor()
 
     def import_styles(self):
-        self.import_labels()
-        self.import_symbols()
+        try:
+            self.import_labels()
+            self.import_symbols()
 
-        self.source_db.commit()
-        self.target_db.commit()
+            self.source_db.commit()
+            self.target_db.commit()
 
-        self.source_db.close()
-        self.target_db.close()
+            self.source_db.close()
+            self.target_db.close()
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
 
     def import_symbols(self):
         custom_symbols = self.source_db_cursor.execute('SELECT * FROM symbol WHERE id>115')

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from configparser import RawConfigParser
+import sys
 
 
 class FunctionHandler:
@@ -16,20 +17,24 @@ class FunctionHandler:
         """Gets function options from ini file and pastes them in target ini file"""
         self.parser.clear()
         self.parser.read(self.source_qgis_ini_file)
-        get_functions = dict(self.parser.items("expressions"))
+        try:
+            get_functions = dict(self.parser.items("expressions"))
 
-        self.parser.clear()
-        self.parser.read(self.target_qgis_ini_file)
+            self.parser.clear()
+            self.parser.read(self.target_qgis_ini_file)
 
-        if not self.parser.has_section("expressions"):
-            self.parser["expressions"] = {}
+            if not self.parser.has_section("expressions"):
+                self.parser["expressions"] = {}
 
-        for entry in get_functions:
-            if "expression" in entry or "helpText" in entry:
-                self.parser.set("expressions", entry, get_functions[entry])
+            for entry in get_functions:
+                if "expression" in entry or "helpText" in entry:
+                    self.parser.set("expressions", entry, get_functions[entry])
 
-        with open(self.target_qgis_ini_file, 'w') as qgisconf:
-            self.parser.write(qgisconf)
+            with open(self.target_qgis_ini_file, 'w') as qgisconf:
+                self.parser.write(qgisconf)
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
+
 
     def set_path_files(self, source_qgis_ini_file, target_qgis_ini_file):
         """Sets file path's"""

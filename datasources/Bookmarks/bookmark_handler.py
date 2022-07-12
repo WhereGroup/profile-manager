@@ -1,5 +1,6 @@
 from lxml import etree as et
 from pathlib import Path
+import sys
 
 
 class BookmarkHandler:
@@ -15,8 +16,11 @@ class BookmarkHandler:
     def parse_source_bookmarks(self):
         """Parses bookmarks from source xml"""
         # get the element tree of the source file
-        source_tree = et.parse(self.source_bookmark_file, self.parser)
-        self.insert_bookmarks_to_target_profile(source_tree)
+        try:
+            source_tree = et.parse(self.source_bookmark_file, self.parser)
+            self.insert_bookmarks_to_target_profile(source_tree)
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
 
     def insert_bookmarks_to_target_profile(self, source_tree):
         """Inserts bookmarks into target xml file"""

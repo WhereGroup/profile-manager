@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from configparser import RawConfigParser
+import sys
+
 
 
 class FavouritesHandler:
@@ -16,28 +18,35 @@ class FavouritesHandler:
         """Gets favourite options from ini file and pastes them in target file"""
         self.parser.clear()
         self.parser.read(self.source_qgis_ini_file)
-        get_favourites = dict(self.parser.items("browser"))
-        favourites_to_be_imported = {}
-        favourites_to_be_preserved = ""
 
-        for entry in get_favourites:
-            if entry == "favourites":
-                favourites_to_be_imported[entry] = get_favourites[entry]
+        try:
+            get_favourites = dict(self.parser.items("browser"))
 
-        self.parser.clear()
-        self.parser.read(self.target_qgis_ini_file)
+            favourites_to_be_imported = {}
+            favourites_to_be_preserved = ""
 
-        if not self.parser.has_section("browser"):
-            self.parser["browser"] = {}
-        elif self.parser.has_option("browser", "favourites"):
-            favourites_to_be_preserved = self.parser.get("browser", "favourites")
+            for entry in get_favourites:
+                if entry == "favourites":
+                    favourites_to_be_imported[entry] = get_favourites[entry]
 
-        import_string = favourites_to_be_imported["favourites"].replace(favourites_to_be_preserved, "")
+            self.parser.clear()
+            self.parser.read(self.target_qgis_ini_file)
 
-        self.parser.set("browser", "favourites", favourites_to_be_preserved + import_string)
+            if not self.parser.has_section("browser"):
+                self.parser["browser"] = {}
+            elif self.parser.has_option("browser", "favourites"):
+                favourites_to_be_preserved = self.parser.get("browser", "favourites")
 
-        with open(self.target_qgis_ini_file, 'w') as qgisconf:
-            self.parser.write(qgisconf)
+            import_string = favourites_to_be_imported["favourites"].replace(favourites_to_be_preserved, "")
+
+            self.parser.set("browser", "favourites", favourites_to_be_preserved + import_string)
+
+            with open(self.target_qgis_ini_file, 'w') as qgisconf:
+                self.parser.write(qgisconf)
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
+
+        
 
     def set_path_files(self, source_qgis_ini_file, target_qgis_ini_file):
         """Sets file path's"""
