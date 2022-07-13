@@ -6,13 +6,13 @@
 name=Profile Manager
 qgisMinimumVersion=3.12
 description=Makes handling profiles easy by giving you an UI to easily import settings from one profile to another
-version=0.21
-author=(C) 2020 by WhereGroup GmbH / Stefan Giese & Dominik Szill
-email=stefan.giese@wheregroup.com; dominik.szill@wheregroup.com
+version=0.3
+author=(C) 2022 by WhereGroup GmbH
+email=info@wheregroup.com
 
 about=A QGIS Plugin that provides an UI to easily manage your profiles and import various settings from one profile to another
 
-repository=https://repo.wheregroup.com/dszill/profile-manager
+repository=https://github.com/WhereGroup/profile-manager/
 # End of mandatory metadata
 
 # Recommended items:
@@ -27,7 +27,7 @@ tags=profilemanager, manager, profiles, python
 homepage=https://wheregroup.com/
 category=Plugins
 icon=icon.png
-tracker=https://github.com/dszillWG/profile-manager/issues
+tracker=https://github.com/WhereGroup/profile-manager/issues
 # experimental flag
 experimental=True
 
