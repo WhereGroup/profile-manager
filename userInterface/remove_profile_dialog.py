@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from qgis.PyQt.QtWidgets import QVBoxLayout, QDialog, QLabel, QDialogButtonBox
 from PyQt5.QtCore import Qt
 
@@ -40,4 +38,3 @@ class RemoveProfileDialog(QDialog):
         """Called when OK was clicked"""
         self.profile_handler.is_ok_button_clicked = True
         self.done(0)
-

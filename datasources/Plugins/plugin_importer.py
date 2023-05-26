@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
 from configparser import RawConfigParser
 from pathlib import Path
 from os import path
-from shutil import copytree, rmtree
+from shutil import copytree
 from PyQt5.QtCore import Qt
 
 
@@ -34,10 +32,10 @@ class PluginImporter:
 
                 profile_paths = self.profile_manager.get_profile_paths()
 
-                source_plugins_dir = self.profile_manager.adjust_to_operating_system(profile_paths["source"] + 'python/plugins/'
-                                                                                     + item.text() + '/')
-                target_plugins_dir = self.profile_manager.adjust_to_operating_system(profile_paths["target"] + 'python/plugins/'
-                                                                                     + item.text() + '/')
+                source_plugins_dir = self.profile_manager.adjust_to_operating_system(
+                    profile_paths["source"] + 'python/plugins/' + item.text() + '/')
+                target_plugins_dir = self.profile_manager.adjust_to_operating_system(
+                    profile_paths["target"] + 'python/plugins/' + item.text() + '/')
 
                 if path.exists(source_plugins_dir):
                     if not path.exists(profile_paths["target"] + 'python/plugins/'):

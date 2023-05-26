@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from configparser import RawConfigParser, NoSectionError
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
@@ -24,7 +22,7 @@ class PluginDisplayer:
         """Gets active plugins from ini file and displays them in treeWidget"""
         if target:
             self.show_active_plugins_in_target_list()
-        else:        
+        else:
             self.parser.clear()
 
             if target:
@@ -63,7 +61,6 @@ class PluginDisplayer:
             if not target:
                 self.show_active_plugins_in_list(True)
 
-
     def show_active_plugins_in_target_list(self):
         """Gets active plugins from ini file and displays them in treeWidget"""
         self.parser.clear()
@@ -90,7 +87,7 @@ class PluginDisplayer:
 
                     list_entry = QtWidgets.QListWidgetItem()
                     list_entry.setText(str(entry))
-                    
+
                     self.plugin_list_widget.addItem(list_entry)
 
         self.active_plugins_from_profile = active_plugins_from_source_profile

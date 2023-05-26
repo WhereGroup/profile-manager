@@ -82,8 +82,12 @@ class InterfaceHandler(QDialog):
             # Add profiles to list view
             self.dlg.list_profiles.addItem(QListWidgetItem(QtGui.QIcon(':/plugins/profile_manager/icon.png'), name))
 
-        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(lambda: self.profile_manager.update_data_sources(False, True))
-        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(lambda: self.profile_manager.update_data_sources(True, False))
+        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(
+            lambda: self.profile_manager.update_data_sources(False, True)
+        )
+        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(
+            lambda: self.profile_manager.update_data_sources(True, False)
+        )
 
     def adjust_to_macOSDark(self):
         from ..darkdetect import _detect
@@ -106,13 +110,14 @@ class InterfaceHandler(QDialog):
         """Initializes all UI buttons"""
         self.dlg.importButton.clicked.connect(self.profile_manager.import_action_handler)
         self.dlg.closeDialog.rejected.connect(self.dlg.close)
-        self.dlg.createProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler
-                                                     .create_new_profile)
+        self.dlg.createProfileButton.clicked.connect(
+            self.profile_manager.profile_manager_action_handler.create_new_profile
+        )
         self.dlg.removeProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler.remove_profile)
         self.dlg.removeSourcesButton.clicked.connect(self.profile_manager.remove_source_action_handler)
         self.dlg.editProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler.edit_profile)
         self.dlg.copyProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler.copy_profile)
-    
+
         self.dlg.checkBox_checkAll.stateChanged.connect(self.check_everything)
 
     def check_everything(self):

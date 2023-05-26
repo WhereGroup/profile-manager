@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QDialog
 from qgis.core import QgsApplication
@@ -26,15 +24,24 @@ class ProfileRemover(QDialog):
     def remove_profile(self):
         """Removes profile"""
         if self.dlg.list_profiles.currentItem() is None:
-            self.message_box_factory.create_message_box(self.error_text, self.tr("Please choose a profile to remove first!"))
+            self.message_box_factory.create_message_box(
+                self.error_text, self.tr("Please choose a profile to remove first!")
+            )
         elif self.dlg.list_profiles.currentItem().text() == Path(QgsApplication.qgisSettingsDirPath()).name:
-            self.message_box_factory.create_message_box(self.error_text, self.tr("The active profile cannot be deleted!"))
+            self.message_box_factory.create_message_box(
+                self.error_text, self.tr("The active profile cannot be deleted!")
+            )
         else:
             profile_name = self.dlg.list_profiles.currentItem().text().replace(" - ", "")
             profile_path = self.profile_manager.adjust_to_operating_system(self.qgis_path + "/" + profile_name)
 
-            dialog = RemoveProfileDialog(self.dlg, self.profile_handler, profile_name, self.profile_manager
-                                        .adjust_to_operating_system(str(Path.home()) + "/QGISBackup/"), self.profile_manager)
+            dialog = RemoveProfileDialog(
+                self.dlg,
+                self.profile_handler,
+                profile_name,
+                self.profile_manager.adjust_to_operating_system(str(Path.home()) + "/QGISBackup/"),
+                self.profile_manager
+            )
             dialog.exec_()
 
             while not self.profile_handler.is_cancel_button_clicked and not self.profile_handler.is_ok_button_clicked:
@@ -49,4 +56,6 @@ class ProfileRemover(QDialog):
                     except FileNotFoundError:
                         print('Error while deleting directory')
 
-                    self.message_box_factory.create_message_box(self.tr("Remove Profile"), self.tr("Profile has been removed!"), "info")
+                    self.message_box_factory.create_message_box(
+                        self.tr("Remove Profile"), self.tr("Profile has been removed!"), "info"
+                    )

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from qgis.core import QgsApplication
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QDialog
@@ -25,13 +23,17 @@ class ProfileEditor(QDialog):
     def edit_profile(self):
         """Renames profile with user input"""
         if self.dlg.list_profiles.currentItem() is None:
-            self.message_box_factory.create_message_box(self.error_text, self.tr("Please choose a profile to rename first!"))
+            self.message_box_factory.create_message_box(
+                self.error_text, self.tr("Please choose a profile to rename first!")
+            )
         elif self.dlg.list_profiles.currentItem().text() == Path(QgsApplication.qgisSettingsDirPath()).name:
-            self.message_box_factory.create_message_box(self.error_text, self.tr("The active profile cannot be renamed!"))
-        else:          
-            profile_before_change = self.profile_manager.adjust_to_operating_system(self.qgis_path + "/"
-                                                                                    + self.dlg
-                                                                                    .list_profiles.currentItem().text().replace(" - ", ""))
+            self.message_box_factory.create_message_box(
+                self.error_text, self.tr("The active profile cannot be renamed!")
+            )
+        else:
+            profile_before_change = self.profile_manager.adjust_to_operating_system(
+                self.qgis_path + "/" + self.dlg.list_profiles.currentItem().text().replace(" - ", "")
+            )
 
             dialog = CreateProfileDialog(self.dlg, self.profile_handler, True)
             dialog.exec_()
@@ -42,30 +44,35 @@ class ProfileEditor(QDialog):
             if self.profile_handler.is_ok_button_clicked:
                 with wait_cursor():
                     if dialog.text_input.text() is "":
-                        self.message_box_factory.create_message_box(self.error_text, self.tr("Please enter a new profile name!"))
+                        self.message_box_factory.create_message_box(
+                            self.error_text, self.tr("Please enter a new profile name!")
+                        )
                     else:
-                        profile_after_change = self.profile_manager.adjust_to_operating_system(self.qgis_path + "/"
-                                                                                            + dialog.text_input.text())
+                        profile_after_change = self.profile_manager.adjust_to_operating_system(
+                            self.qgis_path + "/" + dialog.text_input.text()
+                        )
 
                         try:
                             rename(profile_before_change, profile_after_change)
                             print("Source path renamed to destination path successfully.")
 
-                            # If Source is a file
+                        # If Source is a file
                         # but destination is a directory
                         except IsADirectoryError:
                             print("Source is a file but destination is a directory.")
 
-                            # If source is a directory
+                        # If source is a directory
                         # but destination is a file
                         except NotADirectoryError:
                             print("Source is a directory but destination is a file.")
 
-                            # For permission related errors
+                        # For permission related errors
                         except PermissionError:
                             print("Operation not permitted.")
 
-                            # For other errors
+                        # For other errors
                         except OSError as error:
                             print(error)
-                            self.message_box_factory.create_message_box(self.error_text, self.tr("Profile Directory already exists!"))
+                            self.message_box_factory.create_message_box(
+                                self.error_text, self.tr("Profile Directory already exists!")
+                            )

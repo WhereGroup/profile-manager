@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QDialog
 from qgis.core import QgsUserProfileManager
@@ -33,7 +31,9 @@ class ProfileCreator(QDialog):
             with wait_cursor():
                 profile_name = dialog.text_input.text()
                 if profile_name == "":
-                    self.message_box_factory.create_message_box(self.tr("Could not create profile"), self.tr("No profilename specified!"))
+                    self.message_box_factory.create_message_box(
+                        self.tr("Could not create profile"), self.tr("No profilename specified!")
+                    )
                 else:
                     self.qgs_profile_manager.createUserProfile(profile_name)
                     try:
@@ -49,7 +49,10 @@ class ProfileCreator(QDialog):
                         qgis_ini_file = open(ini_path, "w")
                         qgis_ini_file.close()
 
-                        self.message_box_factory.create_message_box(self.tr("Success"), self.tr("Profile successfully created!"),
-                                                                    self.tr("New Profile"))
+                        self.message_box_factory.create_message_box(
+                            self.tr("Success"), self.tr("Profile successfully created!"), self.tr("New Profile")
+                        )
                     except FileExistsError:
-                        self.message_box_factory.create_message_box(self.error_text, self.tr("Profile Directory already exists!"))
+                        self.message_box_factory.create_message_box(
+                            self.error_text, self.tr("Profile Directory already exists!")
+                        )

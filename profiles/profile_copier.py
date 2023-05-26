@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QDialog
 from qgis.core import QgsUserProfileManager
@@ -27,7 +25,7 @@ class ProfileCopier(QDialog):
     def copy_profile(self):
         if self.dlg.list_profiles.currentItem():
             source_profile = self.dlg.list_profiles.currentItem()
-            source_profile_path =self.qgis_path + "/" + source_profile.text().replace(" - ", "") + "/"
+            source_profile_path = self.qgis_path + "/" + source_profile.text().replace(" - ", "") + "/"
             dialog = CreateProfileDialog(self.dlg, self.profile_handler)
             dialog.exec_()
 
@@ -38,14 +36,19 @@ class ProfileCopier(QDialog):
                 with wait_cursor():
                     new_profile = dialog.text_input.text()
                     if new_profile is "":
-                        self.message_box_factory.create_message_box(self.error_text, self.tr("No profile name provided!"))
+                        self.message_box_factory.create_message_box(
+                            self.error_text, self.tr("No profile name provided!")
+                        )
                     else:
-
                         profile_path = self.qgis_path + "/" + new_profile + "/"
 
                         try:
                             copytree(source_profile_path, profile_path)
                         except FileExistsError:
-                            self.message_box_factory.create_message_box(self.error_text, self.tr("Profile Directory already exists!"))
+                            self.message_box_factory.create_message_box(
+                                self.error_text, self.tr("Profile Directory already exists!")
+                            )
         else:
-            self.message_box_factory.create_message_box(self.error_text, self.tr("Please select a profile to copy from!"))
+            self.message_box_factory.create_message_box(
+                self.error_text, self.tr("Please select a profile to copy from!")
+            )

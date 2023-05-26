@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from urllib.parse import quote
 from configparser import RawConfigParser
 
@@ -42,7 +40,7 @@ class DatasourceDistributor:
             target_parser = RawConfigParser()
             target_parser.optionxform = str
             target_parser.read(self.target_qgis_ini_file)
-            
+
             for key in self.dictionary_of_checked_sources:
                 iterator = 0
 
@@ -65,7 +63,7 @@ class DatasourceDistributor:
         """Handles data source removal from file"""
         self.dictionary_of_checked_sources = {**self.dictionary_of_checked_database_sources,
                                               **self.dictionary_of_checked_web_sources}
-                                              
+
         self.source_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.source_qgis_ini_file)
         self.target_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.target_qgis_ini_file)
 
@@ -95,13 +93,18 @@ class DatasourceDistributor:
         """Imports web source strings to target file"""
         to_be_imported_dictionary_sources = dict(self.parser.items("qgis"))
         to_be_imported_dictionary_sources = dict(
-            filter(lambda item: str("connections-" + key.lower()) in item[0],
-                   to_be_imported_dictionary_sources.items()))
+            filter(
+                lambda item: str("connections-" + key.lower()) in item[0], to_be_imported_dictionary_sources.items()
+            )
+        )
         to_be_imported_dictionary_sources = dict(
-            filter(lambda item: "\\" + quote(
-                self.dictionary_of_checked_web_sources[key][iterator].encode('latin-1')) + "\\" in item[
-                                    0],
-                   to_be_imported_dictionary_sources.items()))
+            filter(
+                lambda item: "\\" + quote(
+                    self.dictionary_of_checked_web_sources[key][iterator].encode('latin-1')
+                ) + "\\" in item[0],
+                to_be_imported_dictionary_sources.items()
+            )
+        )
 
         for data_source in to_be_imported_dictionary_sources:
             if not target_parser.has_section("qgis"):
@@ -112,9 +115,13 @@ class DatasourceDistributor:
         """Imports data base strings to target file"""
         to_be_imported_dictionary_sources = dict(self.parser.items(key))
         to_be_imported_dictionary_sources = dict(
-            filter(lambda item: "\\" + quote(
-                self.dictionary_of_checked_database_sources[key][iterator].encode('latin-1')) + "\\" in
-                                item[0], to_be_imported_dictionary_sources.items()))
+            filter(
+                lambda item: "\\" + quote(
+                    self.dictionary_of_checked_database_sources[key][iterator].encode('latin-1')
+                ) + "\\" in item[0],
+                to_be_imported_dictionary_sources.items()
+            )
+        )
         for data_source in to_be_imported_dictionary_sources:
             if not target_parser.has_section(key):
                 target_parser[key] = {}
@@ -124,12 +131,19 @@ class DatasourceDistributor:
         """Removes web source strings from target file"""
         to_be_deleted_dictionary_sources = dict(self.parser.items("qgis"))
         to_be_deleted_dictionary_sources = dict(
-            filter(lambda item: str("connections-" + key.lower()) in item[0],
-                   to_be_deleted_dictionary_sources.items()))
+            filter(
+                lambda item: str("connections-" + key.lower()) in item[0],
+                to_be_deleted_dictionary_sources.items()
+            )
+        )
         to_be_deleted_dictionary_sources = dict(
-            filter(lambda item: "\\" + quote(
-                self.dictionary_of_checked_web_sources[key][iterator].encode('latin-1')) + "\\" in item[0],
-                   to_be_deleted_dictionary_sources.items()))
+            filter(
+                lambda item: "\\" + quote(
+                    self.dictionary_of_checked_web_sources[key][iterator].encode('latin-1')
+                ) + "\\" in item[0],
+                to_be_deleted_dictionary_sources.items()
+            )
+        )
 
         for data_source in to_be_deleted_dictionary_sources:
             self.parser.remove_option("qgis", data_source)
@@ -138,9 +152,13 @@ class DatasourceDistributor:
         """Remove data base sources from target file"""
         to_be_deleted_dictionary_sources = dict(self.parser.items(key))
         to_be_deleted_dictionary_sources = dict(
-            filter(lambda item: "\\" + quote(
-                self.dictionary_of_checked_database_sources[key][iterator].encode('latin-1')) + "\\" in
-                                item[0], to_be_deleted_dictionary_sources.items()))
+            filter(
+                lambda item: "\\" + quote(
+                    self.dictionary_of_checked_database_sources[key][iterator].encode('latin-1')
+                ) + "\\" in item[0],
+                to_be_deleted_dictionary_sources.items()
+            )
+        )
 
         for data_source in to_be_deleted_dictionary_sources:
             self.parser.remove_option(key, data_source)

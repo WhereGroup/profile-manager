@@ -32,7 +32,7 @@ class CreateProfileDialog(QDialog):
         self.layout.addWidget(self.text_input, alignment=Qt.AlignCenter)
         self.layout.addWidget(self.button_box, alignment=Qt.AlignCenter)
         self.setLayout(self.layout)
-    
+
     def cancel_button_clicked(self):
         """Called when cancel was clicked"""
         self.profile_action_handler.is_cancel_button_clicked = True
@@ -46,4 +46,3 @@ class CreateProfileDialog(QDialog):
     def translate(self):
         self.rename = self.tr("Rename Profile!")
         self.create = self.tr("Create Profile!")
-

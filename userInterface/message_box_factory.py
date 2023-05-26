@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from qgis.PyQt.QtWidgets import QMessageBox, QDialog
 
 
@@ -27,4 +25,3 @@ class MessageBoxFactory(QDialog):
             msg_box.setWindowTitle(self.tr("Information"))
 
         msg_box.exec_()
-

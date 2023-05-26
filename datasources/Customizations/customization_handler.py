@@ -28,13 +28,16 @@ class CustomizationHandler:
             for setting in ui_data:
                 if not self.parser.has_section("UI"):
                     self.parser["UI"] = {}
-                
+
                 self.parser.set("UI", setting, ui_data[setting])
 
             with open(ini_paths["target"], 'w') as qgisconf:
                 self.parser.write(qgisconf)
 
     def set_path_files(self, source, target):
-        self.path_source_customini = self.profile_manager.adjust_to_operating_system(source + "QGIS/QGISCUSTOMIZATION3.ini")
-        self.path_target_customini = self.profile_manager.adjust_to_operating_system(target + "QGIS/QGISCUSTOMIZATION3.ini")
-
+        self.path_source_customini = self.profile_manager.adjust_to_operating_system(
+            source + "QGIS/QGISCUSTOMIZATION3.ini"
+        )
+        self.path_target_customini = self.profile_manager.adjust_to_operating_system(
+            target + "QGIS/QGISCUSTOMIZATION3.ini"
+        )

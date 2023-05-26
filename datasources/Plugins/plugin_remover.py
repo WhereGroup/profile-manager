@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from configparser import RawConfigParser
 from os import path, chmod
 from shutil import rmtree
@@ -34,8 +32,8 @@ class PluginRemover:
 
                 profile_paths = self.profile_manager.get_profile_paths()
 
-                source_plugins_dir = self.profile_manager.adjust_to_operating_system(profile_paths["source"] + 'python/plugins/'
-                                                                                     + item.text() + '/')
+                source_plugins_dir = self.profile_manager.adjust_to_operating_system(
+                    profile_paths["source"] + 'python/plugins/' + item.text() + '/')
 
                 if path.exists(source_plugins_dir):
                     rmtree(source_plugins_dir, onerror=self.remove_readonly)

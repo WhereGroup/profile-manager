@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from pathlib import Path
 from os import path, listdir
-from shutil import copytree, copy2
+from shutil import copy2
 
 
 class ScriptHandler:

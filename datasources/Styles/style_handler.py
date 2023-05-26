@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from sqlite3 import connect
 from os import path
 from shutil import copy
@@ -47,5 +45,3 @@ class StyleHandler:
         custom_labels = self.source_db_cursor.execute('SELECT * FROM labelsettings')
 
         self.target_db_cursor.executemany('INSERT OR REPLACE INTO labelsettings VALUES (?,?,?,?)', custom_labels)
-
-

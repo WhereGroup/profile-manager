@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from ..Bookmarks.bookmark_handler import BookmarkHandler
 from ..Favourites.favourites_handler import FavouritesHandler
 from ..Plugins.plugin_handler import PluginHandler
@@ -85,7 +83,7 @@ class DataSourceHandler:
             if self.dlg.functions_check.isChecked():
                 self.function_handler.set_path_files(self.source_qgis_ini_file, self.target_qgis_ini_file)
                 self.function_handler.import_functions()
-        
+
         if self.dlg.ui_check.isChecked():
             self.customization_handler.set_path_files(self.source_profile_path, self.target_profile_path)
             self.customization_handler.import_customizations()
@@ -128,8 +126,7 @@ class DataSourceHandler:
     def setup_datasource_distributor(self):
         """Sets up data source distributor"""
         self.datasource_distributor.dictionary_of_checked_web_sources = self.dictionary_of_checked_web_sources
-        self.datasource_distributor\
-            .dictionary_of_checked_database_sources = self.dictionary_of_checked_data_base_sources
+        self.datasource_distributor.dictionary_of_checked_database_sources = \
+            self.dictionary_of_checked_data_base_sources
         self.datasource_distributor.source_qgis_ini_file = self.source_qgis_ini_file
         self.datasource_distributor.target_qgis_ini_file = self.target_qgis_ini_file
-

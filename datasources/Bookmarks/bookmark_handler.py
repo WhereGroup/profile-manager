@@ -50,7 +50,7 @@ class BookmarkHandler:
             target_tree_root.append(element)
 
         # overwrite the xml file
-        et.ElementTree(target_tree_root)\
+        et.ElementTree(target_tree_root) \
             .write(self.target_bookmark_file, pretty_print=True, encoding='utf-8', xml_declaration=True)
 
     @staticmethod
@@ -82,9 +82,3 @@ class BookmarkHandler:
         """Sets file path's"""
         self.source_bookmark_file = source_bookmark_file
         self.target_bookmark_file = target_bookmark_file
-
-
-
-
-
-

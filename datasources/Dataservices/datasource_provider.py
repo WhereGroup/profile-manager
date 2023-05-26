@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from configparser import RawConfigParser
 from re import compile, search
 from qgis.PyQt.QtCore import Qt
@@ -63,8 +61,8 @@ class DataSourceProvider:
 
         data_base_sources_parent = QTreeWidgetItem([item_name])
         if is_source:
-            data_base_sources_parent.setFlags(data_base_sources_parent.flags() | Qt.ItemIsTristate
-                                              | Qt.ItemIsUserCheckable)
+            data_base_sources_parent.setFlags(
+                data_base_sources_parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
 
         if item_name == "GeoPackage":
             self.service_name_regex = compile(r'\\(.+).\\')

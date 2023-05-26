@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .plugin_importer import PluginImporter
 from .plugin_remover import PluginRemover
 from .plugin_displayer import PluginDisplayer
