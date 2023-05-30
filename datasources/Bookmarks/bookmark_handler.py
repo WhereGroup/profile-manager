@@ -26,7 +26,7 @@ class BookmarkHandler:
     def insert_bookmarks_to_target_profile(self, source_tree):
         """Inserts bookmarks into target xml file"""
         # check if target file exists
-        self.check_if_file_exists()
+        self.create_file_if_not_exist()
         # get the element tree of the target file
         # fill if empty
         try:
@@ -65,18 +65,12 @@ class BookmarkHandler:
 
         return target_tree_root
 
-    def check_if_file_exists(self):
-        """Checks if file exists"""
+    def create_file_if_not_exist(self):
+        """Checks if file exists and creates it if not"""
         target_file = Path(self.target_bookmark_file)
-        if target_file.is_file():
-            pass
-        else:
-            self.create_new_file()
-
-    def create_new_file(self):
-        """Creates a new bookmarks file"""
-        with open(self.target_bookmark_file, "w") as new_file:
-            new_file.write("<Bookmarks></Bookmarks>")
+        if not target_file.is_file():
+            with open(self.target_bookmark_file, "w") as new_file:
+                new_file.write("<Bookmarks></Bookmarks>")
 
     def set_path_files(self, source_bookmark_file, target_bookmark_file):
         """Sets file paths"""
