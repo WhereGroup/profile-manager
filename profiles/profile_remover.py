@@ -1,5 +1,5 @@
 from qgis.PyQt.QtCore import QCoreApplication
-from qgis.PyQt.QtWidgets import QDialog
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.core import QgsApplication
 from pathlib import Path
 from os import rmdir
@@ -50,12 +50,17 @@ class ProfileRemover(QDialog):
             if self.profile_handler.is_ok_button_clicked:
                 with wait_cursor():
                     self.profile_manager.make_backup()
+
+                    error_message = ""
                     try:
                         rmtree(profile_path)
                         rmdir(profile_path)
-                    except FileNotFoundError:
-                        print('Error while deleting directory')
+                    except FileNotFoundError as e:
+                        error_message = str(e)
 
-                    self.message_box_factory.create_message_box(
-                        self.tr("Remove Profile"), self.tr("Profile has been removed!"), "info"
-                    )
+                    if error_message:
+                        QMessageBox.critical(None, self.tr("Profile could not be removed"), error_message)
+                    else:
+                        self.message_box_factory.create_message_box(
+                            self.tr("Remove Profile"), self.tr("Profile has been removed!"), "info"
+                        )

@@ -1,6 +1,7 @@
 from lxml import etree as et
 from pathlib import Path
-import sys
+
+from qgis.core import Qgis, QgsMessageLog
 
 
 class BookmarkHandler:
@@ -19,8 +20,8 @@ class BookmarkHandler:
         try:
             source_tree = et.parse(self.source_bookmark_file, self.parser)
             self.insert_bookmarks_to_target_profile(source_tree)
-        except:
-            print("Oops!", sys.exc_info()[0], "occurred.")
+        except Exception as e:
+            QgsMessageLog.logMessage(str(e), self.tr("Profile Manager"), level=Qgis.Warning)
 
     def insert_bookmarks_to_target_profile(self, source_tree):
         """Inserts bookmarks into target xml file"""

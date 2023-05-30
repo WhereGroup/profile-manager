@@ -1,7 +1,8 @@
 from sqlite3 import connect
 from os import path
 from shutil import copy
-import sys
+
+from qgis.core import Qgis, QgsMessageLog
 
 
 class StyleHandler:
@@ -33,8 +34,8 @@ class StyleHandler:
 
             self.source_db.close()
             self.target_db.close()
-        except:
-            print("Oops!", sys.exc_info()[0], "occurred.")
+        except Exception as e:
+            QgsMessageLog.logMessage(str(e), self.tr("Profile Manager"), level=Qgis.Warning)
 
     def import_symbols(self):
         custom_symbols = self.source_db_cursor.execute('SELECT * FROM symbol WHERE id>115')

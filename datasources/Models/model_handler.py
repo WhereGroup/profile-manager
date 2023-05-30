@@ -14,7 +14,6 @@ class ModelHandler:
         if path.exists(self.source_model_dir):
             if not path.exists(self.target_model_dir):
                 Path(self.target_model_dir).mkdir(parents=True, exist_ok=True)
-                print(self.target_model_dir)
             for item in listdir(self.source_model_dir):
                 source = path.join(self.source_model_dir, item)
                 dest = path.join(self.target_model_dir, item)
