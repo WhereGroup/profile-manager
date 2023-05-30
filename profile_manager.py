@@ -392,17 +392,17 @@ class ProfileManager:
         if self.operating_system == "mac":
             ini_path_source = self.adjust_to_operating_system(
                 self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/qgis.org/QGIS3.ini")
-            ini_path_traget = self.adjust_to_operating_system(
+            ini_path_target = self.adjust_to_operating_system(
                 self.qgis_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/qgis.org/QGIS3.ini")
         else:
             ini_path_source = self.adjust_to_operating_system(
                 self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini")
-            ini_path_traget = self.adjust_to_operating_system(
+            ini_path_target = self.adjust_to_operating_system(
                 self.qgis_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/QGIS/QGIS3.ini")
 
         ini_paths = {
             "source": ini_path_source,
-            "target": ini_path_traget,
+            "target": ini_path_target,
         }
 
         return ini_paths
