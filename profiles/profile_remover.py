@@ -2,7 +2,6 @@ from qgis.PyQt.QtCore import QCoreApplication
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.core import QgsApplication
 from pathlib import Path
-from os import rmdir
 from shutil import rmtree
 from ..utils import wait_cursor
 from ..userInterface.remove_profile_dialog import RemoveProfileDialog
@@ -54,7 +53,6 @@ class ProfileRemover(QDialog):
                     error_message = ""
                     try:
                         rmtree(profile_path)
-                        rmdir(profile_path)
                     except FileNotFoundError as e:
                         error_message = str(e)
 
