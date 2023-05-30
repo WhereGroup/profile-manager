@@ -106,7 +106,7 @@ class DataSourceHandler:
         self.datasource_distributor.remove_sources()
 
     def set_path_to_files(self, source_profile_name, target_profile_name):
-        """Sets file path's"""
+        """Sets file paths"""
         ini_pathes = self.profile_manager.get_ini_paths()
         self.source_qgis_ini_file = ini_pathes['source']
         self.target_qgis_ini_file = ini_pathes['target']
@@ -117,7 +117,7 @@ class DataSourceHandler:
                                                                                    + target_profile_name + '/')
 
     def set_path_to_bookmark_files(self, source_profile_name, target_profile_name):
-        """Sets file path's"""
+        """Sets file paths"""
         self.source_bookmark_file = self.profile_manager.adjust_to_operating_system(
             self.qgis_path + '/' + source_profile_name + '/' + 'bookmarks.xml')
         self.target_bookmark_file = self.profile_manager.adjust_to_operating_system(

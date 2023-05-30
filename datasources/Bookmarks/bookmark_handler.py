@@ -79,6 +79,6 @@ class BookmarkHandler:
         new_file.close()
 
     def set_path_files(self, source_bookmark_file, target_bookmark_file):
-        """Sets file path's"""
+        """Sets file paths"""
         self.source_bookmark_file = source_bookmark_file
         self.target_bookmark_file = target_bookmark_file

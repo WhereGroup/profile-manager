@@ -34,6 +34,6 @@ class FunctionHandler:
             print("Oops!", sys.exc_info()[0], "occurred.")
 
     def set_path_files(self, source_qgis_ini_file, target_qgis_ini_file):
-        """Sets file path's"""
+        """Sets file paths"""
         self.source_qgis_ini_file = source_qgis_ini_file
         self.target_qgis_ini_file = target_qgis_ini_file
