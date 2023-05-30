@@ -32,7 +32,7 @@ class FunctionHandler:
             with open(self.target_qgis_ini_file, 'w') as qgisconf:
                 self.parser.write(qgisconf)
         except Exception as e:
-            QgsMessageLog.logMessage(str(e), self.tr("Profile Manager"), level=Qgis.Warning)
+            QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
 
     def set_path_files(self, source_qgis_ini_file, target_qgis_ini_file):
         """Sets file paths"""

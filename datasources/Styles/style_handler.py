@@ -35,7 +35,7 @@ class StyleHandler:
             self.source_db.close()
             self.target_db.close()
         except Exception as e:
-            QgsMessageLog.logMessage(str(e), self.tr("Profile Manager"), level=Qgis.Warning)
+            QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
 
     def import_symbols(self):
         custom_symbols = self.source_db_cursor.execute('SELECT * FROM symbol WHERE id>115')
