@@ -73,10 +73,9 @@ class BookmarkHandler:
             self.create_new_file()
 
     def create_new_file(self):
-        """Creates a new file"""
-        new_file = open(self.target_bookmark_file, "w")
-        new_file.write("<Bookmarks></Bookmarks>")
-        new_file.close()
+        """Creates a new bookmarks file"""
+        with open(self.target_bookmark_file, "w") as new_file:
+            new_file.write("<Bookmarks></Bookmarks>")
 
     def set_path_files(self, source_bookmark_file, target_bookmark_file):
         """Sets file paths"""
