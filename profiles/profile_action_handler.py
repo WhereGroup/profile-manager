@@ -8,7 +8,7 @@ from qgis.PyQt.QtWidgets import QDialog
 class ProfileActionHandler(QDialog):
 
     def __init__(self, profile_manager_dialog, qgis_path, profile_manager, *args, **kwargs):
-        super(ProfileActionHandler, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.is_cancel_button_clicked = False
         self.is_ok_button_clicked = False

@@ -6,7 +6,7 @@ class RemoveSourcesDialog(QDialog):
 
     def __init__(self, profile_manager_dialog, profile_manager, back_up_path, *args, **kwargs):
         """Sets up dialog with input field"""
-        super(RemoveSourcesDialog, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.dlg = profile_manager_dialog
         self.profile_manager = profile_manager

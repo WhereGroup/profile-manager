@@ -6,7 +6,7 @@ class CreateProfileDialog(QDialog):
 
     def __init__(self, profile_manager_dialog, profile_action_handler, only_edit=False, *args, **kwargs):
         """Sets up dialog with input field"""
-        super(CreateProfileDialog, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.dlg = profile_manager_dialog
         self.profile_action_handler = profile_action_handler

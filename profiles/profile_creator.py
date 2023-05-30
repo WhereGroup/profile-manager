@@ -10,7 +10,7 @@ from ..userInterface.message_box_factory import MessageBoxFactory
 class ProfileCreator(QDialog):
 
     def __init__(self, profile_manager_dialog, qgis_path, profile_manager, profile_handler, error_text, *args, **kwargs):
-        super(ProfileCreator, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.dlg = profile_manager_dialog
         self.profile_manager = profile_manager

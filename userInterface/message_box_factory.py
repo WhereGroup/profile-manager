@@ -4,9 +4,9 @@ from qgis.PyQt.QtWidgets import QMessageBox, QDialog
 class MessageBoxFactory(QDialog):
 
     def __init__(self, profile_manager_dialog, *args, **kwargs):
-        super(MessageBoxFactory, self).__init__(*args, **kwargs)
         self.dlg = profile_manager_dialog
 
+        super().__init__(*args, **kwargs)
 
     def create_message_box(self, text, informative_text, style="warning"):
         """Creates a dialog that displays an informative message"""

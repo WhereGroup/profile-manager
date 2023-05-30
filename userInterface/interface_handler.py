@@ -7,7 +7,7 @@ from qgis.PyQt import QtGui
 class InterfaceHandler(QDialog):
 
     def __init__(self, profile_manager, profile_manager_dialog, *args, **kwargs):
-        super(InterfaceHandler, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.profile_manager = profile_manager
         self.dlg = profile_manager_dialog

@@ -6,7 +6,7 @@ class RemoveProfileDialog(QDialog):
 
     def __init__(self, profile_manager_dialog, profile_handler, profile_name, back_up_path, profile_manager, *args, **kwargs):
         """Sets up dialog with input field"""
-        super(RemoveProfileDialog, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.dlg = profile_manager_dialog
         self.profile_handler = profile_handler
