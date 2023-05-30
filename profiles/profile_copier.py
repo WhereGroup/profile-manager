@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QDialog
+from qgis.PyQt.QtCore import QCoreApplication
+from qgis.PyQt.QtWidgets import QDialog
 from qgis.core import QgsUserProfileManager
 from ..utils import wait_cursor
 from shutil import copytree
@@ -27,7 +27,7 @@ class ProfileCopier(QDialog):
             source_profile = self.dlg.list_profiles.currentItem()
             source_profile_path = self.qgis_path + "/" + source_profile.text().replace(" - ", "") + "/"
             dialog = CreateProfileDialog(self.dlg, self.profile_handler)
-            dialog.exec_()
+            dialog.exec()
 
             while not self.profile_handler.is_cancel_button_clicked and not self.profile_handler.is_ok_button_clicked:
                 QCoreApplication.processEvents()

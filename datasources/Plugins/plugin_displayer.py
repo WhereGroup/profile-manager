@@ -1,6 +1,6 @@
 from configparser import RawConfigParser, NoSectionError
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from qgis.PyQt import QtWidgets
+from qgis.PyQt.QtCore import Qt
 
 
 class PluginDisplayer:

@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QDialog
+from qgis.PyQt.QtCore import QCoreApplication
+from qgis.PyQt.QtWidgets import QDialog
 from qgis.core import QgsApplication
 from pathlib import Path
 from os import rmdir
@@ -42,7 +42,7 @@ class ProfileRemover(QDialog):
                 self.profile_manager.adjust_to_operating_system(str(Path.home()) + "/QGISBackup/"),
                 self.profile_manager
             )
-            dialog.exec_()
+            dialog.exec()
 
             while not self.profile_handler.is_cancel_button_clicked and not self.profile_handler.is_ok_button_clicked:
                 QCoreApplication.processEvents()

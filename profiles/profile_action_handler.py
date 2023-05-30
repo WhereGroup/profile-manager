@@ -2,7 +2,7 @@ from .profile_remover import ProfileRemover
 from .profile_creator import ProfileCreator
 from .profile_editor import ProfileEditor
 from .profile_copier import ProfileCopier
-from PyQt5.QtWidgets import QDialog
+from qgis.PyQt.QtWidgets import QDialog
 
 
 class ProfileActionHandler(QDialog):

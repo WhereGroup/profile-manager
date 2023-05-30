@@ -24,4 +24,4 @@ class MessageBoxFactory(QDialog):
             msg_box.setIcon(QMessageBox.Information)
             msg_box.setWindowTitle(self.tr("Information"))
 
-        msg_box.exec_()
+        msg_box.exec()

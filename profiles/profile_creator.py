@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QDialog
+from qgis.PyQt.QtCore import QCoreApplication
+from qgis.PyQt.QtWidgets import QDialog
 from qgis.core import QgsUserProfileManager
 from os import mkdir
 from ..utils import wait_cursor
@@ -23,7 +23,7 @@ class ProfileCreator(QDialog):
     def create_new_profile(self):
         """Creates new profile with user inputs name"""
         dialog = CreateProfileDialog(self.dlg, self.profile_handler)
-        dialog.exec_()
+        dialog.exec()
         while not self.profile_handler.is_cancel_button_clicked and not self.profile_handler.is_ok_button_clicked:
             QCoreApplication.processEvents()
 

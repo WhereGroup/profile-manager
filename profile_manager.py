@@ -22,9 +22,9 @@
 """
 # Import the code for the dialog
 import time
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication, QSize
-from PyQt5.QtWidgets import QAction, QWidget
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, QSize
+from qgis.PyQt.QtWidgets import QAction, QWidget
 from qgis.core import QgsUserProfileManager, Qgis
 from pathlib import Path
 from sys import platform
@@ -244,7 +244,7 @@ class ProfileManager:
         # show the dialog
         self.dlg.show()
         # Run the dialog event loop
-        result = self.dlg.exec_()
+        result = self.dlg.exec()
         # See if OK was pressed
         if result:
             # Do something useful here - delete the line containing pass and
@@ -325,7 +325,7 @@ class ProfileManager:
         self.data_source_handler.set_path_to_files(self.dlg.comboBoxNamesSource.currentText(), "")
 
         dialog = RemoveSourcesDialog(self.dlg, self, self.adjust_to_operating_system(str(Path.home()) + "/QGISBackup/"))
-        dialog.exec_()
+        dialog.exec()
         while not self.is_cancel_button_clicked and not self.is_ok_button_clicked:
             QCoreApplication.processEvents()
 

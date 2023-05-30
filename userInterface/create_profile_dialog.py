@@ -1,5 +1,5 @@
 from qgis.PyQt.QtWidgets import QLineEdit, QDialogButtonBox, QVBoxLayout, QDialog
-from PyQt5.QtCore import Qt
+from qgis.PyQt.QtCore import Qt
 
 
 class CreateProfileDialog(QDialog):

@@ -1,7 +1,7 @@
 from configparser import RawConfigParser
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
-from PyQt5.QtCore import Qt
-from PyQt5 import QtGui
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt import QtGui
 
 
 class InterfaceHandler(QDialog):

@@ -1,5 +1,5 @@
 from qgis.PyQt.QtWidgets import QVBoxLayout, QDialog, QLabel, QDialogButtonBox
-from PyQt5.QtCore import Qt
+from qgis.PyQt.QtCore import Qt
 
 
 class RemoveProfileDialog(QDialog):

@@ -2,7 +2,7 @@ from configparser import RawConfigParser
 from os import path, chmod
 from shutil import rmtree
 from stat import S_IWRITE
-from PyQt5.QtCore import Qt
+from qgis.PyQt.QtCore import Qt
 
 
 class PluginRemover:

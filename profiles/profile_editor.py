@@ -1,6 +1,6 @@
 from qgis.core import QgsApplication
-from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QDialog
+from qgis.PyQt.QtCore import QCoreApplication
+from qgis.PyQt.QtWidgets import QDialog
 from pathlib import Path
 from os import rename
 from ..utils import wait_cursor
@@ -36,7 +36,7 @@ class ProfileEditor(QDialog):
             )
 
             dialog = CreateProfileDialog(self.dlg, self.profile_handler, True)
-            dialog.exec_()
+            dialog.exec()
 
             while not self.profile_handler.is_cancel_button_clicked and not self.profile_handler.is_ok_button_clicked:
                 QCoreApplication.processEvents()

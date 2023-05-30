@@ -2,7 +2,7 @@ from configparser import RawConfigParser
 from pathlib import Path
 from os import path
 from shutil import copytree
-from PyQt5.QtCore import Qt
+from qgis.PyQt.QtCore import Qt
 
 
 class PluginImporter:
