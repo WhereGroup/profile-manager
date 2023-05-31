@@ -13,6 +13,7 @@ class DataSourceProvider:
         self.parser.optionxform = str
         self.ini_path = path
         self.service_name_regex = compile(r'\\(.*?)\\')
+        self.gpkg_service_name_regex = compile(r'\\(.+).\\')
         self.dictionary_of_checked_web_sources = {}
         self.dictionary_of_checked_database_sources = {}
 
@@ -64,16 +65,14 @@ class DataSourceProvider:
             data_base_sources_parent.setFlags(
                 data_base_sources_parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
 
-        if item_name == "GeoPackage":
-            self.service_name_regex = compile(r'\\(.+).\\')
-
         try:
             for key in self.parser[service_block]:
                 if search_string.search(key):
-                    db_name_raw = search(self.service_name_regex, key)
                     if item_name == "GeoPackage":
+                        db_name_raw = search(self.gpkg_service_name_regex, key)
                         db_name = db_name_raw.group(0).replace("\\GPKG\\connections\\", "").replace("\\", "")
                     else:
+                        db_name_raw = search(self.service_name_regex, key)
                         db_name = db_name_raw.group(0).replace("\\", "")
 
                     db_name = unquote(db_name, 'latin-1')
