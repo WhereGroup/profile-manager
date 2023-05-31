@@ -31,7 +31,6 @@ from sys import platform
 from os import path, chmod
 from stat import S_IWRITE
 from shutil import rmtree, copytree
-from qgis.utils import iface
 # Import subclasses
 from .profile_manager_dialog import ProfileManagerDialog
 from .datasources.Dataservices.datasource_provider import DataSourceProvider
@@ -410,8 +409,8 @@ class ProfileManager:
 
     def refresh_browser_model(self):
         """Refreshes the browser of the qgis instance from which this plugin was started"""
-        iface.mainWindow().findChildren(QWidget, 'Browser')[0].refresh()
-        iface.mainWindow().findChildren(QWidget, 'Browser2')[0].refresh()
+        self.iface.mainWindow().findChildren(QWidget, 'Browser')[0].refresh()
+        self.iface.mainWindow().findChildren(QWidget, 'Browser2')[0].refresh()
 
     def remove_readonly(self, func, path, excinfo):
         """Removes readonly access from directory"""
