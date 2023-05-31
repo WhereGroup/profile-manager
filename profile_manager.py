@@ -32,7 +32,6 @@ from os import path, chmod
 from stat import S_IWRITE
 from shutil import rmtree, copytree
 from qgis.utils import iface
-import calendar
 # Import subclasses
 from .profile_manager_dialog import ProfileManagerDialog
 from .datasources.Dataservices.datasource_provider import DataSourceProvider
@@ -279,8 +278,7 @@ class ProfileManager:
 
     def make_backup(self):
         """Creates a backup of the profile folders"""
-        gmt = time.gmtime()
-        ts = calendar.timegm(gmt)
+        ts = int(time.time())
 
         target_path = self.adjust_to_operating_system(str(Path.home()) + "/QGISBackup/" + str(ts) + "/")
 
