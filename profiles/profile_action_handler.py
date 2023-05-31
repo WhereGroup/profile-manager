@@ -22,25 +22,25 @@ class ProfileActionHandler(QDialog):
         self.profile_copier = ProfileCopier(self.dlg, self.qgis_path, self.profile_manager, self, self.error_text)
 
     def create_new_profile(self):
-        """Initializes profile creation"""
+        """Creates a new profile"""
         self.profile_creator.create_new_profile()
         self.reset_button_state()
         self.profile_manager.interface_handler.init_profile_selection()
 
     def copy_profile(self):
-        """Initializes profile creation"""
+        """Copies the selected profile"""
         self.profile_copier.copy_profile()
         self.reset_button_state()
         self.profile_manager.interface_handler.init_profile_selection()
 
     def edit_profile(self):
-        """Initializes profile editing"""
+        """Edits the selected profile"""
         self.profile_editor.edit_profile()
         self.reset_button_state()
         self.profile_manager.interface_handler.init_profile_selection()
 
     def remove_profile(self):
-        """Initializes profile removal"""
+        """Removes the selected profile"""
         self.profile_remover.remove_profile()
         self.reset_button_state()
         self.profile_manager.interface_handler.init_profile_selection()

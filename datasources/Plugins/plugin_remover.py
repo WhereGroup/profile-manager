@@ -17,7 +17,7 @@ class PluginRemover:
         self.plugin_list_widget = self.profile_manager.dlg.list_plugins
 
     def remove_plugins(self):
-        """Copies plugin folders into target destination"""
+        """Removes all enabled plugins"""
         self.parser.clear()
         self.parser.read(self.source_qgis_ini_file)
 
