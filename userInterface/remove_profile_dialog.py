@@ -4,14 +4,13 @@ from qgis.PyQt.QtCore import Qt
 
 class RemoveProfileDialog(QDialog):
 
-    def __init__(self, profile_manager_dialog, profile_handler, profile_name, back_up_path, profile_manager, *args, **kwargs):
+    def __init__(self, profile_manager_dialog, profile_handler, profile_name, back_up_path, *args, **kwargs):
         """Sets up dialog with input field"""
         super().__init__(*args, **kwargs)
 
         self.dlg = profile_manager_dialog
         self.profile_handler = profile_handler
         self.profile_name = profile_name
-        self.profilemngr = profile_manager
 
         self.setWindowTitle(self.tr("Remove Profile!"))
         self.layout = QVBoxLayout()
