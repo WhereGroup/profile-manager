@@ -74,7 +74,7 @@ class InterfaceHandler(QDialog):
         self.dlg.comboBoxNamesTarget.clear()
         self.dlg.list_profiles.clear()
         for name in profile_names:
-            # Init source profiles combobox_
+            # Init source profiles combobox
             self.dlg.comboBoxNamesSource.addItem(name)
             if profile in profile_names:
                 self.dlg.comboBoxNamesSource.setCurrentIndex(profile_names.index(profile))
