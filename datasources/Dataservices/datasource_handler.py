@@ -14,7 +14,7 @@ class DataSourceHandler:
     def __init__(self, profile_manager_dialog, profile_manager):
         self.profile_manager = profile_manager
         self.dlg = profile_manager_dialog
-        self.qgis_path = self.profile_manager.qgis_path
+        self.qgis_path = self.profile_manager.qgis_profiles_path
         self.dictionary_of_checked_web_sources = {}
         self.dictionary_of_checked_data_base_sources = {}
         self.source_profile_path = ""

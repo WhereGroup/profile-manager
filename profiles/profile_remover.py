@@ -21,7 +21,10 @@ class ProfileRemover(QDialog):
         self.error_text = error_text
 
     def remove_profile(self):
-        """Removes profile"""
+        """Removes profile
+
+        Aborts and shows an error message if no backup could be made.
+        """
         if self.dlg.list_profiles.currentItem() is None:
             self.message_box_factory.create_message_box(
                 self.error_text, self.tr("Please choose a profile to remove first!")
@@ -47,17 +50,24 @@ class ProfileRemover(QDialog):
 
             if self.profile_handler.is_ok_button_clicked:
                 with wait_cursor():
-                    self.profile_manager.make_backup()
+                    try:
+                        self.profile_manager.make_backup()
+                    except Exception as e:
+                        QMessageBox.critical(
+                            None,
+                            self.tr("Backup could not be created"),
+                            self.tr("Aborting removal of profile due to error:\n") + str(e),
+                        )
+                        return
 
-                    error_message = ""
                     try:
                         rmtree(profile_path)
                     except FileNotFoundError as e:
-                        error_message = str(e)
-
-                    if error_message:
-                        QMessageBox.critical(None, self.tr("Profile could not be removed"), error_message)
-                    else:
-                        self.message_box_factory.create_message_box(
-                            self.tr("Remove Profile"), self.tr("Profile has been removed!"), "info"
+                        QMessageBox.critical(
+                            None,
+                            self.tr("Profile could not be removed"),
+                            self.tr("Aborting due to error:\n") + str(e),
                         )
+                        return
+
+                    QMessageBox.information(None, self.tr("Remove Profile"), self.tr("Profile has been removed!"))

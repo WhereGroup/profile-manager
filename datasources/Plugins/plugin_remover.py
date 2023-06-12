@@ -1,13 +1,14 @@
 from configparser import RawConfigParser
-from os import path, chmod
 from shutil import rmtree
-from stat import S_IWRITE
-from qgis.PyQt.QtCore import Qt
+
+from qgis.PyQt.QtCore import Qt, QObject
+from qgis.PyQt.QtWidgets import QMessageBox
 
 
-class PluginRemover:
+class PluginRemover(QObject):
 
-    def __init__(self, profile_manager):
+    def __init__(self, profile_manager, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.profile_manager = profile_manager
         self.parser = RawConfigParser()
         self.parser.optionxform = str
@@ -23,21 +24,23 @@ class PluginRemover:
 
         self.plugin_list_widget = self.profile_manager.dlg.list_plugins
         for item in self.plugin_list_widget.findItems("", Qt.MatchContains | Qt.MatchRecursive):
+            plugin_name = item.text()
             if item.checkState() == Qt.Checked:
-                self.checked_items.append(item.text())
+                self.checked_items.append(plugin_name)
 
                 # Removes plugin from active state list in PythonPlugins Section
-                if self.parser.has_option("PythonPlugins", item.text()):
-                    self.parser.remove_option("PythonPlugins", item.text())
+                if self.parser.has_option("PythonPlugins", plugin_name):
+                    self.parser.remove_option("PythonPlugins", plugin_name)
 
                 profile_paths = self.profile_manager.get_profile_paths()
 
                 source_plugins_dir = self.profile_manager.adjust_to_operating_system(
-                    profile_paths["source"] + 'python/plugins/' + item.text() + '/')
+                    profile_paths["source"] + 'python/plugins/' + plugin_name + '/')
 
-                if path.exists(source_plugins_dir):
-                    rmtree(source_plugins_dir, onerror=self.remove_readonly)
-                else:
+                try:
+                    rmtree(source_plugins_dir)
+                except Exception as e:
+                    QMessageBox.critical(None, self.tr("Plugin could not be deleted: ") + plugin_name, str(e))
                     continue
 
         with open(self.source_qgis_ini_file, 'w') as qgisconf:
@@ -46,7 +49,3 @@ class PluginRemover:
     def set_ini_paths(self, source, target):
         self.source_qgis_ini_file = source
         self.target_qgis_ini_file = target
-
-    def remove_readonly(self, func, path, excinfo):
-        chmod(path, S_IWRITE)
-        func(path)

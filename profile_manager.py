@@ -24,13 +24,13 @@
 import time
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, QSize
-from qgis.PyQt.QtWidgets import QAction, QWidget
+from qgis.PyQt.QtWidgets import QAction, QMessageBox, QWidget
 from qgis.core import QgsUserProfileManager
 from pathlib import Path
 from sys import platform
-from os import path, chmod
-from stat import S_IWRITE
-from shutil import rmtree, copytree
+from os import path
+from shutil import copytree
+
 # Import subclasses
 from .profile_manager_dialog import ProfileManagerDialog
 from .datasources.Dataservices.datasource_provider import DataSourceProvider
@@ -40,6 +40,7 @@ from .userInterface.remove_sources_dialog import RemoveSourcesDialog
 from .userInterface.interface_handler import InterfaceHandler
 from .userInterface.message_box_factory import MessageBoxFactory
 from .utils import wait_cursor
+
 # Initialize Qt resources from file resources.py
 from .resources import *
 
@@ -60,7 +61,7 @@ class ProfileManager:
         self.dictionary_of_checked_database_sources = {}
         self.is_cancel_button_clicked = False
         self.is_ok_button_clicked = False
-        self.qgis_path = ""
+        self.qgis_profiles_path = ""
         self.ini_path = ""
         self.operating_system = ""
         self.qgs_profile_manager = None
@@ -219,12 +220,12 @@ class ProfileManager:
 
             self.set_paths()
 
-            self.qgs_profile_manager = QgsUserProfileManager(self.qgis_path)
+            self.qgs_profile_manager = QgsUserProfileManager(self.qgis_profiles_path)
             self.message_box_factory = MessageBoxFactory(self.dlg)
 
             self.data_source_handler = DataSourceHandler(self.dlg, self)
             self.data_source_provider = DataSourceProvider(self.ini_path, self.dlg)
-            self.profile_manager_action_handler = ProfileActionHandler(self.dlg, self.qgis_path, self)
+            self.profile_manager_action_handler = ProfileActionHandler(self.dlg, self.qgis_profiles_path, self)
             self.interface_handler = InterfaceHandler(self, self.dlg)
 
             self.interface_handler.init_profile_selection()
@@ -252,17 +253,20 @@ class ProfileManager:
         """Sets path to qgis root aswell as to qgis.ini"""
         home_path = Path.home()
         if platform.startswith('win32'):
-            self.qgis_path = f'{home_path}/AppData/Roaming/QGIS/QGIS3/profiles'.replace("\\", "/")
-            self.ini_path = (self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini")
+            self.qgis_profiles_path = f'{home_path}/AppData/Roaming/QGIS/QGIS3/profiles'.replace("\\", "/")
+            self.ini_path = \
+                self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini"
             self.operating_system = "windows"
         elif platform is 'darwin':
-            self.qgis_path = f'{home_path}/Library/Application Support/QGIS/QGIS3/profiles'
-            self.ini_path = self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/qgis.org/QGIS3.ini"
+            self.qgis_profiles_path = f'{home_path}/Library/Application Support/QGIS/QGIS3/profiles'
+            self.ini_path = \
+                self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/qgis.org/QGIS3.ini"
             self.operating_system = "mac"
             self.interface_handler.adjust_to_macOSDark()
         else:
-            self.qgis_path = f'{home_path}/.local/share/QGIS/QGIS3/profiles'
-            self.ini_path = self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini"
+            self.qgis_profiles_path = f'{home_path}/.local/share/QGIS/QGIS3/profiles'
+            self.ini_path = \
+                self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini"
             self.operating_system = "unix"
 
     def adjust_to_operating_system(self, path_to_adjust):
@@ -275,18 +279,20 @@ class ProfileManager:
             return path_to_adjust.replace("\\", "/").replace("/QGIS/QGIS3.ini", "/qgis.org/QGIS3.ini")
 
     def make_backup(self):
-        """Creates a backup of the profile folders"""
+        """Creates a backup of the profile folders
+
+        Raises:
+            Exception: Any exception that e.g. copytree might raise.
+        """
         ts = int(time.time())
-
         target_path = self.adjust_to_operating_system(str(Path.home()) + "/QGISBackup/" + str(ts) + "/")
-
-        if path.isdir(target_path):
-            rmtree(target_path, onerror=self.remove_readonly)
-
-        copytree(self.qgis_path, target_path)
+        copytree(self.qgis_profiles_path, target_path)
 
     def import_action_handler(self):
-        """Handles data source import"""
+        """Handles data source import
+
+        Aborts and shows an error message if no backup could be made.
+        """
         with wait_cursor():
             self.get_checked_sources()
             if self.dlg.comboBoxNamesSource.currentText() == self.dlg.comboBoxNamesTarget.currentText():
@@ -299,7 +305,16 @@ class ProfileManager:
                                                            target_profile_name)
                 self.data_source_handler.set_path_to_bookmark_files(source_profile_name,
                                                                     target_profile_name)
-                self.make_backup()
+                try:
+                    self.make_backup()
+                except Exception as e:
+                    QMessageBox.critical(
+                        None,
+                        self.tr("Backup could not be created"),
+                        self.tr("Aborting import due to error:\n") + str(e),
+                    )
+                    return
+
                 self.data_source_handler.import_plugins()
                 self.data_source_handler.import_sources()
                 self.update_data_sources(True)
@@ -316,7 +331,10 @@ class ProfileManager:
         self.refresh_browser_model()
 
     def remove_source_action_handler(self):
-        """Handles data source removal"""
+        """Handles data source removal
+
+        Aborts and shows an error message if no backup could be made.
+        """
         self.get_checked_sources()
         self.data_source_handler.set_path_to_files(self.dlg.comboBoxNamesSource.currentText(), "")
 
@@ -327,7 +345,15 @@ class ProfileManager:
 
         with wait_cursor():
             if self.is_ok_button_clicked:
-                self.make_backup()
+                try:
+                    self.make_backup()
+                except Exception as e:
+                    QMessageBox.critical(
+                        None,
+                        self.tr("Backup could not be created"),
+                        self.tr("Aborting removal due to error:\n") + str(e),
+                    )
+                    return
                 self.data_source_handler.remove_sources()
                 self.update_data_sources(True)
 
@@ -372,9 +398,9 @@ class ProfileManager:
     def get_profile_paths(self):
         """Gets path to current chosen source and target profile"""
         source = self.adjust_to_operating_system(
-            self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/")
+            self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/")
         target = self.adjust_to_operating_system(
-            self.qgis_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/")
+            self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/")
 
         profile_paths = {
             "source": source,
@@ -387,14 +413,14 @@ class ProfileManager:
         """Gets path to current chosen source and target qgis.ini file"""
         if self.operating_system == "mac":
             ini_path_source = self.adjust_to_operating_system(
-                self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/qgis.org/QGIS3.ini")
+                self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/qgis.org/QGIS3.ini")
             ini_path_target = self.adjust_to_operating_system(
-                self.qgis_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/qgis.org/QGIS3.ini")
+                self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/qgis.org/QGIS3.ini")
         else:
             ini_path_source = self.adjust_to_operating_system(
-                self.qgis_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini")
+                self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini")
             ini_path_target = self.adjust_to_operating_system(
-                self.qgis_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/QGIS/QGIS3.ini")
+                self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/QGIS/QGIS3.ini")
 
         ini_paths = {
             "source": ini_path_source,
@@ -407,8 +433,3 @@ class ProfileManager:
         """Refreshes the browser of the qgis instance from which this plugin was started"""
         self.iface.mainWindow().findChildren(QWidget, 'Browser')[0].refresh()
         self.iface.mainWindow().findChildren(QWidget, 'Browser2')[0].refresh()
-
-    def remove_readonly(self, func, path, excinfo):
-        """Removes readonly access from directory"""
-        chmod(path, S_IWRITE)
-        func(path)
