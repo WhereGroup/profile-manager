@@ -76,7 +76,8 @@ class InterfaceHandler(QDialog):
         for name in profile_names:
             # Init source profiles combobox
             self.dlg.comboBoxNamesSource.addItem(name)
-            self.dlg.comboBoxNamesSource.setCurrentIndex(profile_names.index(profile))
+            if profile in profile_names:
+                self.dlg.comboBoxNamesSource.setCurrentIndex(profile_names.index(profile))
             # Init target profiles combobox
             self.dlg.comboBoxNamesTarget.addItem(name)
             # Add profiles to list view
