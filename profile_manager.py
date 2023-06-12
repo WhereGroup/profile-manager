@@ -25,7 +25,7 @@ import time
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, QSize
 from qgis.PyQt.QtWidgets import QAction, QWidget
-from qgis.core import QgsUserProfileManager, Qgis
+from qgis.core import QgsUserProfileManager
 from pathlib import Path
 from sys import platform
 from os import path, chmod
@@ -231,7 +231,6 @@ class ProfileManager:
             self.interface_handler.init_ui_buttons()
             self.interface_handler.init_data_source_tree(self.dlg.comboBoxNamesSource.currentText(), True)
             self.interface_handler.init_data_source_tree(self.dlg.comboBoxNamesTarget.currentText(), False)
-            self.interface_handler.version_control()
 
             self.data_source_handler.set_path_to_files(
                 self.dlg.comboBoxNamesSource.currentText(),
@@ -403,9 +402,6 @@ class ProfileManager:
         }
 
         return ini_paths
-
-    def get_qgis_version(self):
-        return Qgis.QGIS_VERSION_INT
 
     def refresh_browser_model(self):
         """Refreshes the browser of the qgis instance from which this plugin was started"""

@@ -79,10 +79,9 @@ class DataSourceHandler:
                                                   self.target_profile_path + "symbology-style.db")
             self.styles_handler.import_styles()
 
-        if self.profile_manager.get_qgis_version() >= 3120:
-            if self.dlg.functions_check.isChecked():
-                self.function_handler.set_path_files(self.source_qgis_ini_file, self.target_qgis_ini_file)
-                self.function_handler.import_functions()
+        if self.dlg.functions_check.isChecked():
+            self.function_handler.set_path_files(self.source_qgis_ini_file, self.target_qgis_ini_file)
+            self.function_handler.import_functions()
 
         if self.dlg.ui_check.isChecked():
             self.customization_handler.set_path_files(self.source_profile_path, self.target_profile_path)

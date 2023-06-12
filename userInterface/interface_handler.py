@@ -157,7 +157,3 @@ class InterfaceHandler(QDialog):
 
         for iterator in range(self.dlg.list_plugins.count()):
             self.dlg.list_plugins.item(iterator).setCheckState(Qt.Unchecked)
-
-    def version_control(self):
-        if self.profile_manager.get_qgis_version() < 3120:
-            self.dlg.functions_check.setVisible(False)
