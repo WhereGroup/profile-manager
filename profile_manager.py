@@ -61,6 +61,7 @@ class ProfileManager:
         self.dictionary_of_checked_database_sources = {}
         self.is_cancel_button_clicked = False
         self.is_ok_button_clicked = False
+        self.backup_path = ""
         self.qgis_profiles_path = ""
         self.ini_path = ""
         self.operating_system = ""
@@ -250,7 +251,7 @@ class ProfileManager:
             pass
 
     def set_paths(self):
-        """Sets path to qgis root aswell as to qgis.ini"""
+        """Sets various OS and profile dependent paths"""
         home_path = Path.home()
         if platform.startswith('win32'):
             self.qgis_profiles_path = f'{home_path}/AppData/Roaming/QGIS/QGIS3/profiles'.replace("\\", "/")
@@ -269,6 +270,8 @@ class ProfileManager:
                 self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini"
             self.operating_system = "unix"
 
+        self.backup_path = self.adjust_to_operating_system(str(Path.home()) + "/QGIS Profile Manager Backup/")
+
     def adjust_to_operating_system(self, path_to_adjust):
         """Adjusts path to current OS"""
         if self.operating_system is "windows":
@@ -285,7 +288,7 @@ class ProfileManager:
             Exception: Any exception that e.g. copytree might raise.
         """
         ts = int(time.time())
-        target_path = self.adjust_to_operating_system(str(Path.home()) + "/QGISBackup/" + str(ts) + "/")
+        target_path = self.backup_path + str(ts)
         copytree(self.qgis_profiles_path, target_path)
 
     def import_action_handler(self):
@@ -338,7 +341,7 @@ class ProfileManager:
         self.get_checked_sources()
         self.data_source_handler.set_path_to_files(self.dlg.comboBoxNamesSource.currentText(), "")
 
-        dialog = RemoveSourcesDialog(self.dlg, self, self.adjust_to_operating_system(str(Path.home()) + "/QGISBackup/"))
+        dialog = RemoveSourcesDialog(self.dlg, self, self.backup_path)
         dialog.exec()
         while not self.is_cancel_button_clicked and not self.is_ok_button_clicked:
             QCoreApplication.processEvents()

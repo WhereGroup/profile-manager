@@ -41,7 +41,7 @@ class ProfileRemover(QDialog):
                 self.dlg,
                 self.profile_handler,
                 profile_name,
-                self.profile_manager.adjust_to_operating_system(str(Path.home()) + "/QGISBackup/"),
+                self.profile_manager.backup_path,
             )
             dialog.exec()
 

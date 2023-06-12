@@ -37,6 +37,6 @@ To install the plugin just copy the folder in your QGIS-Profile folder under ./p
 On all removal operations the user is being asked if he is certain that he wants to delete given source/profile.
 Additionally before every deletion a backup of the profiles folder is created under the follwing directory:
 - Windows Directory:
-    - C:\Users\\{USER}\QGISBackup\
+    - C:\Users\\{USER}\QGIS Profile Manager Backup\
 - Linux Directory:
-    - /home/{USER}/QGISBackup/
+    - /home/{USER}/QGIS Profile Manager Backup/
