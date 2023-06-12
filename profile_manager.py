@@ -376,7 +376,7 @@ class ProfileManager:
         self.interface_handler.uncheck_everything()
         self.refresh_browser_model()
 
-    def update_data_sources(self, update_plugins=False, update_source=True):
+    def update_data_sources(self, only_update_plugins_for_target_profile=False, update_source=True):
         """Updates data source in the UI"""
         source_profile = self.dlg.comboBoxNamesSource.currentText()
         target_profile = self.dlg.comboBoxNamesTarget.currentText()
@@ -387,7 +387,7 @@ class ProfileManager:
         else:
             self.interface_handler.init_data_source_tree(target_profile, False)
 
-        self.data_source_handler.display_plugins(update_plugins)
+        self.data_source_handler.display_plugins(only_for_target_profile=only_update_plugins_for_target_profile)
 
     def get_checked_sources(self):
         """Gets all checked data sources"""

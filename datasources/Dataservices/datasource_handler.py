@@ -93,10 +93,10 @@ class DataSourceHandler:
         self.setup_datasource_distributor()
         self.plugin_handler.import_active_plugins()
 
-    def display_plugins(self, update_plugins=False):
+    def display_plugins(self, only_for_target_profile=False):
         """Displays plugins in treeWidget"""
         self.plugin_handler.set_path_files()
-        self.plugin_handler.show_active_plugins_in_list(update_plugins)
+        self.plugin_handler.show_active_plugins_in_list(only_for_target_profile=only_for_target_profile)
 
     def remove_sources(self):
         """Handles data removal"""
