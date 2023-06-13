@@ -21,13 +21,22 @@ class DataSourceProvider:
         """Sets .ini path"""
         self.ini_path = path
 
-    def get_data_sources(self, compile_string, item_name, is_source):
-        """Gets Web connections and displays them in the treeWidget"""
+    def get_data_sources_tree(self, compile_string, tree_name, is_source):
+        """Returns a tree of items for all data sources matching the search string.
+
+        Args:
+            compile_string (str): Regex for searching corresponding data sources in ini file
+            tree_name (str): Name of the parent tree item (e.g. "WMS")
+            is_source (bool): Flag to indicate if items should be checkable
+
+        Returns:
+            QTreeWidgetItem: Tree widget item representing the data sources
+        """
         self.parser.clear()
         self.parser.read(self.ini_path)
 
         search_string = compile(compile_string)
-        data_sources_parent = QTreeWidgetItem([item_name])
+        data_sources_parent = QTreeWidgetItem([tree_name])
         if is_source:
             data_sources_parent.setFlags(data_sources_parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
 
@@ -53,14 +62,24 @@ class DataSourceProvider:
 
         return data_sources_parent
 
-    def get_data_base(self, compile_string, item_name, service_block, is_source):
-        """Gets DB connections and displays them in the treeWidget"""
+    def get_db_sources_tree(self, compile_string, tree_name, service_block, is_source):
+        """Returns a tree of items for all data sources matching the search string.
+
+        Args:
+            compile_string (str): Regex for searching corresponding data sources in ini file
+            tree_name (str): Name of the parent tree item (e.g. "WMS")
+            service_block (str): Name of the block in the ini file to process
+            is_source (bool): Flag to indicate if items should be checkable
+
+        Returns:
+            QTreeWidgetItem: Tree widget item representing the data sources
+        """
         self.parser.clear()
         self.parser.read(self.ini_path)
 
         search_string = compile(compile_string)
 
-        data_base_sources_parent = QTreeWidgetItem([item_name])
+        data_base_sources_parent = QTreeWidgetItem([tree_name])
         if is_source:
             data_base_sources_parent.setFlags(
                 data_base_sources_parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
@@ -68,7 +87,7 @@ class DataSourceProvider:
         try:
             for key in self.parser[service_block]:
                 if search_string.search(key):
-                    if item_name == "GeoPackage":
+                    if tree_name == "GeoPackage":
                         db_name_raw = search(self.gpkg_service_name_regex, key)
                         db_name = db_name_raw.group(0).replace("\\GPKG\\connections\\", "").replace("\\", "")
                     else:

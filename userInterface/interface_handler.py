@@ -1,4 +1,3 @@
-from configparser import RawConfigParser
 from pathlib import Path
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
 from qgis.PyQt.QtCore import Qt, QVariant
@@ -13,9 +12,6 @@ class InterfaceHandler(QDialog):
         self.profile_manager = profile_manager
         self.dlg = profile_manager_dialog
         self.data_source_provider = profile_manager.data_source_provider
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str
-        self.ini_path = ""
         self.checked = False
 
     def init_data_source_tree(self, profile_name, source_profile):
@@ -23,38 +19,30 @@ class InterfaceHandler(QDialog):
         ini_paths = self.profile_manager.get_ini_paths()
 
         if source_profile:
-            self.ini_path = ini_paths["source"]
+            self.data_source_provider.ini_path = ini_paths["source"]
         else:
-            self.ini_path = ini_paths["target"]
-
-        self.parser.clear()
-        self.parser.read(self.ini_path)
-        self.data_source_provider.update_path(self.ini_path)
+            self.data_source_provider.ini_path = ini_paths["target"]
 
         data_source_list = [
-            self.data_source_provider.get_data_base('^ogr.GPKG.connections.*path', "GeoPackage", "providers",
-                                                    source_profile),
-            self.data_source_provider.get_data_base('^connections.*sqlitepath', "SpatiaLite", "SpatiaLite",
-                                                    source_profile),
-            self.data_source_provider.get_data_base('^connections.*host', "PostgreSQL", "PostgreSQL", source_profile),
-            self.data_source_provider.get_data_base('^connections.*host', "MSSQL", "MSSQL", source_profile),
-            self.data_source_provider.get_data_base('^connections.*host', "DB2", "DB2", source_profile),
-            self.data_source_provider.get_data_base('^connections.*host', "Oracle", "Oracle", source_profile),
-            self.data_source_provider.get_data_sources('^connections-wms.*url', "WMS", source_profile),
-            self.data_source_provider.get_data_sources('^connections-wfs.*url', "WFS", source_profile),
-            self.data_source_provider.get_data_sources('^connections-wcs.*url', "WCS", source_profile),
-            self.data_source_provider.get_data_sources('^connections-xyz.*url', "XYZ", source_profile),
-            self.data_source_provider.get_data_sources('^connections-arcgismapserver.*url', "ArcGisMapServer",
-                                                       source_profile),
-            self.data_source_provider.get_data_sources('^connections-arcgisfeatureserver.*url', "ArcGisFeatureServer",
-                                                       source_profile),
-            self.data_source_provider.get_data_sources('^connections-geonode.*url', "GeoNode", source_profile)]
+            self.data_source_provider.get_db_sources_tree('^ogr.GPKG.connections.*path', "GeoPackage", "providers",
+                                                          source_profile),
+            self.data_source_provider.get_db_sources_tree('^connections.*sqlitepath', "SpatiaLite", "SpatiaLite",
+                                                          source_profile),
+            self.data_source_provider.get_db_sources_tree('^connections.*host', "PostgreSQL", "PostgreSQL", source_profile),
+            self.data_source_provider.get_db_sources_tree('^connections.*host', "MSSQL", "MSSQL", source_profile),
+            self.data_source_provider.get_db_sources_tree('^connections.*host', "DB2", "DB2", source_profile),
+            self.data_source_provider.get_db_sources_tree('^connections.*host', "Oracle", "Oracle", source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-wms.*url', "WMS", source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-wfs.*url', "WFS", source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-wcs.*url', "WCS", source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-xyz.*url', "XYZ", source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-arcgismapserver.*url', "ArcGisMapServer",
+                                                            source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-arcgisfeatureserver.*url', "ArcGisFeatureServer",
+                                                            source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-geonode.*url', "GeoNode", source_profile)
+        ]
 
-        self.display_datasources(source_profile, profile_name, data_source_list)
-
-    def display_datasources(self, source_profile, profile_name, data_source_list):
-        """Displays data source in the treeWidget"""
-        # Display connections in the widgetTree
         if source_profile:
             self.dlg.treeWidgetSource.clear()
             self.dlg.treeWidgetSource.setHeaderLabel(self.tr("Source Profile: ") + profile_name)
