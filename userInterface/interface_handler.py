@@ -1,7 +1,7 @@
 from configparser import RawConfigParser
 from pathlib import Path
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
-from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtCore import Qt, QVariant
 from qgis.PyQt import QtGui
 from qgis.core import QgsApplication
 
@@ -71,17 +71,31 @@ class InterfaceHandler(QDialog):
     def init_profile_selection(self, profile="default"):
         """Populate the main list as well as the comboboxes with available profile names"""
         profile_names = self.profile_manager.qgs_profile_manager.allProfiles()
+        active_profile_name = Path(QgsApplication.qgisSettingsDirPath()).name
         self.dlg.comboBoxNamesSource.clear()
         self.dlg.comboBoxNamesTarget.clear()
         self.dlg.list_profiles.clear()
-        for name in profile_names:
+        for i, name in enumerate(profile_names):
             # Init source profiles combobox
             self.dlg.comboBoxNamesSource.addItem(name)
-            self.dlg.comboBoxNamesSource.setCurrentIndex(profile_names.index(profile))
+            self.dlg.comboBoxNamesSource.setCurrentIndex(i)
+            if name == active_profile_name:
+                font = self.dlg.comboBoxNamesSource.font()
+                font.setItalic(True)
+                self.dlg.comboBoxNamesSource.setItemData(i, QVariant(font), Qt.FontRole)
             # Init target profiles combobox
             self.dlg.comboBoxNamesTarget.addItem(name)
+            if name == active_profile_name:
+                font = self.dlg.comboBoxNamesTarget.font()
+                font.setItalic(True)
+                self.dlg.comboBoxNamesTarget.setItemData(i, QVariant(font), Qt.FontRole)
             # Add profiles to list view
-            self.dlg.list_profiles.addItem(QListWidgetItem(QtGui.QIcon(':/plugins/profile_manager/icon.png'), name))
+            list_item = QListWidgetItem(QtGui.QIcon(':/plugins/profile_manager/icon.png'), name)
+            if name == active_profile_name:
+                font = list_item.font()
+                font.setItalic(True)
+                list_item.setFont(font)
+            self.dlg.list_profiles.addItem(list_item)
 
         self.dlg.comboBoxNamesSource.currentIndexChanged.connect(
             lambda: self.profile_manager.update_data_sources(False, True)
