@@ -62,10 +62,10 @@ class ProfileManager:
         self.ini_path = ""
         self.operating_system = ""
         self.qgs_profile_manager = None
-        self.data_source_handler = None
-        self.data_source_provider = None
-        self.profile_manager_action_handler = None
-        self.interface_handler = None
+        self.data_source_handler: DataSourceHandler = None
+        self.data_source_provider: DataSourceProvider = None
+        self.profile_manager_action_handler: ProfileActionHandler = None
+        self.interface_handler: InterfaceHandler = None
         self.dlg = None
 
         # Save reference to the QGIS interface
@@ -214,19 +214,19 @@ class ProfileManager:
                 self.dlg.setFixedSize(self.dlg.size())
                 self.dlg.list_profiles.setIconSize(QSize(15, 15))
 
-            self.set_paths()
+                self.set_paths()
 
-            self.qgs_profile_manager = QgsUserProfileManager(self.qgis_profiles_path)
+                self.qgs_profile_manager = QgsUserProfileManager(self.qgis_profiles_path)
+                self.data_source_handler = DataSourceHandler(self.dlg, self)
+                self.data_source_provider = DataSourceProvider(self.ini_path, self.dlg)
+                self.profile_manager_action_handler = ProfileActionHandler(self.dlg, self.qgis_profiles_path, self)
+                self.interface_handler = InterfaceHandler(self, self.dlg)
 
-            self.data_source_handler = DataSourceHandler(self.dlg, self)
-            self.data_source_provider = DataSourceProvider(self.ini_path, self.dlg)
-            self.profile_manager_action_handler = ProfileActionHandler(self.dlg, self.qgis_profiles_path, self)
-            self.interface_handler = InterfaceHandler(self, self.dlg)
+                self.interface_handler.setup_connections()
 
-            self.interface_handler.init_profile_selection()
-            self.interface_handler.init_ui_buttons()
-            self.interface_handler.init_data_source_tree(self.dlg.comboBoxNamesSource.currentText(), True)
-            self.interface_handler.init_data_source_tree(self.dlg.comboBoxNamesTarget.currentText(), False)
+            self.interface_handler.populate_profile_listings()
+            self.interface_handler.populate_data_source_tree(self.dlg.comboBoxNamesSource.currentText(), True)
+            self.interface_handler.populate_data_source_tree(self.dlg.comboBoxNamesTarget.currentText(), False)
 
             self.data_source_handler.set_path_to_files(
                 self.dlg.comboBoxNamesSource.currentText(),
@@ -363,10 +363,10 @@ class ProfileManager:
         target_profile = self.dlg.comboBoxNamesTarget.currentText()
 
         if update_source:
-            self.interface_handler.init_data_source_tree(source_profile, True)
-            self.interface_handler.init_data_source_tree(target_profile, False)
+            self.interface_handler.populate_data_source_tree(source_profile, True)
+            self.interface_handler.populate_data_source_tree(target_profile, False)
         else:
-            self.interface_handler.init_data_source_tree(target_profile, False)
+            self.interface_handler.populate_data_source_tree(target_profile, False)
 
         self.data_source_handler.display_plugins(only_for_target_profile=only_update_plugins_for_target_profile)
 

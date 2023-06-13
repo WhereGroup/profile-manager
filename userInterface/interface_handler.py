@@ -69,19 +69,21 @@ class InterfaceHandler(QDialog):
         """
         profile_names = self.profile_manager.qgs_profile_manager.allProfiles()
         active_profile_name = Path(QgsApplication.qgisSettingsDirPath()).name
+
+        self.dlg.comboBoxNamesSource.blockSignals(True)
+        self.dlg.comboBoxNamesTarget.blockSignals(True)
+        self.dlg.list_profiles.blockSignals(True)
+
         self.dlg.comboBoxNamesSource.clear()
         self.dlg.comboBoxNamesTarget.clear()
         self.dlg.list_profiles.clear()
-        active_profile_index = None
         for i, name in enumerate(profile_names):
             # Init source profiles combobox
             self.dlg.comboBoxNamesSource.addItem(name)
-            self.dlg.comboBoxNamesSource.setCurrentIndex(i)
             if name == active_profile_name:
                 font = self.dlg.comboBoxNamesSource.font()
                 font.setItalic(True)
                 self.dlg.comboBoxNamesSource.setItemData(i, QVariant(font), Qt.FontRole)
-                active_profile_index = i
             # Init target profiles combobox
             self.dlg.comboBoxNamesTarget.addItem(name)
             if name == active_profile_name:
@@ -96,18 +98,10 @@ class InterfaceHandler(QDialog):
                 list_item.setFont(font)
             self.dlg.list_profiles.addItem(list_item)
 
-        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(
-            lambda: self.profile_manager.update_data_sources(False, True)
-        )
-        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(
-            lambda: self.profile_manager.update_data_sources(True, False)
-        )
-        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(self.update_import_button_state)
-        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(self.update_import_button_state)
-        self.dlg.list_profiles.currentItemChanged.connect(self.update_profile_buttons_states)
-
-        self.dlg.comboBoxNamesSource.setCurrentIndex(active_profile_index)
-        self.update_profile_buttons_states()
+        self.dlg.comboBoxNamesSource.blockSignals(False)
+        self.dlg.comboBoxNamesTarget.blockSignals(False)
+        self.dlg.list_profiles.blockSignals(False)
+        self.conditionally_enable_profile_buttons()
 
     def adjust_to_macOSDark(self):
         from ..darkdetect import _detect
@@ -128,6 +122,7 @@ class InterfaceHandler(QDialog):
 
     def setup_connections(self):
         """Set up connections"""
+        # buttons
         self.dlg.importButton.clicked.connect(self.profile_manager.import_action_handler)
         self.dlg.closeDialog.rejected.connect(self.dlg.close)
         self.dlg.createProfileButton.clicked.connect(
@@ -138,8 +133,19 @@ class InterfaceHandler(QDialog):
         self.dlg.editProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler.edit_profile)
         self.dlg.copyProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler.copy_profile)
 
+        # checkbox
         self.dlg.checkBox_checkAll.stateChanged.connect(self.check_everything)
 
+        # selections/indexes
+        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(
+            lambda: self.profile_manager.update_data_sources(False, True)
+        )
+        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(
+            lambda: self.profile_manager.update_data_sources(True, False)
+        )
+        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(self.conditionally_enable_import_button)
+        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(self.conditionally_enable_import_button)
+        self.dlg.list_profiles.currentItemChanged.connect(self.conditionally_enable_profile_buttons)
     def check_everything(self):
         """Checks/Unchecks every checkbox in the gui"""
         if self.checked:
