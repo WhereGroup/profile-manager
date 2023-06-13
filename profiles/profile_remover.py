@@ -19,41 +19,41 @@ class ProfileRemover(QDialog):
 
         Aborts and shows an error message if no backup could be made.
         """
-        if self.dlg.list_profiles.currentItem() is None:
-            QMessageBox.critical(None, self.tr("Error"), self.tr("Please choose a profile to remove first!"))
-        elif self.dlg.list_profiles.currentItem().text() == Path(QgsApplication.qgisSettingsDirPath()).name:
-            QMessageBox.critical(None, self.tr("Error"), self.tr("The active profile cannot be deleted!"))
-        else:
-            profile_name = self.dlg.list_profiles.currentItem().text().replace(" - ", "")
-            profile_path = self.profile_manager.adjust_to_operating_system(self.qgis_path + "/" + profile_name)
+        profile_item = self.dlg.list_profiles.currentItem()
+        # bad states that should be prevented by the GUI
+        assert profile_item is not None
+        assert profile_item.text() != Path(QgsApplication.qgisSettingsDirPath()).name
 
-            clicked_button = QMessageBox.question(
-                None,
-                self.tr("Remove Profile!"),
-                self.tr("Are you sure you want to delete the profile: ") + profile_name
-                + "\n\nA backup will be created at " + self.profile_manager.backup_path,
-            )
+        profile_name = profile_item.text().replace(" - ", "")
+        profile_path = self.profile_manager.adjust_to_operating_system(self.qgis_path + "/" + profile_name)
 
-            if clicked_button == QMessageBox.Yes:
-                with wait_cursor():
-                    try:
-                        self.profile_manager.make_backup()
-                    except Exception as e:
-                        QMessageBox.critical(
-                            None,
-                            self.tr("Backup could not be created"),
-                            self.tr("Aborting removal of profile due to error:\n") + str(e),
-                        )
-                        return
+        clicked_button = QMessageBox.question(
+            None,
+            self.tr("Remove Profile!"),
+            self.tr("Are you sure you want to delete the profile: ") + profile_name
+            + "\n\nA backup will be created at " + self.profile_manager.backup_path,
+        )
 
-                    try:
-                        rmtree(profile_path)
-                    except FileNotFoundError as e:
-                        QMessageBox.critical(
-                            None,
-                            self.tr("Profile could not be removed"),
-                            self.tr("Aborting due to error:\n") + str(e),
-                        )
-                        return
+        if clicked_button == QMessageBox.Yes:
+            with wait_cursor():
+                try:
+                    self.profile_manager.make_backup()
+                except Exception as e:
+                    QMessageBox.critical(
+                        None,
+                        self.tr("Backup could not be created"),
+                        self.tr("Aborting removal of profile due to error:\n") + str(e),
+                    )
+                    return
 
-                    QMessageBox.information(None, self.tr("Remove Profile"), self.tr("Profile has been removed!"))
+                try:
+                    rmtree(profile_path)
+                except FileNotFoundError as e:
+                    QMessageBox.critical(
+                        None,
+                        self.tr("Profile could not be removed"),
+                        self.tr("Aborting due to error:\n") + str(e),
+                    )
+                    return
+
+                QMessageBox.information(None, self.tr("Remove Profile"), self.tr("Profile has been removed!"))

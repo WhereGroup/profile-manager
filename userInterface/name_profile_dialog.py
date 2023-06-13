@@ -29,3 +29,15 @@ class NameProfileDialog(QDialog):
         self.layout.addWidget(self.text_input, alignment=Qt.AlignCenter)
         self.layout.addWidget(self.button_box, alignment=Qt.AlignCenter)
         self.setLayout(self.layout)
+
+        self.text_input.textChanged.connect(self.adjust_ok_button_state)
+
+        self.adjust_ok_button_state()
+
+    def adjust_ok_button_state(self):
+        """Disable OK button if no profile name has been entered (yet)"""
+        ok_button = self.button_box.button(QDialogButtonBox.Ok)
+        if self.text_input.text() == "":
+            ok_button.setEnabled(False)
+        else:
+            ok_button.setEnabled(True)

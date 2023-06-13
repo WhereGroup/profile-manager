@@ -1,8 +1,9 @@
 from configparser import RawConfigParser
+from pathlib import Path
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt import QtGui
-
+from qgis.core import QgsApplication
 
 class InterfaceHandler(QDialog):
 
@@ -68,7 +69,7 @@ class InterfaceHandler(QDialog):
                     self.dlg.treeWidgetTarget.addTopLevelItem(dataSource)
 
     def init_profile_selection(self, profile="default"):
-        """Gets the names of all existing profiles and displays them in a combobox"""
+        """Populate the main list as well as the comboboxes with available profile names"""
         profile_names = self.profile_manager.qgs_profile_manager.allProfiles()
         self.dlg.comboBoxNamesSource.clear()
         self.dlg.comboBoxNamesTarget.clear()
@@ -88,6 +89,11 @@ class InterfaceHandler(QDialog):
         self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(
             lambda: self.profile_manager.update_data_sources(True, False)
         )
+        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(self.update_import_button_state)
+        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(self.update_import_button_state)
+        self.dlg.list_profiles.currentItemChanged.connect(self.update_profile_buttons_states)
+
+        self.update_profile_buttons_states()
 
     def adjust_to_macOSDark(self):
         from ..darkdetect import _detect
@@ -157,3 +163,44 @@ class InterfaceHandler(QDialog):
 
         for iterator in range(self.dlg.list_plugins.count()):
             self.dlg.list_plugins.item(iterator).setCheckState(Qt.Unchecked)
+
+    def update_import_button_state(self):
+        """Sets up buttons of the Import tab so that the user is not tempted to do "impossible" things.
+
+        Called when profile selection changes in the Import tab.
+        """
+
+        # Don't allow import of a profile into itself
+        if self.dlg.comboBoxNamesSource.currentText() == self.dlg.comboBoxNamesTarget.currentText():
+            self.dlg.importButton.setToolTip(self.tr("Target profile can not be same as source profile"))
+            self.dlg.importButton.setEnabled(False)
+        else:
+            self.dlg.importButton.setToolTip("")
+            self.dlg.importButton.setEnabled(True)
+
+    def update_profile_buttons_states(self):
+        """Sets up buttons of the Profiles tab so that the user is not tempted to do "impossible" things.
+
+        Called when profile selection changes in the Profiles tab.
+        """
+        # A profile must be selected
+        if self.dlg.list_profiles.currentItem() is None:
+            self.dlg.removeProfileButton.setToolTip(self.tr("Please choose a profile to remove first!"))
+            self.dlg.removeProfileButton.setEnabled(False)
+            self.dlg.editProfileButton.setToolTip(self.tr("Please choose a profile to rename first!"))
+            self.dlg.editProfileButton.setEnabled(False)
+            self.dlg.copyProfileButton.setToolTip(self.tr("Please select a profile to copy from!"))
+            self.dlg.copyProfileButton.setEnabled(False)
+        # Some actions can/should not be done on the currently active profile
+        elif self.dlg.list_profiles.currentItem().text() == Path(QgsApplication.qgisSettingsDirPath()).name:
+            self.dlg.removeProfileButton.setToolTip(self.tr("The active profile cannot be deleted!"))
+            self.dlg.removeProfileButton.setEnabled(False)
+            self.dlg.editProfileButton.setToolTip(self.tr("The active profile cannot be renamed!"))
+            self.dlg.editProfileButton.setEnabled(False)
+        else:
+            self.dlg.removeProfileButton.setToolTip("")
+            self.dlg.removeProfileButton.setEnabled(True)
+            self.dlg.editProfileButton.setToolTip("")
+            self.dlg.editProfileButton.setEnabled(True)
+            self.dlg.copyProfileButton.setToolTip("")
+            self.dlg.copyProfileButton.setEnabled(True)

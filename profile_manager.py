@@ -287,30 +287,26 @@ class ProfileManager:
         """
         with wait_cursor():
             self.get_checked_sources()
-            if self.dlg.comboBoxNamesSource.currentText() == self.dlg.comboBoxNamesTarget.currentText():
+            source_profile_name = self.dlg.comboBoxNamesSource.currentText()
+            target_profile_name = self.dlg.comboBoxNamesTarget.currentText()
+            assert source_profile_name != target_profile_name  # should be forced by the GUI
+            self.data_source_handler.set_path_to_files(source_profile_name,
+                                                       target_profile_name)
+            self.data_source_handler.set_path_to_bookmark_files(source_profile_name,
+                                                                target_profile_name)
+            try:
+                self.make_backup()
+            except Exception as e:
                 QMessageBox.critical(
-                    None, self.tr("Could not edit profile"), self.tr("Target profile can not be same as source profile")
+                    None,
+                    self.tr("Backup could not be created"),
+                    self.tr("Aborting import due to error:\n") + str(e),
                 )
-            else:
-                source_profile_name = self.dlg.comboBoxNamesSource.currentText()
-                target_profile_name = self.dlg.comboBoxNamesTarget.currentText()
-                self.data_source_handler.set_path_to_files(source_profile_name,
-                                                           target_profile_name)
-                self.data_source_handler.set_path_to_bookmark_files(source_profile_name,
-                                                                    target_profile_name)
-                try:
-                    self.make_backup()
-                except Exception as e:
-                    QMessageBox.critical(
-                        None,
-                        self.tr("Backup could not be created"),
-                        self.tr("Aborting import due to error:\n") + str(e),
-                    )
-                    return
+                return
 
-                self.data_source_handler.import_plugins()
-                self.data_source_handler.import_sources()
-                self.update_data_sources(True)
+            self.data_source_handler.import_plugins()
+            self.data_source_handler.import_sources()
+            self.update_data_sources(True)
 
         QMessageBox.information(
             None,
