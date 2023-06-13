@@ -1,38 +1,29 @@
-from qgis.PyQt.QtCore import QCoreApplication
-from qgis.PyQt.QtWidgets import QDialog
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.core import QgsUserProfileManager
 from os import mkdir
 from ..utils import wait_cursor
-from ..userInterface.create_profile_dialog import CreateProfileDialog
-from ..userInterface.message_box_factory import MessageBoxFactory
+from ..userInterface.name_profile_dialog import NameProfileDialog
 
 
 class ProfileCreator(QDialog):
 
-    def __init__(self, profile_manager_dialog, qgis_path, profile_manager, profile_handler, error_text, *args, **kwargs):
+    def __init__(self, qgis_path, profile_manager, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.dlg = profile_manager_dialog
         self.profile_manager = profile_manager
-        self.profile_handler = profile_handler
-        self.message_box_factory = MessageBoxFactory(self.dlg)
         self.qgis_path = qgis_path
         self.qgs_profile_manager = QgsUserProfileManager(self.qgis_path)
-        self.error_text = error_text
 
     def create_new_profile(self):
         """Creates new profile with user inputs name"""
-        dialog = CreateProfileDialog(self.dlg, self.profile_handler)
-        dialog.exec()
-        while not self.profile_handler.is_cancel_button_clicked and not self.profile_handler.is_ok_button_clicked:
-            QCoreApplication.processEvents()
-
-        if self.profile_handler.is_ok_button_clicked:
+        dialog = NameProfileDialog()
+        return_code = dialog.exec()
+        if return_code == QDialog.Accepted:
             with wait_cursor():
                 profile_name = dialog.text_input.text()
                 if profile_name == "":
-                    self.message_box_factory.create_message_box(
-                        self.tr("Could not create profile"), self.tr("No profilename specified!")
+                    QMessageBox.critical(
+                        None, self.tr("Could not create profile"), self.tr("No profilename specified!")
                     )
                 else:
                     self.qgs_profile_manager.createUserProfile(profile_name)
@@ -49,10 +40,6 @@ class ProfileCreator(QDialog):
                         qgis_ini_file = open(ini_path, "w")
                         qgis_ini_file.close()
 
-                        self.message_box_factory.create_message_box(
-                            self.tr("Success"), self.tr("Profile successfully created!"), self.tr("New Profile")
-                        )
+                        QMessageBox.information(None, self.tr("Success"), self.tr("Profile successfully created!"))
                     except FileExistsError:
-                        self.message_box_factory.create_message_box(
-                            self.error_text, self.tr("Profile Directory already exists!")
-                        )
+                        QMessageBox.critical(None, self.tr("Error"), self.tr("Profile Directory already exists!"))

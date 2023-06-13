@@ -36,9 +36,7 @@ from .profile_manager_dialog import ProfileManagerDialog
 from .datasources.Dataservices.datasource_provider import DataSourceProvider
 from .datasources.Dataservices.datasource_handler import DataSourceHandler
 from .profiles.profile_action_handler import ProfileActionHandler
-from .userInterface.remove_sources_dialog import RemoveSourcesDialog
 from .userInterface.interface_handler import InterfaceHandler
-from .userInterface.message_box_factory import MessageBoxFactory
 from .utils import wait_cursor
 
 # Initialize Qt resources from file resources.py
@@ -66,7 +64,6 @@ class ProfileManager:
         self.ini_path = ""
         self.operating_system = ""
         self.qgs_profile_manager = None
-        self.message_box_factory = None
         self.data_source_handler = None
         self.data_source_provider = None
         self.profile_manager_action_handler = None
@@ -222,7 +219,6 @@ class ProfileManager:
             self.set_paths()
 
             self.qgs_profile_manager = QgsUserProfileManager(self.qgis_profiles_path)
-            self.message_box_factory = MessageBoxFactory(self.dlg)
 
             self.data_source_handler = DataSourceHandler(self.dlg, self)
             self.data_source_provider = DataSourceProvider(self.ini_path, self.dlg)
@@ -240,15 +236,8 @@ class ProfileManager:
             )
             self.data_source_handler.display_plugins()
 
-        # show the dialog
+
         self.dlg.show()
-        # Run the dialog event loop
-        result = self.dlg.exec()
-        # See if OK was pressed
-        if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            pass
 
     def set_paths(self):
         """Sets various OS and profile dependent paths"""
@@ -299,8 +288,9 @@ class ProfileManager:
         with wait_cursor():
             self.get_checked_sources()
             if self.dlg.comboBoxNamesSource.currentText() == self.dlg.comboBoxNamesTarget.currentText():
-                self.message_box_factory.create_message_box(self.tr("Could not edit profile"),
-                                                            self.tr("Target profile can not be same as source profile"))
+                QMessageBox.critical(
+                    None, self.tr("Could not edit profile"), self.tr("Target profile can not be same as source profile")
+                )
             else:
                 source_profile_name = self.dlg.comboBoxNamesSource.currentText()
                 target_profile_name = self.dlg.comboBoxNamesTarget.currentText()
@@ -322,13 +312,13 @@ class ProfileManager:
                 self.data_source_handler.import_sources()
                 self.update_data_sources(True)
 
-        self.message_box_factory.create_message_box(
-            self.tr("Success"),
+        QMessageBox.information(
+            None,
+            self.tr("Datasource Import"),
             self.tr(
                 "Datasources have been successfully imported!\n\n"
                 "Please refresh the QGIS Browser to see the changes!"
             ),
-            self.tr("Datasource Import")
         )
         self.interface_handler.uncheck_everything()
         self.refresh_browser_model()
@@ -341,13 +331,14 @@ class ProfileManager:
         self.get_checked_sources()
         self.data_source_handler.set_path_to_files(self.dlg.comboBoxNamesSource.currentText(), "")
 
-        dialog = RemoveSourcesDialog(self.dlg, self, self.backup_path)
-        dialog.exec()
-        while not self.is_cancel_button_clicked and not self.is_ok_button_clicked:
-            QCoreApplication.processEvents()
+        clicked_button = QMessageBox.question(
+            None,
+            self.tr("Remove Sources!"),
+            self.tr("Are you sure you want to delete these sources?\n\nA backup will be created at ") + self.backup_path
+        )
 
-        with wait_cursor():
-            if self.is_ok_button_clicked:
+        if clicked_button == QMessageBox.Yes:
+            with wait_cursor():
                 try:
                     self.make_backup()
                 except Exception as e:
@@ -360,21 +351,18 @@ class ProfileManager:
                 self.data_source_handler.remove_sources()
                 self.update_data_sources(True)
 
-        if self.is_ok_button_clicked:
-            self.message_box_factory.create_message_box(
-                self.tr("Success"),
+            QMessageBox.information(
+                None,
+                self.tr("Datasource Removed"),
                 self.tr(
                     "Datasources have been successfully removed!\n\n"
                     "Please refresh the QGIS Browser to see the changes!"
                 ),
-                self.tr("Datasource Removed")
             )
 
-        self.is_cancel_button_clicked = False
-        self.is_ok_button_clicked = False
+            self.refresh_browser_model()
+            self.interface_handler.uncheck_everything()
 
-        self.interface_handler.uncheck_everything()
-        self.refresh_browser_model()
 
     def update_data_sources(self, only_update_plugins_for_target_profile=False, update_source=True):
         """Updates data source in the UI"""
