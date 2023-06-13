@@ -14,8 +14,13 @@ class InterfaceHandler(QDialog):
         self.data_source_provider = profile_manager.data_source_provider
         self.checked = False
 
-    def init_data_source_tree(self, profile_name, source_profile):
-        """Initializes data sources"""
+    def populate_data_source_tree(self, profile_name, source_profile):
+        """Populates the chosen profile's data source tree.
+
+        Args:
+            profile_name (str): Name of the profile for labelling
+            source_profile (bool): If the source profile is populated
+        """
         ini_paths = self.profile_manager.get_ini_paths()
 
         if source_profile:
@@ -23,6 +28,7 @@ class InterfaceHandler(QDialog):
         else:
             self.data_source_provider.ini_path = ini_paths["target"]
 
+        # collect data sources from ini file
         data_source_list = [
             self.data_source_provider.get_db_sources_tree('^ogr.GPKG.connections.*path', "GeoPackage", "providers",
                                                           source_profile),
@@ -56,8 +62,11 @@ class InterfaceHandler(QDialog):
                 if dataSource is not None:
                     self.dlg.treeWidgetTarget.addTopLevelItem(dataSource)
 
-    def init_profile_selection(self, profile="default"):
-        """Populate the main list as well as the comboboxes with available profile names"""
+    def populate_profile_listings(self):
+        """Populates the main list as well as the comboboxes with available profile names.
+
+        Also updates button states according to resulting selections.
+        """
         profile_names = self.profile_manager.qgs_profile_manager.allProfiles()
         active_profile_name = Path(QgsApplication.qgisSettingsDirPath()).name
         self.dlg.comboBoxNamesSource.clear()
@@ -117,8 +126,8 @@ class InterfaceHandler(QDialog):
             # set checkbox indiciator of listwidget from black to white
             self.dlg.list_plugins.setPalette(file_tree_palette)
 
-    def init_ui_buttons(self):
-        """Initializes all UI buttons"""
+    def setup_connections(self):
+        """Set up connections"""
         self.dlg.importButton.clicked.connect(self.profile_manager.import_action_handler)
         self.dlg.closeDialog.rejected.connect(self.dlg.close)
         self.dlg.createProfileButton.clicked.connect(
@@ -169,7 +178,7 @@ class InterfaceHandler(QDialog):
         for iterator in range(self.dlg.list_plugins.count()):
             self.dlg.list_plugins.item(iterator).setCheckState(Qt.Unchecked)
 
-    def update_import_button_state(self):
+    def conditionally_enable_import_button(self):
         """Sets up buttons of the Import tab so that the user is not tempted to do "impossible" things.
 
         Called when profile selection changes in the Import tab.
@@ -183,7 +192,7 @@ class InterfaceHandler(QDialog):
             self.dlg.importButton.setToolTip("")
             self.dlg.importButton.setEnabled(True)
 
-    def update_profile_buttons_states(self):
+    def conditionally_enable_profile_buttons(self):
         """Sets up buttons of the Profiles tab so that the user is not tempted to do "impossible" things.
 
         Called when profile selection changes in the Profiles tab.

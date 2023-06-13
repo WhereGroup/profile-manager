@@ -30,7 +30,7 @@ class DataSourceProvider:
             is_source (bool): Flag to indicate if items should be checkable
 
         Returns:
-            QTreeWidgetItem: Tree widget item representing the data sources
+            QTreeWidgetItem: Tree widget item representing the data sources or None if none were found
         """
         self.parser.clear()
         self.parser.read(self.ini_path)
@@ -72,7 +72,7 @@ class DataSourceProvider:
             is_source (bool): Flag to indicate if items should be checkable
 
         Returns:
-            QTreeWidgetItem: Tree widget item representing the data sources
+            QTreeWidgetItem: Tree widget item representing the data sources or None if none were found
         """
         self.parser.clear()
         self.parser.read(self.ini_path)

@@ -23,19 +23,19 @@ class ProfileActionHandler(QDialog):
     def create_new_profile(self):
         """Creates a new profile"""
         self.profile_creator.create_new_profile()
-        self.profile_manager.interface_handler.init_profile_selection()
+        self.profile_manager.interface_handler.populate_profile_listings()
 
     def copy_profile(self):
         """Copies the selected profile"""
         self.profile_copier.copy_profile()
-        self.profile_manager.interface_handler.init_profile_selection()
+        self.profile_manager.interface_handler.populate_profile_listings()
 
     def edit_profile(self):
         """Edits the selected profile"""
         self.profile_editor.edit_profile()
-        self.profile_manager.interface_handler.init_profile_selection()
+        self.profile_manager.interface_handler.populate_profile_listings()
 
     def remove_profile(self):
         """Removes the selected profile"""
         self.profile_remover.remove_profile()
-        self.profile_manager.interface_handler.init_profile_selection()
+        self.profile_manager.interface_handler.populate_profile_listings()
