@@ -235,7 +235,7 @@ class ProfileManager:
             self.data_source_handler.display_plugins()
 
 
-        self.dlg.show()
+        self.dlg.exec()
 
     def set_paths(self):
         """Sets various OS and profile dependent paths"""
