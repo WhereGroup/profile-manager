@@ -63,6 +63,7 @@ class InterfaceHandler(QDialog):
         self.dlg.comboBoxNamesSource.clear()
         self.dlg.comboBoxNamesTarget.clear()
         self.dlg.list_profiles.clear()
+        active_profile_index = None
         for i, name in enumerate(profile_names):
             # Init source profiles combobox
             self.dlg.comboBoxNamesSource.addItem(name)
@@ -71,6 +72,7 @@ class InterfaceHandler(QDialog):
                 font = self.dlg.comboBoxNamesSource.font()
                 font.setItalic(True)
                 self.dlg.comboBoxNamesSource.setItemData(i, QVariant(font), Qt.FontRole)
+                active_profile_index = i
             # Init target profiles combobox
             self.dlg.comboBoxNamesTarget.addItem(name)
             if name == active_profile_name:
@@ -95,6 +97,7 @@ class InterfaceHandler(QDialog):
         self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(self.update_import_button_state)
         self.dlg.list_profiles.currentItemChanged.connect(self.update_profile_buttons_states)
 
+        self.dlg.comboBoxNamesSource.setCurrentIndex(active_profile_index)
         self.update_profile_buttons_states()
 
     def adjust_to_macOSDark(self):
