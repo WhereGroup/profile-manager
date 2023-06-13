@@ -23,28 +23,19 @@ class ProfileActionHandler(QDialog):
     def create_new_profile(self):
         """Creates a new profile"""
         self.profile_creator.create_new_profile()
-        self.reset_button_state()
         self.profile_manager.interface_handler.init_profile_selection()
 
     def copy_profile(self):
         """Copies the selected profile"""
         self.profile_copier.copy_profile()
-        self.reset_button_state()
         self.profile_manager.interface_handler.init_profile_selection()
 
     def edit_profile(self):
         """Edits the selected profile"""
         self.profile_editor.edit_profile()
-        self.reset_button_state()
         self.profile_manager.interface_handler.init_profile_selection()
 
     def remove_profile(self):
         """Removes the selected profile"""
         self.profile_remover.remove_profile()
-        self.reset_button_state()
         self.profile_manager.interface_handler.init_profile_selection()
-
-    def reset_button_state(self):
-        """Reset buttons state"""
-        self.is_cancel_button_clicked = False
-        self.is_ok_button_clicked = False
