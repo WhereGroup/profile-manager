@@ -55,8 +55,6 @@ class ProfileManager:
         :type iface: QgsInterface
         """
         # Classwide vars
-        self.dictionary_of_checked_web_sources = {}
-        self.dictionary_of_checked_database_sources = {}
         self.is_cancel_button_clicked = False
         self.is_ok_button_clicked = False
         self.backup_path = ""
@@ -359,7 +357,6 @@ class ProfileManager:
             self.refresh_browser_model()
             self.interface_handler.uncheck_everything()
 
-
     def update_data_sources(self, only_update_plugins_for_target_profile=False, update_source=True):
         """Updates data source in the UI"""
         source_profile = self.dlg.comboBoxNamesSource.currentText()
@@ -376,11 +373,8 @@ class ProfileManager:
     def get_checked_sources(self):
         """Gets all checked data sources"""
         self.data_source_provider.init_checked_sources()
-        self.dictionary_of_checked_web_sources = self.data_source_provider.dictionary_of_checked_web_sources
-        self.dictionary_of_checked_database_sources = self.data_source_provider.dictionary_of_checked_database_sources
-
-        self.data_source_handler.set_data_sources(self.dictionary_of_checked_web_sources,
-                                                  self.dictionary_of_checked_database_sources)
+        self.data_source_handler.set_data_sources(self.data_source_provider.dictionary_of_checked_web_sources,
+                                                  self.data_source_provider.dictionary_of_checked_database_sources)
 
     def get_profile_paths(self):
         """Gets path to current chosen source and target profile"""
