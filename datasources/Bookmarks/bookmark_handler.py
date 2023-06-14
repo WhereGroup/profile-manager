@@ -20,7 +20,7 @@ class BookmarkHandler:
         try:
             source_tree = et.parse(self.source_bookmark_file, self.parser)
             self.insert_bookmarks_to_target_profile(source_tree)
-        except Exception as e:
+        except et.ParseError as e:
             QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
 
     def insert_bookmarks_to_target_profile(self, source_tree):
