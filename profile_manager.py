@@ -283,6 +283,7 @@ class ProfileManager:
 
         Aborts and shows an error message if no backup could be made.
         """
+        error_message = None
         with wait_cursor():
             self.get_checked_sources()
             source_profile_name = self.dlg.comboBoxNamesSource.currentText()
@@ -295,13 +296,13 @@ class ProfileManager:
             try:
                 self.make_backup()
             except Exception as e:
-                QMessageBox.critical(
-                    None,
-                    self.tr("Backup could not be created"),
-                    self.tr("Aborting import due to error:\n") + str(e),
-                )
+                error_message = self.tr("Aborting import due to error:\n") + str(e)
+
+            if error_message:
+                QMessageBox.critical(None, self.tr("Backup could not be created"), error_message)
                 return
 
+        with wait_cursor():
             self.data_source_handler.import_plugins()
             self.data_source_handler.import_sources()
             self.update_data_sources(True)
@@ -332,30 +333,30 @@ class ProfileManager:
         )
 
         if clicked_button == QMessageBox.Yes:
+            error_message = None
             with wait_cursor():
                 try:
                     self.make_backup()
                 except Exception as e:
-                    QMessageBox.critical(
-                        None,
-                        self.tr("Backup could not be created"),
-                        self.tr("Aborting removal due to error:\n") + str(e),
-                    )
-                    return
-                self.data_source_handler.remove_sources()
-                self.update_data_sources(True)
+                    error_message = self.tr("Aborting removal due to error:\n") + str(e)
 
-            QMessageBox.information(
-                None,
-                self.tr("Datasource Removed"),
-                self.tr(
-                    "Datasources have been successfully removed!\n\n"
-                    "Please refresh the QGIS Browser to see the changes!"
-                ),
-            )
+                if not error_message:
+                    self.data_source_handler.remove_sources()
+                    self.update_data_sources(True)
 
-            self.refresh_browser_model()
-            self.interface_handler.uncheck_everything()
+            if error_message:
+                QMessageBox.critical(None, self.tr("Backup could not be created"), error_message)
+            else:
+                QMessageBox.information(
+                    None,
+                    self.tr("Datasource Removed"),
+                    self.tr(
+                        "Datasources have been successfully removed!\n\n"
+                        "Please refresh the QGIS Browser to see the changes!"
+                    ),
+                )
+                self.refresh_browser_model()
+                self.interface_handler.uncheck_everything()
 
     def update_data_sources(self, only_update_plugins_for_target_profile=False, update_source=True):
         """Updates data source in the UI"""

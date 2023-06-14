@@ -19,6 +19,7 @@ class ProfileCreator(QDialog):
         dialog = NameProfileDialog()
         return_code = dialog.exec()
         if return_code == QDialog.Accepted:
+            error_message = None
             with wait_cursor():
                 profile_name = dialog.text_input.text()
                 assert profile_name != ""  # should be forced by the GUI
@@ -35,7 +36,10 @@ class ProfileCreator(QDialog):
                     ini_path = profile_path + self.profile_manager.adjust_to_operating_system('QGIS3.ini')
                     qgis_ini_file = open(ini_path, "w")
                     qgis_ini_file.close()
-
-                    QMessageBox.information(None, self.tr("Success"), self.tr("Profile successfully created!"))
                 except FileExistsError:
-                    QMessageBox.critical(None, self.tr("Error"), self.tr("Profile Directory already exists!"))
+                    error_message = self.tr("Profile Directory already exists!")
+
+            if error_message:
+                QMessageBox.critical(None, self.tr("Error"), error_message)
+            else:
+                QMessageBox.information(None, self.tr("Success"), self.tr("Profile successfully created!"))

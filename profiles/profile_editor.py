@@ -30,48 +30,31 @@ class ProfileEditor(QDialog):
         return_code = dialog.exec()
 
         if return_code == QDialog.Accepted:
+            error_message = None
             with wait_cursor():
                 profile_name = dialog.text_input.text()
-                if profile_name is "":
-                    QMessageBox.critical(
-                        None, self.tr("Error"), self.tr("Please enter a new profile name!")
-                    )
-                else:
-                    profile_after_change = self.profile_manager.adjust_to_operating_system(
-                        self.qgis_path + "/" + profile_name
-                    )
+                assert profile_name != ""  # should be forced by the GUI
+                profile_after_change = self.profile_manager.adjust_to_operating_system(
+                    self.qgis_path + "/" + profile_name
+                )
 
-                    try:
-                        rename(profile_before_change, profile_after_change)
-                        QMessageBox.information(
-                            None,
-                            self.tr("Profile renamed"),
-                            self.tr("Source path renamed to destination path successfully."),  # TODO enter actual values
-                        )
+                try:
+                    rename(profile_before_change, profile_after_change)
+                except IsADirectoryError as e:  # subclass of OSError
+                    error_message = self.tr("Source is a file but destination is a directory.")
+                except NotADirectoryError as e:  # subclass of OSError
+                    error_message = self.tr("Source is a directory but destination is a file.")
+                except PermissionError as e:  # subclass of OSError
+                    error_message = self.tr("Operation not permitted.")
+                except OSError as e:
+                    # For other errors, e.g. target directory is not empty
+                    error_message = str(e)
 
-                    # If source is a file but destination is a directory
-                    except IsADirectoryError as e:  # subclass of OSError
-                        QMessageBox.critical(
-                            None,
-                            self.tr("Profile could not be renamed"),
-                            self.tr("Source is a file but destination is a directory."),
-                        )
-
-                    # If source is a directory but destination is a file
-                    except NotADirectoryError as e:  # subclass of OSError
-                        QMessageBox.critical(
-                            None,
-                            self.tr("Profile could not be renamed"),
-                            self.tr("Source is a directory but destination is a file."),
-                        )
-
-                    # For permission related errors
-                    except PermissionError as e:  # subclass of OSError
-                        QMessageBox.critical(
-                            None, self.tr("Profile could not be renamed"), self.tr("Operation not permitted.")
-                        )
-
-                    # For other errors
-                    except OSError as e:
-                        # e.g. target directory is not empty
-                        QMessageBox.critical(None, self.tr("Profile could not be renamed"), str(e))
+            if error_message:
+                QMessageBox.critical(None, self.tr("Profile could not be renamed"), error_message)
+            else:
+                QMessageBox.information(
+                    None,
+                    self.tr("Profile renamed"),
+                    self.tr("Source path renamed to destination path successfully."),
+                )

@@ -35,25 +35,24 @@ class ProfileRemover(QDialog):
         )
 
         if clicked_button == QMessageBox.Yes:
+            error_message = None
+
             with wait_cursor():
                 try:
                     self.profile_manager.make_backup()
                 except Exception as e:
-                    QMessageBox.critical(
-                        None,
-                        self.tr("Backup could not be created"),
-                        self.tr("Aborting removal of profile due to error:\n") + str(e),
-                    )
+                    error_message = self.tr("Aborting removal of profile due to error:\n") + str(e)
+                if error_message:
+                    QMessageBox.critical(None, self.tr("Backup could not be created"), error_message)
                     return
 
+            with wait_cursor():
                 try:
                     rmtree(profile_path)
                 except FileNotFoundError as e:
-                    QMessageBox.critical(
-                        None,
-                        self.tr("Profile could not be removed"),
-                        self.tr("Aborting due to error:\n") + str(e),
-                    )
-                    return
+                    error_message = self.tr("Aborting due to error:\n") + str(e)
 
+            if error_message:
+                QMessageBox.critical(None, self.tr("Profile could not be removed"), error_message)
+            else:
                 QMessageBox.information(None, self.tr("Remove Profile"), self.tr("Profile has been removed!"))
