@@ -14,12 +14,12 @@ class NameProfileDialog(QDialog):
         super().__init__(*args, **kwargs)
 
         if title is None:
-            self.setWindowTitle(self.tr("Create Profile!"))
+            self.setWindowTitle(self.tr("Create Profile"))
         else:
             self.setWindowTitle(title)
 
         self.text_input = QLineEdit()
-        self.text_input.setPlaceholderText("Name")
+        self.text_input.setPlaceholderText(self.tr("Profile Name"))
         self.button_box = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
         self.button_box = QDialogButtonBox(self.button_box)
         self.button_box.accepted.connect(self.accept)

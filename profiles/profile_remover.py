@@ -29,9 +29,9 @@ class ProfileRemover(QDialog):
 
         clicked_button = QMessageBox.question(
             None,
-            self.tr("Remove Profile!"),
-            self.tr("Are you sure you want to delete the profile: ") + profile_name
-            + "\n\nA backup will be created at " + self.profile_manager.backup_path,
+            self.tr("Remove Profile"),
+            self.tr("Are you sure you want to delete the profile '{0}'?\n\nA backup will be created at {1}") \
+            .format(profile_name, self.profile_manager.backup_path),
         )
 
         if clicked_button == QMessageBox.Yes:
@@ -41,7 +41,8 @@ class ProfileRemover(QDialog):
                 try:
                     self.profile_manager.make_backup()
                 except Exception as e:
-                    error_message = self.tr("Aborting removal of profile due to error:\n") + str(e)
+                    error_message = \
+                        self.tr("Aborting removal of profile '{0}' due to error:\n{1}").format(profile_name, e)
                 if error_message:
                     QMessageBox.critical(None, self.tr("Backup could not be created"), error_message)
                     return
@@ -50,9 +51,14 @@ class ProfileRemover(QDialog):
                 try:
                     rmtree(profile_path)
                 except FileNotFoundError as e:
-                    error_message = self.tr("Aborting due to error:\n") + str(e)
+                    error_message = self.tr("Aborting removal of profile '{0}' due to error:\n{1}") \
+                        .format(profile_name, e)
 
             if error_message:
-                QMessageBox.critical(None, self.tr("Profile could not be removed"), error_message)
+                QMessageBox.critical(
+                    None, self.tr("Profile could not be removed"), error_message
+                )
             else:
-                QMessageBox.information(None, self.tr("Remove Profile"), self.tr("Profile has been removed!"))
+                QMessageBox.information(
+                    None, self.tr("Profile removed"), self.tr("Profile '{}' has been removed").format(profile_name)
+                )

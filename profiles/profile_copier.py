@@ -28,8 +28,10 @@ class ProfileCopier(QDialog):
                 try:
                     copytree(source_profile_path, profile_path)
                 except FileExistsError:
-                    error_message = self.tr("Profile Directory already exists!")
+                    error_message = self.tr("Profile directory '{}' already exists.").format(profile_name)
             if error_message:
-                QMessageBox.critical(None, self.tr("Error"), error_message)
+                QMessageBox.critical(None, self.tr("Profile could not be copied"), error_message)
             else:
-                QMessageBox.information(None, self.tr("Success"), self.tr("Profile successfully copied!"))
+                QMessageBox.information(
+                    None, self.tr("Profile copied"), self.tr("Profile '{}' successfully copied.").format(profile_name)
+                )

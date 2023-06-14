@@ -40,7 +40,11 @@ class PluginRemover(QObject):
                 try:
                     rmtree(source_plugins_dir)
                 except Exception as e:
-                    QMessageBox.critical(None, self.tr("Plugin could not be deleted: ") + plugin_name, str(e))
+                    QMessageBox.critical(
+                        None,
+                        self.tr("Plugin could not be deleted"),
+                        self.tr("Plugin '{0}' could not be deleted due to error:\n{1}").format(plugin_name, e)
+                    )
                     continue
 
         with open(self.source_qgis_ini_file, 'w') as qgisconf:

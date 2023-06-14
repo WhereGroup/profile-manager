@@ -37,9 +37,11 @@ class ProfileCreator(QDialog):
                     qgis_ini_file = open(ini_path, "w")
                     qgis_ini_file.close()
                 except FileExistsError:
-                    error_message = self.tr("Profile Directory already exists!")
+                    error_message = self.tr("Profile directory '{}' already exists.").format(profile_name)
 
             if error_message:
-                QMessageBox.critical(None, self.tr("Error"), error_message)
+                QMessageBox.critical(None, self.tr("Profile could not be created"), error_message)
             else:
-                QMessageBox.information(None, self.tr("Success"), self.tr("Profile successfully created!"))
+                QMessageBox.information(
+                    None, self.tr("Profile created"), self.tr("Profile '{}' successfully created.").format(profile_name)
+                )

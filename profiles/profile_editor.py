@@ -17,35 +17,37 @@ class ProfileEditor(QDialog):
 
     def edit_profile(self):
         """Renames profile with user input"""
-        profile_item = self.dlg.list_profiles.currentItem()
+        old_profile_name = self.dlg.list_profiles.currentItem().text()
         # bad states that should be prevented by the GUI
-        assert profile_item is not None
-        assert profile_item.text() != Path(QgsApplication.qgisSettingsDirPath()).name
+        assert old_profile_name is not None
+        assert old_profile_name != Path(QgsApplication.qgisSettingsDirPath()).name
 
         profile_before_change = self.profile_manager.adjust_to_operating_system(
-            self.qgis_path + "/" + profile_item.text().replace(" - ", "")
+            self.qgis_path + "/" + old_profile_name.replace(" - ", "")
         )
 
-        dialog = NameProfileDialog(title=self.tr("Rename Profile!"))
+        dialog = NameProfileDialog(title=self.tr("Rename Profile {}").format(old_profile_name))
         return_code = dialog.exec()
 
         if return_code == QDialog.Accepted:
             error_message = None
             with wait_cursor():
-                profile_name = dialog.text_input.text()
-                assert profile_name != ""  # should be forced by the GUI
+                new_profile_name = dialog.text_input.text()
+                assert new_profile_name != ""  # should be forced by the GUI
                 profile_after_change = self.profile_manager.adjust_to_operating_system(
-                    self.qgis_path + "/" + profile_name
+                    self.qgis_path + "/" + new_profile_name
                 )
 
                 try:
                     rename(profile_before_change, profile_after_change)
                 except IsADirectoryError as e:  # subclass of OSError
-                    error_message = self.tr("Source is a file but destination is a directory.")
+                    error_message = self.tr("'{0}' is a file but '{1}' is a directory.") \
+                        .format(profile_before_change, profile_after_change)
                 except NotADirectoryError as e:  # subclass of OSError
-                    error_message = self.tr("Source is a directory but destination is a file.")
+                    error_message = self.tr("'{0}' is a directory but '{1}' is a file.") \
+                        .format(profile_before_change, profile_after_change)
                 except PermissionError as e:  # subclass of OSError
-                    error_message = self.tr("Operation not permitted.")
+                    error_message = self.tr("Operation not permitted by operating system.")
                 except OSError as e:
                     # For other errors, e.g. target directory is not empty
                     error_message = str(e)
@@ -56,5 +58,5 @@ class ProfileEditor(QDialog):
                 QMessageBox.information(
                     None,
                     self.tr("Profile renamed"),
-                    self.tr("Source path renamed to destination path successfully."),
+                    self.tr("Profile '{0}' successfully renamed to '{1}'.").format(old_profile_name, new_profile_name),
                 )

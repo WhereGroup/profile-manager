@@ -51,13 +51,13 @@ class InterfaceHandler(QDialog):
 
         if source_profile:
             self.dlg.treeWidgetSource.clear()
-            self.dlg.treeWidgetSource.setHeaderLabel(self.tr("Source Profile: ") + profile_name)
+            self.dlg.treeWidgetSource.setHeaderLabel(self.tr("Source Profile: {}").format(profile_name))
             for dataSource in data_source_list:
                 if dataSource is not None:
                     self.dlg.treeWidgetSource.addTopLevelItem(dataSource)
         else:
             self.dlg.treeWidgetTarget.clear()
-            self.dlg.treeWidgetTarget.setHeaderLabel(self.tr("Target Profile: ") + profile_name)
+            self.dlg.treeWidgetTarget.setHeaderLabel(self.tr("Target Profile: {}").format(profile_name))
             for dataSource in data_source_list:
                 if dataSource is not None:
                     self.dlg.treeWidgetTarget.addTopLevelItem(dataSource)
@@ -205,17 +205,17 @@ class InterfaceHandler(QDialog):
         """
         # A profile must be selected
         if self.dlg.list_profiles.currentItem() is None:
-            self.dlg.removeProfileButton.setToolTip(self.tr("Please choose a profile to remove first!"))
+            self.dlg.removeProfileButton.setToolTip(self.tr("Please choose a profile to remove"))
             self.dlg.removeProfileButton.setEnabled(False)
-            self.dlg.editProfileButton.setToolTip(self.tr("Please choose a profile to rename first!"))
+            self.dlg.editProfileButton.setToolTip(self.tr("Please choose a profile to rename"))
             self.dlg.editProfileButton.setEnabled(False)
-            self.dlg.copyProfileButton.setToolTip(self.tr("Please select a profile to copy from!"))
+            self.dlg.copyProfileButton.setToolTip(self.tr("Please select a profile to copy from"))
             self.dlg.copyProfileButton.setEnabled(False)
         # Some actions can/should not be done on the currently active profile
         elif self.dlg.list_profiles.currentItem().text() == Path(QgsApplication.qgisSettingsDirPath()).name:
-            self.dlg.removeProfileButton.setToolTip(self.tr("The active profile cannot be deleted!"))
+            self.dlg.removeProfileButton.setToolTip(self.tr("The active profile cannot be deleted"))
             self.dlg.removeProfileButton.setEnabled(False)
-            self.dlg.editProfileButton.setToolTip(self.tr("The active profile cannot be renamed!"))
+            self.dlg.editProfileButton.setToolTip(self.tr("The active profile cannot be renamed"))
             self.dlg.editProfileButton.setEnabled(False)
         else:
             self.dlg.removeProfileButton.setToolTip("")

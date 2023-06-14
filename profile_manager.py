@@ -296,7 +296,7 @@ class ProfileManager:
             try:
                 self.make_backup()
             except Exception as e:
-                error_message = self.tr("Aborting import due to error:\n") + str(e)
+                error_message = self.tr("Aborting import due to error:\n{}").format(e)
 
             if error_message:
                 QMessageBox.critical(None, self.tr("Backup could not be created"), error_message)
@@ -309,10 +309,10 @@ class ProfileManager:
 
         QMessageBox.information(
             None,
-            self.tr("Datasource Import"),
+            self.tr("Data Source Import"),
             self.tr(
-                "Datasources have been successfully imported!\n\n"
-                "Please refresh the QGIS Browser to see the changes!"
+                "Data sources have been successfully imported.\n\n"
+                "Please refresh the QGIS Browser to see the changes."
             ),
         )
         self.interface_handler.uncheck_everything()
@@ -328,8 +328,9 @@ class ProfileManager:
 
         clicked_button = QMessageBox.question(
             None,
-            self.tr("Remove Sources!"),
-            self.tr("Are you sure you want to delete these sources?\n\nA backup will be created at ") + self.backup_path
+            self.tr("Remove Data Sources"),
+            self.tr("Are you sure you want to delete these sources?\n\nA backup will be created at {}") \
+            .format(self.backup_path),
         )
 
         if clicked_button == QMessageBox.Yes:
@@ -338,7 +339,7 @@ class ProfileManager:
                 try:
                     self.make_backup()
                 except Exception as e:
-                    error_message = self.tr("Aborting removal due to error:\n") + str(e)
+                    error_message = self.tr("Aborting removal due to error:\n{}").format(e)
 
                 if not error_message:
                     self.data_source_handler.remove_sources()
@@ -349,10 +350,10 @@ class ProfileManager:
             else:
                 QMessageBox.information(
                     None,
-                    self.tr("Datasource Removed"),
+                    self.tr("Data Sources Removed"),
                     self.tr(
-                        "Datasources have been successfully removed!\n\n"
-                        "Please refresh the QGIS Browser to see the changes!"
+                        "Data sources have been successfully removed.\n\n"
+                        "Please refresh the QGIS Browser to see the changes."
                     ),
                 )
                 self.refresh_browser_model()
