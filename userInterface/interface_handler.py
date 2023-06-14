@@ -94,7 +94,7 @@ class InterfaceHandler(QDialog):
                 font.setItalic(True)
                 self.dlg.comboBoxNamesTarget.setItemData(i, QVariant(font), Qt.FontRole)
             # Add profiles to list view
-            list_item = QListWidgetItem(QtGui.QIcon(':/plugins/profile_manager/icon.png'), name)
+            list_item = QListWidgetItem(QIcon(':/plugins/profile_manager/icon.png'), name)
             if name == active_profile_name:
                 font = list_item.font()
                 font.setItalic(True)
@@ -114,10 +114,10 @@ class InterfaceHandler(QDialog):
             self.dlg.comboBoxNamesTarget.setStyleSheet('color: white')
 
             # Set checkbox indicator of the treewidget from black to white
-            file_tree_palette = QtGui.QPalette()
-            file_tree_palette.setColor(QtGui.QPalette.Window, QtGui.QColor(255, 255, 255))
-            file_tree_palette.setColor(QtGui.QPalette.Base, QtGui.QColor(30, 30, 30))
-            file_tree_palette.setColor(QtGui.QPalette.Highlight, QtGui.QColor(93, 93, 93))
+            file_tree_palette = QPalette()
+            file_tree_palette.setColor(QPalette.Window, QColor(255, 255, 255))
+            file_tree_palette.setColor(QPalette.Base, QColor(30, 30, 30))
+            file_tree_palette.setColor(QPalette.Highlight, QColor(93, 93, 93))
             self.dlg.treeWidgetSource.setPalette(file_tree_palette)
 
             # set checkbox indiciator of listwidget from black to white

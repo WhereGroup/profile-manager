@@ -51,7 +51,7 @@ class PluginDisplayer:
                 if available_plugins_from_source_profile[entry] == "true":
                     active_plugins_from_source_profile.append(entry)
 
-                    list_entry = QtWidgets.QListWidgetItem()
+                    list_entry = QListWidgetItem()
                     list_entry.setText(str(entry))
                     if not only_populate_target_profile:
                         list_entry.setFlags(list_entry.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
