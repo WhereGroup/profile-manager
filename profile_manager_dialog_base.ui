@@ -179,7 +179,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Import</string>
+       <string>Import selected items</string>
       </property>
      </widget>
      <widget class="QComboBox" name="comboBoxNamesSource">
@@ -202,7 +202,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Select source profile</string>
+       <string>Source profile</string>
       </property>
      </widget>
      <widget class="QPushButton" name="removeSourcesButton">
@@ -215,7 +215,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Remove</string>
+       <string>Remove selected items</string>
       </property>
      </widget>
      <widget class="QLabel" name="choseProfileLabel">
@@ -228,7 +228,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Select target profile</string>
+       <string>Target profile</string>
       </property>
      </widget>
      <widget class="QComboBox" name="comboBoxNamesTarget">
@@ -264,7 +264,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Check everything</string>
+       <string>Select all items</string>
       </property>
      </widget>
     </widget>
@@ -282,7 +282,7 @@
      </property>
      <widget class="QWidget" name="tab_inner_datasources">
       <attribute name="title">
-       <string>Datasources</string>
+       <string>Data Sources</string>
       </attribute>
       <widget class="QTreeWidget" name="treeWidgetTarget">
        <property name="geometry">
@@ -295,7 +295,7 @@
        </property>
        <column>
         <property name="text">
-         <string>Datasources</string>
+         <string>Data sources in target profile</string>
         </property>
        </column>
       </widget>
@@ -310,7 +310,7 @@
        </property>
        <column>
         <property name="text">
-         <string>Datasources</string>
+         <string>Data sources in source profile</string>
         </property>
        </column>
       </widget>
@@ -344,12 +344,12 @@
         <rect>
          <x>0</x>
          <y>5</y>
-         <width>67</width>
+         <width>431</width>
          <height>17</height>
         </rect>
        </property>
        <property name="text">
-        <string>Source</string>
+        <string>Plugins in source profile</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_6">
@@ -357,12 +357,12 @@
         <rect>
          <x>0</x>
          <y>205</y>
-         <width>67</width>
+         <width>431</width>
          <height>17</height>
         </rect>
        </property>
        <property name="text">
-        <string>Target</string>
+        <string>Plugins in target profile</string>
        </property>
       </widget>
      </widget>
@@ -460,7 +460,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Functions</string>
+         <string>Expression Functions</string>
         </property>
        </widget>
        <widget class="QCheckBox" name="ui_check">
@@ -473,7 +473,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>UI customization (e.g. hidden toolbar icons)</string>
+         <string>UI Customization (e.g. hidden toolbar icons)</string>
         </property>
        </widget>
       </widget>
