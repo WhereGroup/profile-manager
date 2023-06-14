@@ -4,7 +4,7 @@ from pathlib import Path
 from qgis.PyQt.QtCore import QVariant, Qt
 from qgis.PyQt.QtGui import QColor, QIcon, QPalette
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
-from qgis.core import QgsApplication
+from qgis.core import Qgis, QgsApplication, QgsMessageLog
 
 
 class InterfaceHandler(QDialog):
@@ -24,8 +24,8 @@ class InterfaceHandler(QDialog):
             profile_name (str): Name of the profile for labelling
             source_profile (bool): If the source profile is populated
         """
+        QgsMessageLog.logMessage(f"Scanning profile '{profile_name}' for data sources:", "Profile Manager", Qgis.Info)
         ini_paths = self.profile_manager.get_ini_paths()
-
         if source_profile:
             self.data_source_provider.ini_path = ini_paths["source"]
         else:
