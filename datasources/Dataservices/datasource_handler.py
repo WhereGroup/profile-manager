@@ -1,12 +1,12 @@
+from .datasource_distributor import DatasourceDistributor
 from ..Bookmarks.bookmark_handler import BookmarkHandler
+from ..Customizations.customization_handler import CustomizationHandler
 from ..Favourites.favourites_handler import FavouritesHandler
-from ..Plugins.plugin_handler import PluginHandler
+from ..Functions.function_handler import FunctionHandler
 from ..Models.model_handler import ModelHandler
 from ..Models.script_handler import ScriptHandler
+from ..Plugins.plugin_handler import PluginHandler
 from ..Styles.style_handler import StyleHandler
-from ..Functions.function_handler import FunctionHandler
-from ..Customizations.customization_handler import CustomizationHandler
-from .datasource_distributor import DatasourceDistributor
 
 
 class DataSourceHandler:

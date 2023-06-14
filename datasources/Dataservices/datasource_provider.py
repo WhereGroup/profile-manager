@@ -1,8 +1,9 @@
 from configparser import RawConfigParser
 from re import compile, search
+from urllib.parse import unquote
+
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtWidgets import QTreeWidgetItem
-from urllib.parse import unquote
 
 
 class DataSourceProvider:

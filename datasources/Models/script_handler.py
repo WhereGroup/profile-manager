@@ -1,5 +1,5 @@
+from os import listdir, path
 from pathlib import Path
-from os import path, listdir
 from shutil import copy2
 
 

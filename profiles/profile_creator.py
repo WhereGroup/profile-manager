@@ -1,8 +1,10 @@
+from os import mkdir
+
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.core import QgsUserProfileManager
-from os import mkdir
-from ..utils import wait_cursor
+
 from ..userInterface.name_profile_dialog import NameProfileDialog
+from ..utils import wait_cursor
 
 
 class ProfileCreator(QDialog):

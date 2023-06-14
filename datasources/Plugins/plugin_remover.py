@@ -1,7 +1,7 @@
 from configparser import RawConfigParser
 from shutil import rmtree
 
-from qgis.PyQt.QtCore import Qt, QObject
+from qgis.PyQt.QtCore import QObject, Qt
 from qgis.PyQt.QtWidgets import QMessageBox
 
 

@@ -1,6 +1,6 @@
-from shutil import copy2
-from os import path
 from configparser import RawConfigParser
+from os import path
+from shutil import copy2
 
 
 class CustomizationHandler:

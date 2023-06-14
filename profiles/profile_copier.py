@@ -1,7 +1,9 @@
-from qgis.PyQt.QtWidgets import QDialog, QMessageBox
-from ..utils import wait_cursor
 from shutil import copytree
+
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox
+
 from ..userInterface.name_profile_dialog import NameProfileDialog
+from ..utils import wait_cursor
 
 
 class ProfileCopier(QDialog):

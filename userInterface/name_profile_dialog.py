@@ -1,4 +1,4 @@
-from qgis.PyQt.QtCore import Qt, QRegularExpression
+from qgis.PyQt.QtCore import QRegularExpression, Qt
 from qgis.PyQt.QtGui import QRegularExpressionValidator
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QLineEdit, QVBoxLayout
 

@@ -1,5 +1,5 @@
-from urllib.parse import quote
 from configparser import RawConfigParser
+from urllib.parse import quote
 
 
 class DatasourceDistributor:

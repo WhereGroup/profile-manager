@@ -1,6 +1,6 @@
-from sqlite3 import connect
 from os import path
 from shutil import copy
+from sqlite3 import connect
 
 from qgis.core import Qgis, QgsMessageLog
 

@@ -1,7 +1,8 @@
 from configparser import RawConfigParser
-from pathlib import Path
 from os import path
+from pathlib import Path
 from shutil import copytree
+
 from qgis.PyQt.QtCore import Qt
 
 

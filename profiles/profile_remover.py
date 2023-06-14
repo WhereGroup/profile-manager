@@ -1,7 +1,9 @@
-from qgis.PyQt.QtWidgets import QDialog, QMessageBox
-from qgis.core import QgsApplication
 from pathlib import Path
 from shutil import rmtree
+
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox
+from qgis.core import QgsApplication
+
 from ..utils import wait_cursor
 
 

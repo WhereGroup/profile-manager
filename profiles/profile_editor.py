@@ -1,9 +1,11 @@
-from qgis.core import QgsApplication
-from qgis.PyQt.QtWidgets import QDialog, QMessageBox
-from pathlib import Path
 from os import rename
-from ..utils import wait_cursor
+from pathlib import Path
+
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox
+from qgis.core import QgsApplication
+
 from ..userInterface.name_profile_dialog import NameProfileDialog
+from ..utils import wait_cursor
 
 
 class ProfileEditor(QDialog):

@@ -1,8 +1,9 @@
-from .profile_remover import ProfileRemover
+from qgis.PyQt.QtWidgets import QDialog
+
+from .profile_copier import ProfileCopier
 from .profile_creator import ProfileCreator
 from .profile_editor import ProfileEditor
-from .profile_copier import ProfileCopier
-from qgis.PyQt.QtWidgets import QDialog
+from .profile_remover import ProfileRemover
 
 
 class ProfileActionHandler(QDialog):

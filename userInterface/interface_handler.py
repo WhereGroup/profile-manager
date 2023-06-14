@@ -1,8 +1,11 @@
+import time
 from pathlib import Path
+
+from qgis.PyQt.QtCore import QVariant, Qt
+from qgis.PyQt.QtGui import QColor, QIcon, QPalette
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
-from qgis.PyQt.QtCore import Qt, QVariant
-from qgis.PyQt import QtGui
 from qgis.core import QgsApplication
+
 
 class InterfaceHandler(QDialog):
 

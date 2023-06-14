@@ -22,19 +22,20 @@
 """
 # Import the code for the dialog
 import time
+from os import path
+from pathlib import Path
+from shutil import copytree
+from sys import platform
+
+from qgis.PyQt.QtCore import QCoreApplication, QSettings, QSize, QTranslator
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, QSize
 from qgis.PyQt.QtWidgets import QAction, QMessageBox, QWidget
 from qgis.core import QgsUserProfileManager
-from pathlib import Path
-from sys import platform
-from os import path
-from shutil import copytree
 
 # Import subclasses
-from .profile_manager_dialog import ProfileManagerDialog
-from .datasources.Dataservices.datasource_provider import DataSourceProvider
 from .datasources.Dataservices.datasource_handler import DataSourceHandler
+from .datasources.Dataservices.datasource_provider import DataSourceProvider
+from .profile_manager_dialog import ProfileManagerDialog
 from .profiles.profile_action_handler import ProfileActionHandler
 from .userInterface.interface_handler import InterfaceHandler
 from .utils import wait_cursor

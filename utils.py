@@ -1,6 +1,7 @@
 from contextlib import contextmanager
+
 from qgis.PyQt.QtCore import Qt
-from qgis.PyQt.QtGui import QGuiApplication, QCursor
+from qgis.PyQt.QtGui import QCursor, QGuiApplication
 
 
 @contextmanager
