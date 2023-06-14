@@ -4,6 +4,7 @@ from urllib.parse import unquote
 
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtWidgets import QTreeWidgetItem
+from qgis.core import Qgis, QgsMessageLog
 
 
 class DataSourceProvider:
@@ -41,27 +42,33 @@ class DataSourceProvider:
         if is_source:
             data_sources_parent.setFlags(data_sources_parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
 
+        children = []
         try:
-            for key in self.parser['qgis']:
-                if search_string.search(key):
-                    source_name_raw = search(self.service_name_regex, key)
-                    source_name = source_name_raw.group(0).replace("\\", "")
-
-                    source_name = unquote(source_name, 'latin-1')
-
-                    data_sources_child = QTreeWidgetItem([source_name])
-                    if is_source:
-                        data_sources_child.setFlags(data_sources_child.flags() | Qt.ItemIsUserCheckable)
-                        data_sources_child.setCheckState(0, Qt.Unchecked)
-
-                    data_sources_parent.addChild(data_sources_child)
-        except:
+            qgis_keys = self.parser['qgis']
+        except KeyError:
+            QgsMessageLog.logMessage(f"No entry for 'qgis' found", "Profile Manager", Qgis.Info)
             return None
 
-        if data_sources_parent.childCount() is 0:
-            data_sources_parent = None
+        for key in qgis_keys:
+            if search_string.search(key):
+                source_name_raw = search(self.service_name_regex, key)
+                source_name = source_name_raw.group(0).replace("\\", "")
 
-        return data_sources_parent
+                source_name = unquote(source_name, 'latin-1')
+
+                data_sources_child = QTreeWidgetItem([source_name])
+                if is_source:
+                    data_sources_child.setFlags(data_sources_child.flags() | Qt.ItemIsUserCheckable)
+                    data_sources_child.setCheckState(0, Qt.Unchecked)
+
+                children.append(data_sources_child)
+
+        QgsMessageLog.logMessage(f"{len(children)} items for 'qgis' found", "Profile Manager", Qgis.Info)
+        if children:
+            data_sources_parent.addChildren(children)
+            return data_sources_parent
+        else:
+            return None
 
     def get_db_sources_tree(self, compile_string, tree_name, service_block, is_source):
         """Returns a tree of items for all data sources matching the search string.
@@ -85,31 +92,37 @@ class DataSourceProvider:
             data_base_sources_parent.setFlags(
                 data_base_sources_parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
 
+        children = []
         try:
-            for key in self.parser[service_block]:
-                if search_string.search(key):
-                    if tree_name == "GeoPackage":
-                        db_name_raw = search(self.gpkg_service_name_regex, key)
-                        db_name = db_name_raw.group(0).replace("\\GPKG\\connections\\", "").replace("\\", "")
-                    else:
-                        db_name_raw = search(self.service_name_regex, key)
-                        db_name = db_name_raw.group(0).replace("\\", "")
-
-                    db_name = unquote(db_name, 'latin-1')
-
-                    data_base_sources_child = QTreeWidgetItem([db_name])
-                    if is_source:
-                        data_base_sources_child.setFlags(data_base_sources_child.flags() | Qt.ItemIsUserCheckable)
-                        data_base_sources_child.setCheckState(0, Qt.Unchecked)
-
-                    data_base_sources_parent.addChild(data_base_sources_child)
-        except:
+            service_block_keys = self.parser[service_block]
+        except KeyError:
+            QgsMessageLog.logMessage(f"No entry for '{service_block}' found", "Profile Manager", Qgis.Info)
             return None
 
-        if data_base_sources_parent.childCount() is 0:
-            data_base_sources_parent = None
+        for key in service_block_keys:
+            if search_string.search(key):
+                if tree_name == "GeoPackage":
+                    db_name_raw = search(self.gpkg_service_name_regex, key)
+                    db_name = db_name_raw.group(0).replace("\\GPKG\\connections\\", "").replace("\\", "")
+                else:
+                    db_name_raw = search(self.service_name_regex, key)
+                    db_name = db_name_raw.group(0).replace("\\", "")
 
-        return data_base_sources_parent
+                db_name = unquote(db_name, 'latin-1')
+
+                data_base_sources_child = QTreeWidgetItem([db_name])
+                if is_source:
+                    data_base_sources_child.setFlags(data_base_sources_child.flags() | Qt.ItemIsUserCheckable)
+                    data_base_sources_child.setCheckState(0, Qt.Unchecked)
+
+                children.append(data_base_sources_child)
+
+        QgsMessageLog.logMessage(f"{len(children)} items for {service_block} found", "Profile Manager", Qgis.Info)
+        if children:
+            data_base_sources_parent.addChildren(children)
+            return data_base_sources_parent
+        else:
+            return None
 
     def init_checked_sources(self):
         """"Loops trough sources and stores checked ones in the dict"""
