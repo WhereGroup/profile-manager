@@ -63,7 +63,9 @@ class DataSourceProvider:
 
                 children.append(data_sources_child)
 
-        QgsMessageLog.logMessage(f"{len(children)} items for 'qgis' found", "Profile Manager", Qgis.Info)
+        QgsMessageLog.logMessage(
+            f"{len(children)} items for 'qgis'->'{compile_string}' found", "Profile Manager", Qgis.Info
+        )
         if children:
             data_sources_parent.addChildren(children)
             return data_sources_parent
