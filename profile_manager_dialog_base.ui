@@ -195,7 +195,7 @@
             <widget class="QTreeWidget" name="treeWidgetSource">
              <column>
               <property name="text">
-               <string>Data sources in source profile</string>
+               <string>Source Profile:</string>
               </property>
              </column>
             </widget>
@@ -204,7 +204,7 @@
             <widget class="QTreeWidget" name="treeWidgetTarget">
              <column>
               <property name="text">
-               <string>Data sources in target profile</string>
+               <string>Target Profile:</string>
               </property>
              </column>
             </widget>
