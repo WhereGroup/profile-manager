@@ -4,6 +4,15 @@ from shutil import copy2
 
 
 class ScriptHandler:
+    """Handler for importing Processing scripts, as stored in processing/scripts/ .
+
+    Note: Existing scripts with identical filenames will be overwritten!
+
+    E.g.
+    processing/scripts/my_great_processing_script.py
+    processing/scripts/snakes.py
+    ...
+    """
 
     def __init__(self, profile_manager):
         self.profile_manager = profile_manager

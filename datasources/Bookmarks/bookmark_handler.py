@@ -5,6 +5,18 @@ from qgis.core import Qgis, QgsMessageLog
 
 
 class BookmarkHandler:
+    """Handler for importing spatial bookmarks, as stored in bookmarks.xml .
+
+    E.g.
+    <Bookmarks>
+        <Bookmark id="..." group="" extent="POLYGON((...))" name="Test Bookmark">
+            <spatialrefsys nativeFormat="Wkt">
+            ...
+            </spatialrefsys>
+        </Bookmark>
+        ...
+    </Bookmarks>
+    """
 
     def __init__(self, qgis_path, profile_manager):
         self.profile_manager = profile_manager

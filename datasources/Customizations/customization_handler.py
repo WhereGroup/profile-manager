@@ -4,6 +4,14 @@ from shutil import copy2
 
 
 class CustomizationHandler:
+    """Handler for importing UI customizations, as stored in QGIS/QGISCUSTOMIZATION3.ini .
+
+    E.g.
+    [Customization]
+    Browser=true
+    Browser\AFS=false
+    ...
+    """
 
     def __init__(self, profile_manager):
         self.profile_manager = profile_manager

@@ -4,6 +4,18 @@ from qgis.core import Qgis, QgsMessageLog
 
 
 class FunctionHandler:
+    """Handler for importing custom expression functions, as stored in QGIS/QGIS3.ini's [expressions] section.
+
+    E.g.
+    ...
+    [expressions]
+    ...
+    user\test_expression\expression=1 + 1
+    user\test_expression\helpText="..."
+    ...
+
+    Note: This does not handle Python expression functions.
+    """
 
     def __init__(self, profile_manager):
         self.profile_manager = profile_manager

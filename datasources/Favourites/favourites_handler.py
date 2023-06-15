@@ -4,6 +4,14 @@ from qgis.core import Qgis, QgsMessageLog
 
 
 class FavouritesHandler:
+    """Handler for importing browser favourites, as stored in QGIS/QGIS3.ini's [browser] section.
+
+    E.g.:
+    ...
+    [browser]
+    favourites=/path/to|||My favourite folder!, /tmp/test|||title, ...
+    ...
+    """
 
     def __init__(self, profile_manager):
         self.profile_manager = profile_manager

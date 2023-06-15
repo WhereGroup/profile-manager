@@ -7,6 +7,10 @@ from qgis.core import Qgis, QgsMessageLog
 
 
 class StyleHandler:
+    """Handler to import styles, as stored in symbology-style.db .
+
+    Note: Currently only symbols and label settings are supported, not 3D symbols, color ramps, tags, etc.
+    """
 
     def __init__(self):
         self.source_db = None
@@ -39,6 +43,8 @@ class StyleHandler:
             QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
 
     def import_symbols(self):
+        # FIXME: This has a hard-coded assumption that symbols with ids <= 115 are builtin symbols,
+        #        this will fail as soon as a new builtin symbol is shipped by QGIS.
         custom_symbols = self.source_db_cursor.execute('SELECT * FROM symbol WHERE id>115')
 
         self.target_db_cursor.executemany('INSERT OR REPLACE INTO symbol VALUES (?,?,?,?)', custom_symbols)

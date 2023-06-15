@@ -4,6 +4,15 @@ from shutil import copy2
 
 
 class ModelHandler:
+    """Handler for importing Processing models, as stored in processing/models/ .
+
+    Note: Existing scripts with identical filenames will be overwritten!
+
+    E.g.
+    processing/models/my_model.model3
+    processing/models/das.model3
+    ...
+    """
 
     def __init__(self, profile_manager):
         self.profile_manager = profile_manager
