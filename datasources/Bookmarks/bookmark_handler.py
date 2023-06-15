@@ -14,8 +14,8 @@ class BookmarkHandler:
         self.target_bookmark_file = ""
         self.parser = et.XMLParser(remove_blank_text=True)
 
-    def parse_source_bookmarks(self):
-        """Parses bookmarks from source xml"""
+    def import_bookmarks(self):
+        """Imports bookmarks from source to target profile"""
         # get the element tree of the source file
         try:
             source_tree = et.parse(self.source_bookmark_file, self.parser)
@@ -26,7 +26,7 @@ class BookmarkHandler:
     def insert_bookmarks_to_target_profile(self, source_tree):
         """Inserts bookmarks into target xml file"""
         # check if target file exists
-        self.create_file_if_not_exist()
+        self.create_target_file_if_not_exist()
         # get the element tree of the target file
         # fill if empty
         try:
@@ -65,7 +65,7 @@ class BookmarkHandler:
 
         return target_tree_root
 
-    def create_file_if_not_exist(self):
+    def create_target_file_if_not_exist(self):
         """Checks if file exists and creates it if not"""
         target_file = Path(self.target_bookmark_file)
         if not target_file.is_file():

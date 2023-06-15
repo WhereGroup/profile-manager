@@ -58,7 +58,7 @@ class DataSourceHandler:
 
         if self.dlg.bookmark_check.isChecked():
             self.bookmark_handler.set_path_files(self.source_bookmark_file, self.target_bookmark_file)
-            self.bookmark_handler.parse_source_bookmarks()
+            self.bookmark_handler.import_bookmarks()
 
         if self.dlg.favourites_check.isChecked():
             self.favourites_handler.set_path_files(self.source_qgis_ini_file, self.target_qgis_ini_file)
