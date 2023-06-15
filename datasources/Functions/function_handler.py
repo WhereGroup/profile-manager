@@ -25,7 +25,12 @@ class FunctionHandler:
         self.target_qgis_ini_file = None
 
     def import_functions(self):
-        """Gets function options from ini file and pastes them in target ini file"""
+        """Gets functions from source ini file and inserts them in target ini file
+
+        Returns:
+            error_message (str): An error message, if something failed.
+        """
+        QgsMessageLog.logMessage(f"Importing expression functions...", "Profile Manager", Qgis.Info)
         self.parser.clear()
         self.parser.read(self.source_qgis_ini_file)
         try:
@@ -40,12 +45,15 @@ class FunctionHandler:
             for entry in get_functions:
                 if "expression" in entry or "helpText" in entry:
                     self.parser.set("expressions", entry, get_functions[entry])
+                    QgsMessageLog.logMessage(f"Found '{entry}'", "Profile Manager", Qgis.Info)
 
             with open(self.target_qgis_ini_file, 'w') as qgisconf:
                 self.parser.write(qgisconf)
         except Exception as e:
             # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly
-            QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
+            error = f"{type(e)}: {str(e)}"
+            QgsMessageLog.logMessage(error, "Profile Manager", level=Qgis.Warning)
+            return error
 
     def set_path_files(self, source_qgis_ini_file, target_qgis_ini_file):
         """Sets file paths"""

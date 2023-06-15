@@ -305,17 +305,24 @@ class ProfileManager:
 
         with wait_cursor():
             self.data_source_handler.import_plugins()
-            self.data_source_handler.import_sources()
-            self.update_data_sources(True)
+            errors_on_sources = self.data_source_handler.import_sources()
+            self.update_data_sources(only_update_plugins_for_target_profile=True)
 
-        QMessageBox.information(
-            None,
-            self.tr("Data Source Import"),
-            self.tr(
-                "Data sources have been successfully imported.\n\n"
-                "Please refresh the QGIS Browser to see the changes."
-            ),
-        )
+        if errors_on_sources:
+            QMessageBox.critical(
+                None,
+                self.tr("Data Source Import"),
+                self.tr("There were errors on import."),  # The user should have been shown dialogs or see a log
+            )
+        else:
+            QMessageBox.information(
+                None,
+                self.tr("Data Source Import"),
+                self.tr(
+                    "Data sources have been successfully imported.\n\n"
+                    "Please refresh the QGIS Browser to see the changes."
+                ),
+            )
         self.interface_handler.uncheck_everything()
         self.refresh_browser_model()
 

@@ -21,7 +21,11 @@ class FavouritesHandler:
         self.target_qgis_ini_file = None
 
     def import_favourites(self):
-        """Gets favourite options from ini file and pastes them in target file"""
+        """Gets favourites from ini file and inserts them in target file.
+
+        Returns:
+            error_message (str): An error message, if something XML related failed.
+        """
         self.parser.clear()
         self.parser.read(self.source_qgis_ini_file)
 
@@ -51,7 +55,9 @@ class FavouritesHandler:
                 self.parser.write(qgisconf)
         except Exception as e:
             # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly
-            QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
+            error = f"{type(e)}: {str(e)}"
+            QgsMessageLog.logMessage(error, "Profile Manager", level=Qgis.Warning)
+            return error
 
     def set_path_files(self, source_qgis_ini_file, target_qgis_ini_file):
         """Sets file paths"""

@@ -27,27 +27,34 @@ class BookmarkHandler:
         self.parser = et.XMLParser(remove_blank_text=True)
 
     def import_bookmarks(self):
-        """Imports bookmarks from source to target profile"""
+        """Imports bookmarks from source to target profile.
+
+        Returns:
+            error_message (str): An error message, if something XML related failed.
+        """
         # get the element tree of the source file
         try:
             source_tree = et.parse(self.source_bookmark_file, self.parser)
             self.insert_bookmarks_to_target_profile(source_tree)
-        except et.ParseError as e:
-            QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
+        except et.Error as e:
+            error = f"{type(e)}: {str(e)}"
+            QgsMessageLog.logMessage(error, "Profile Manager", level=Qgis.Warning)
+            return error
 
     def insert_bookmarks_to_target_profile(self, source_tree):
-        """Inserts bookmarks into target xml file"""
+        """Inserts bookmarks into target xml file.
+
+        Raises:
+            lxml.etree.Error if parsing failed.
+        """
         # check if target file exists
         self.create_target_file_if_not_exist()
         # get the element tree of the target file
         # fill if empty
         try:
             target_tree = et.parse(self.target_bookmark_file, self.parser)
-        except et.XMLSyntaxError:
-            with open(self.target_bookmark_file, "w") as xmlTarget:
-                xmlTarget.write("<Bookmarks></Bookmarks>")
-
-            target_tree = et.parse(self.target_bookmark_file, self.parser)
+        except et.Error:
+            raise
 
         # find all bookmark elements
         source_root_tag = source_tree.findall('Bookmark')

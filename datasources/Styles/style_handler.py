@@ -30,6 +30,13 @@ class StyleHandler:
         self.target_db_cursor = self.target_db.cursor()
 
     def import_styles(self):
+        """Imports styles from source profile to target profile.
+
+        Note: Currently it only imports symbols (not 3D) and label settings.
+
+        Returns:
+            error_message (str): An error message, if something SQL related failed.
+        """
         try:
             self.import_labels()
             self.import_symbols()
@@ -40,7 +47,9 @@ class StyleHandler:
             self.source_db.close()
             self.target_db.close()
         except sqlite3.Error as e:
-            QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
+            error = f"{type(e)}: {str(e)}"
+            QgsMessageLog.logMessage(error, "Profile Manager", level=Qgis.Warning)
+            return error
 
     def import_symbols(self):
         # FIXME: This has a hard-coded assumption that symbols with ids <= 115 are builtin symbols,

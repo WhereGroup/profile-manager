@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QMessageBox
 from .datasource_distributor import DatasourceDistributor
 from ..Bookmarks.bookmark_handler import BookmarkHandler
 from ..Customizations.customization_handler import CustomizationHandler
@@ -51,43 +52,63 @@ class DataSourceHandler:
             del self.dictionary_of_checked_web_sources[k]
 
     def import_sources(self):
-        """Handles the whole data import action"""
+        """Handles the whole data import action.
+
+        Returns:
+            boolean: If errors were encountered.
+        """
+        had_errors = False
+
         self.setup_datasource_distributor()
 
         self.datasource_distributor.import_sources()
 
         if self.dlg.bookmark_check.isChecked():
             self.bookmark_handler.set_path_files(self.source_bookmark_file, self.target_bookmark_file)
-            self.bookmark_handler.import_bookmarks()
+            error_message = self.bookmark_handler.import_bookmarks()
+            if error_message:
+                had_errors = True
+                QMessageBox.critical(None, "Error while importing bookmarks", error_message)
 
         if self.dlg.favourites_check.isChecked():
             self.favourites_handler.set_path_files(self.source_qgis_ini_file, self.target_qgis_ini_file)
-            self.favourites_handler.import_favourites()
+            error_message = self.favourites_handler.import_favourites()
+            if error_message:
+                had_errors = True
+                QMessageBox.critical(None, "Error while importing favourites", error_message)
 
         if self.dlg.models_check.isChecked():
             self.models_handler.set_path_files(self.source_profile_path + "processing/models/",
                                                self.target_profile_path + "processing/models/")
-            self.models_handler.import_models()
+            self.models_handler.import_models()  # currently has no error handling
 
         if self.dlg.scripts_check.isChecked():
             self.scripts_handler.set_path_files(self.source_profile_path + "processing/scripts/",
                                                 self.target_profile_path + "processing/scripts/")
-            self.scripts_handler.import_scripts()
+            self.scripts_handler.import_scripts()  # currently has no error handling
 
         if self.dlg.styles_check.isChecked():
             self.styles_handler.set_db_connection(self.source_profile_path + "symbology-style.db",
                                                   self.target_profile_path + "symbology-style.db")
-            self.styles_handler.import_styles()
+            error_message = self.styles_handler.import_styles()
+            if error_message:
+                had_errors = True
+                QMessageBox.critical(None, "Error while importing styles", error_message)
 
         if self.dlg.functions_check.isChecked():
             self.function_handler.set_path_files(self.source_qgis_ini_file, self.target_qgis_ini_file)
-            self.function_handler.import_functions()
+            error_message = self.function_handler.import_functions()
+            if error_message:
+                had_errors = True
+                QMessageBox.critical(None, "Error while importing expression functions", error_message)
 
         if self.dlg.ui_check.isChecked():
             self.customization_handler.set_path_files(self.source_profile_path, self.target_profile_path)
-            self.customization_handler.import_customizations()
+            self.customization_handler.import_customizations()  # currently has no error handling
 
         self.plugin_handler.import_active_plugins()
+
+        return had_errors
 
     def import_plugins(self):
         self.setup_datasource_distributor()
