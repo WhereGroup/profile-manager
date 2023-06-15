@@ -39,7 +39,7 @@ class PluginRemover(QObject):
 
                 try:
                     rmtree(source_plugins_dir)
-                except Exception as e:
+                except OSError as e:
                     QMessageBox.critical(
                         None,
                         self.tr("Plugin could not be deleted"),

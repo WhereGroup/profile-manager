@@ -24,7 +24,7 @@
 import time
 from os import path
 from pathlib import Path
-from shutil import copytree, Error
+from shutil import copytree
 from sys import platform
 
 from qgis.PyQt.QtCore import QCoreApplication, QSettings, QSize, QTranslator
@@ -273,7 +273,7 @@ class ProfileManager:
         """Creates a backup of the profile folders
 
         Raises:
-            shutil.Error: If copytree raises shutil.Error
+            OSError: If copytree raises something
         """
         ts = int(time.time())
         target_path = self.backup_path + str(ts)
@@ -296,7 +296,7 @@ class ProfileManager:
                                                                 target_profile_name)
             try:
                 self.make_backup()
-            except Error as e:
+            except OSError as e:
                 error_message = self.tr("Aborting import due to error:\n{}").format(e)
 
             if error_message:
@@ -339,7 +339,7 @@ class ProfileManager:
             with wait_cursor():
                 try:
                     self.make_backup()
-                except Error as e:
+                except OSError as e:
                     error_message = self.tr("Aborting removal due to error:\n{}").format(e)
 
                 if not error_message:

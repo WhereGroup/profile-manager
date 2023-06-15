@@ -1,5 +1,5 @@
 from pathlib import Path
-from shutil import Error, rmtree
+from shutil import rmtree
 
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.core import QgsApplication
@@ -42,7 +42,7 @@ class ProfileRemover(QDialog):
             with wait_cursor():
                 try:
                     self.profile_manager.make_backup()
-                except Error as e:
+                except OSError as e:
                     error_message = \
                         self.tr("Aborting removal of profile '{0}' due to error:\n{1}").format(profile_name, e)
                 if error_message:

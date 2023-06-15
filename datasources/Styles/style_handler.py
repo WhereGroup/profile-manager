@@ -1,6 +1,7 @@
+import sqlite3
+
 from os import path
 from shutil import copy
-from sqlite3 import connect
 
 from qgis.core import Qgis, QgsMessageLog
 
@@ -15,11 +16,11 @@ class StyleHandler:
         self.target_db_cursor = None
 
     def set_db_connection(self, source_db_path, target_db_path):
-        self.source_db = connect(source_db_path)
-        if path.isfile(target_db_path) is False:
-            copy(source_db_path, target_db_path.replace("symbology-style.db", ""))
+        self.source_db = sqlite3.connect(source_db_path)
 
-        self.target_db = connect(target_db_path)
+        if path.isfile(target_db_path) is False:
+            copy(source_db_path, target_db_path.replace("symbology-style.db", ""))  # TODO remove unnecessary replace()
+        self.target_db = sqlite3.connect(target_db_path)
 
         self.source_db_cursor = self.source_db.cursor()
         self.target_db_cursor = self.target_db.cursor()
@@ -34,7 +35,7 @@ class StyleHandler:
 
             self.source_db.close()
             self.target_db.close()
-        except Exception as e:
+        except sqlite3.Error as e:
             QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
 
     def import_symbols(self):

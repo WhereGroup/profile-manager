@@ -32,6 +32,7 @@ class FunctionHandler:
             with open(self.target_qgis_ini_file, 'w') as qgisconf:
                 self.parser.write(qgisconf)
         except Exception as e:
+            # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly
             QgsMessageLog.logMessage(str(e), "Profile Manager", level=Qgis.Warning)
 
     def set_path_files(self, source_qgis_ini_file, target_qgis_ini_file):
