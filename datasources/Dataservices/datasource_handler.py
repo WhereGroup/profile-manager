@@ -106,9 +106,9 @@ class DataSourceHandler:
 
     def set_path_to_files(self, source_profile_name, target_profile_name):
         """Sets file paths"""
-        ini_pathes = self.profile_manager.get_ini_paths()
-        self.source_qgis_ini_file = ini_pathes['source']
-        self.target_qgis_ini_file = ini_pathes['target']
+        ini_paths = self.profile_manager.get_ini_paths()
+        self.source_qgis_ini_file = ini_paths['source']
+        self.target_qgis_ini_file = ini_paths['target']
 
         self.source_profile_path = self.profile_manager.adjust_to_operating_system(self.qgis_path + '/'
                                                                                    + source_profile_name + '/')

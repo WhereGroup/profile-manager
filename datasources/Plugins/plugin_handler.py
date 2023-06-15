@@ -34,7 +34,7 @@ class PluginHandler:
         self.show_active_plugins_in_list()
 
     def set_path_files(self):
-        """Sets file path's"""
+        """Sets file paths"""
         ini_paths = self.profile_manager.get_ini_paths()
         self.source_qgis_ini_file = ini_paths["source"]
         self.target_qgis_ini_file = ini_paths["target"]
