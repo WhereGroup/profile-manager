@@ -30,8 +30,8 @@ class NameProfileDialog(QDialog):
         self.button_box.rejected.connect(self.reject)
 
         self.layout = QVBoxLayout()
-        self.layout.addWidget(self.text_input, alignment=Qt.AlignCenter)
-        self.layout.addWidget(self.button_box, alignment=Qt.AlignCenter)
+        self.layout.addWidget(self.text_input)
+        self.layout.addWidget(self.button_box)
         self.setLayout(self.layout)
 
         self.text_input.textChanged.connect(self.adjust_ok_button_state)
