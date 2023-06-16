@@ -196,7 +196,7 @@ class ProfileManager:
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr(u'&Profile Manager'),
+                self.tr('&Profile Manager'),
                 action)
             self.iface.removeToolBarIcon(action)
 
