@@ -42,16 +42,7 @@ class ProfileEditor(QDialog):
 
                 try:
                     rename(profile_before_change, profile_after_change)
-                except IsADirectoryError as e:  # subclass of OSError
-                    error_message = self.tr("'{0}' is a file but '{1}' is a directory.") \
-                        .format(profile_before_change, profile_after_change)
-                except NotADirectoryError as e:  # subclass of OSError
-                    error_message = self.tr("'{0}' is a directory but '{1}' is a file.") \
-                        .format(profile_before_change, profile_after_change)
-                except PermissionError as e:  # subclass of OSError
-                    error_message = self.tr("Operation not permitted by operating system.")
                 except OSError as e:
-                    # For other errors, e.g. target directory is not empty
                     error_message = str(e)
 
             if error_message:
