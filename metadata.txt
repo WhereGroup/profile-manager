@@ -1,47 +1,38 @@
-# This file contains metadata for your plugin.
-
-# This file should be included when you package your plugin.# Mandatory items:
-
 [general]
 name=Profile Manager
 qgisMinimumVersion=3.12
 description=Makes handling profiles easy by giving you an UI to easily import settings from one profile to another
-version=0.31
-author=(C) 2022 by WhereGroup GmbH
-email=info@wheregroup.com
-
 about=A QGIS Plugin that provides an UI to easily manage your profiles and import various settings from one profile to another
-
+version=0.5
+author=WhereGroup GmbH
+email=info@wheregroup.com
 repository=https://github.com/WhereGroup/profile-manager/
 # End of mandatory metadata
 
-# Recommended items:
-
-hasProcessingProvider=no
-# Uncomment the following line and add your changelog:
-# changelog=
-
-# Tags are comma separated with spaces allowed
-tags=profilemanager, manager, profiles, python
-
 homepage=https://wheregroup.com/
 category=Plugins
+tags=profilemanager, manager, profiles, python
 icon=icon.png
 tracker=https://github.com/WhereGroup/profile-manager/issues
-# experimental flag
-experimental=True
 
-# deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
-
-# Since QGIS 3.8, a comma separated list of plugins to be installed
-# (or upgraded) can be specified.
-# Check the documentation for more information.
-# plugin_dependencies=
-
-Category of the plugin: Raster, Vector, Database or Web
-# category=
-
-# If the plugin can run on QGIS Server.
+experimental=True
+hasProcessingProvider=no
 server=False
 
+changelog=
+    Version 0.5:
+    - TODO
+    - Big refactor and cleanup
+    - Better and more verbose error handling
+    - TODO
+    - Fix a crash (thanks Ivano Giuliano!)
+    Version 0.31:
+    - Update metadata
+    Version 0.3:
+    - Fix scanning for bookmarks, favourites, exp functions, styles
+    Version 0.21:
+    - Add support for BSD and other Unixes (thanks Loïc Bartoletti!)
+    - Add Italy - German translation (thanks Salvatore Fiandaca!)
+    Version 0.2:
+    - First public release
