@@ -42,8 +42,8 @@ class PluginRemover(QObject):
                 except OSError as e:
                     QMessageBox.critical(
                         None,
-                        self.tr("Plugin could not be deleted"),
-                        self.tr("Plugin '{0}' could not be deleted due to error:\n{1}").format(plugin_name, e)
+                        self.tr("Plugin could not be removed"),
+                        self.tr("Plugin '{0}' could not be removed due to error:\n{1}").format(plugin_name, e)
                     )
                     continue
 

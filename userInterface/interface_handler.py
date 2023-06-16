@@ -216,7 +216,7 @@ class InterfaceHandler(QDialog):
             self.dlg.copyProfileButton.setEnabled(False)
         # Some actions can/should not be done on the currently active profile
         elif self.dlg.list_profiles.currentItem().text() == Path(QgsApplication.qgisSettingsDirPath()).name:
-            self.dlg.removeProfileButton.setToolTip(self.tr("The active profile cannot be deleted"))
+            self.dlg.removeProfileButton.setToolTip(self.tr("The active profile cannot be removed"))
             self.dlg.removeProfileButton.setEnabled(False)
             self.dlg.editProfileButton.setToolTip(self.tr("The active profile cannot be renamed"))
             self.dlg.editProfileButton.setEnabled(False)
