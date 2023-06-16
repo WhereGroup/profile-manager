@@ -2,273 +2,208 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="it_IT" sourcelanguage="en_GB">
 <context>
-    <name>CreateProfileDialog</name>
-    <message>
-        <location filename="../userInterface/create_profile_dialog.py" line="49"/>
-        <source>Rename Profile!</source>
-        <translation>Rinomina profilo!</translation>
-    </message>
-    <message>
-        <location filename="../userInterface/create_profile_dialog.py" line="50"/>
-        <source>Create Profile!</source>
-        <translation>Crea Profilo!</translation>
-    </message>
-</context>
-<context>
     <name>InterfaceHandler</name>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="58"/>
-        <source>Source Profile: </source>
-        <translation>Profilo sorgente: </translation>
+        <location filename="../userInterface/interface_handler.py" line="59"/>
+        <source>Source Profile: {}</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="64"/>
-        <source>Target Profile: </source>
-        <translation>Profilo destinazione: </translation>
+        <location filename="../userInterface/interface_handler.py" line="65"/>
+        <source>Target Profile: {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../userInterface/interface_handler.py" line="207"/>
+        <source>Target profile can not be same as source profile</source>
+        <translation type="unfinished">Il profilo destinazione non può essere uguale al profilo origine</translation>
+    </message>
+    <message>
+        <location filename="../userInterface/interface_handler.py" line="220"/>
+        <source>Please choose a profile to remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../userInterface/interface_handler.py" line="222"/>
+        <source>Please choose a profile to rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../userInterface/interface_handler.py" line="224"/>
+        <source>Please select a profile to copy from</source>
+        <translation type="unfinished">Bitte zu kopierendes Profil wählen</translation>
+    </message>
+    <message>
+        <location filename="../userInterface/interface_handler.py" line="228"/>
+        <source>The active profile cannot be removed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../userInterface/interface_handler.py" line="230"/>
+        <source>The active profile cannot be renamed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>MessageBoxFactory</name>
+    <name>NameProfileDialog</name>
     <message>
-        <location filename="../userInterface/message_box_factory.py" line="24"/>
-        <source>Warning!</source>
-        <translation>Attenzione!</translation>
+        <location filename="../userInterface/name_profile_dialog.py" line="18"/>
+        <source>Create Profile</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/message_box_factory.py" line="27"/>
-        <source>Information</source>
-        <translation>Informazione</translation>
+        <location filename="../userInterface/name_profile_dialog.py" line="23"/>
+        <source>Profile Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ProfileActionHandler</name>
+    <name>PluginRemover</name>
     <message>
-        <location filename="../profiles/profile_action_handler.py" line="20"/>
-        <source>Error</source>
-        <translation>Errore</translation>
+        <location filename="../datasources/Plugins/plugin_remover.py" line="43"/>
+        <source>Plugin &apos;{0}&apos; could not be removed due to error:
+{1}</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProfileCopier</name>
     <message>
-        <location filename="../profiles/profile_copier.py" line="39"/>
-        <source>No profile name provided</source>
-        <translation type="obsolete">Kein Profilname angegeben</translation>
+        <location filename="../profiles/profile_copier.py" line="33"/>
+        <source>Profile directory &apos;{}&apos; already exists.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_copier.py" line="47"/>
-        <source>Profile Directory already exists</source>
-        <translation type="obsolete">Profilverzeichnis existiert bereits</translation>
+        <location filename="../profiles/profile_copier.py" line="35"/>
+        <source>Profile could not be copied</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_copier.py" line="49"/>
-        <source>Please select a profile to copy from</source>
-        <translation type="obsolete">Bitte zu kopierendes Profil wählen</translation>
+        <location filename="../profiles/profile_copier.py" line="37"/>
+        <source>Profile copied</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_copier.py" line="39"/>
-        <source>No profile name provided!</source>
-        <translation>Nome profilo non specificato!</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_copier.py" line="47"/>
-        <source>Profile Directory already exists!</source>
-        <translation>La Directory del profilo esiste già!</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_copier.py" line="49"/>
-        <source>Please select a profile to copy from!</source>
-        <translation>Selezionare un profilo da cui copiare!</translation>
+        <location filename="../profiles/profile_copier.py" line="37"/>
+        <source>Profile &apos;{}&apos; successfully copied.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProfileCreator</name>
     <message>
-        <location filename="../profiles/profile_creator.py" line="34"/>
-        <source>Could not create profile</source>
-        <translation>Impossibile creare il profilo</translation>
+        <location filename="../profiles/profile_creator.py" line="42"/>
+        <source>Profile directory &apos;{}&apos; already exists.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_creator.py" line="34"/>
-        <source>No profilename specified</source>
-        <translation type="obsolete">Kein Profilname angegeben</translation>
+        <location filename="../profiles/profile_creator.py" line="45"/>
+        <source>Profile could not be created</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_creator.py" line="50"/>
-        <source>Success</source>
-        <translation>Successo</translation>
+        <location filename="../profiles/profile_creator.py" line="47"/>
+        <source>Profile created</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_creator.py" line="50"/>
-        <source>Profile successfully created!</source>
-        <translation>Profilo creato con successo!</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_creator.py" line="50"/>
-        <source>New Profile</source>
-        <translation>Nuovo Profilo</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_creator.py" line="53"/>
-        <source>Profile Directory already exists</source>
-        <translation type="obsolete">Profilverzeichnis existiert bereits</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_creator.py" line="34"/>
-        <source>No profilename specified!</source>
-        <translation>Non è stato specificato nessun nome profilo!</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_creator.py" line="53"/>
-        <source>Profile Directory already exists!</source>
-        <translation>La Directory del Profilo esiste già!</translation>
+        <location filename="../profiles/profile_creator.py" line="47"/>
+        <source>Profile &apos;{}&apos; successfully created.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProfileEditor</name>
     <message>
-        <location filename="../profiles/profile_editor.py" line="59"/>
-        <source>Profile Directory already exists</source>
-        <translation type="obsolete">Profilverzeichnis existiert bereits</translation>
+        <location filename="../profiles/profile_editor.py" line="31"/>
+        <source>Rename Profile &apos;{}&apos;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_editor.py" line="25"/>
-        <source>Please choose a profile to rename first!</source>
-        <translation>Prima scegliere un profilo da rinominare!</translation>
+        <location filename="../profiles/profile_editor.py" line="49"/>
+        <source>Profile could not be renamed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_editor.py" line="39"/>
-        <source>Please enter a new profile name!</source>
-        <translation>Inserire un nuovo nome profilo!</translation>
+        <location filename="../profiles/profile_editor.py" line="51"/>
+        <source>Profile renamed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profiles/profile_editor.py" line="65"/>
-        <source>Profile Directory already exists!</source>
-        <translation>La Directory Profilo esiste già!</translation>
-    </message>
-</context>
-<context>
-    <name>ProfileFactory</name>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="26"/>
-        <source>Error</source>
-        <translation type="obsolete">Fehler</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="54"/>
-        <source>Success</source>
-        <translation type="obsolete">Erfolg</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="54"/>
-        <source>Profile successfully created!</source>
-        <translation type="obsolete">Profil erfolgreich erstellt!</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="54"/>
-        <source>New Profile</source>
-        <translation type="obsolete">Neu</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="122"/>
-        <source>Profile Directory already exists</source>
-        <translation type="obsolete">Profilverzeichnis existiert bereits</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="72"/>
-        <source>No profile name provided</source>
-        <translation type="obsolete">Kein Profilname angegeben</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="82"/>
-        <source>Please select a profile to copy from</source>
-        <translation type="obsolete">Bitte zu kopierendes Profil wählen</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="143"/>
-        <source>Remove Profile</source>
-        <translation type="obsolete">Gelöscht</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="143"/>
-        <source>Profile has been removed</source>
-        <translation type="obsolete">Profil wurde gelöscht</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="38"/>
-        <source>Could not create profile</source>
-        <translation type="obsolete">Konnte Profil nicht erstellen</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_factory.py" line="38"/>
-        <source>No profilename specified</source>
-        <translation type="obsolete">Kein Profilname angegeben</translation>
+        <location filename="../profiles/profile_editor.py" line="51"/>
+        <source>Profile &apos;{0}&apos; successfully renamed to &apos;{1}&apos;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProfileManager</name>
     <message>
-        <location filename="../profile_manager.py" line="209"/>
+        <location filename="../profile_manager.py" line="203"/>
         <source>&amp;Profile Manager</source>
         <translation>&amp;Gestore Profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="197"/>
+        <location filename="../profile_manager.py" line="191"/>
         <source>Profile Manager</source>
         <translation>Gestore Profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="277"/>
-        <source>Creating Backup at </source>
-        <translation type="obsolete">Erstelle Backup unter </translation>
+        <location filename="../profile_manager.py" line="307"/>
+        <source>Aborting import due to error:
+{}</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="290"/>
-        <source>Could not edit profile</source>
-        <translation>Impossibile modificare profilo</translation>
+        <location filename="../profile_manager.py" line="364"/>
+        <source>Backup could not be created</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="290"/>
-        <source>Target profile can not be same as source profile</source>
-        <translation>Il profilo destinazione non può essere uguale al profilo origine</translation>
+        <location filename="../profile_manager.py" line="325"/>
+        <source>Data Source Import</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="324"/>
-        <source>Success</source>
-        <translation>Successo</translation>
+        <location filename="../profile_manager.py" line="319"/>
+        <source>There were errors on import.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="302"/>
-        <source>Datasources have been successfully imported!</source>
-        <translation type="obsolete">Datenquellen erfolgreich importiert!</translation>
-    </message>
-    <message>
-        <location filename="../profile_manager.py" line="304"/>
-        <source>Datasource Import</source>
-        <translation>Sorgente dati Import</translation>
-    </message>
-    <message>
-        <location filename="../profile_manager.py" line="304"/>
-        <source>Datasources have been successfully imported!
+        <location filename="../profile_manager.py" line="325"/>
+        <source>Data sources have been successfully imported.
 
-Please refresh the QGIS Browser to see the changes!</source>
-        <translation>Le sorgenti dati sono state importate con successo!
-
-Aggiornare il browser QGIS per vedere le modifiche!</translation>
+Please refresh the QGIS Browser to see the changes.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="324"/>
-        <source>Datasources have been successfully removed!
-
-Please refresh the QGIS Browser to see the changes!</source>
-        <translation>Le sorgenti dati sono state rimosse con successo!
-
-Aggiornare il browser QGIS per vedere le modifiche!</translation>
+        <location filename="../profile_manager.py" line="344"/>
+        <source>Remove Data Sources</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="324"/>
-        <source>Datasource Removed</source>
-        <translation>Sorgente dati Rimossa</translation>
+        <location filename="../profile_manager.py" line="344"/>
+        <source>Are you sure you want to remove these sources?
+
+A backup will be created at &apos;{}&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager.py" line="357"/>
+        <source>Aborting removal due to error:
+{}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager.py" line="366"/>
+        <source>Data Sources Removed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager.py" line="366"/>
+        <source>Data sources have been successfully removed.
+
+Please refresh the QGIS Browser to see the changes.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -279,222 +214,185 @@ Aggiornare il browser QGIS per vedere le modifiche!</translation>
         <translation>Gestore Profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="162"/>
+        <location filename="../profile_manager_dialog_base.ui" line="95"/>
         <source>Profiles</source>
         <translation>Profili</translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="73"/>
+        <location filename="../profile_manager_dialog_base.ui" line="42"/>
         <source>New profile</source>
         <translation>Nuovo profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="86"/>
+        <location filename="../profile_manager_dialog_base.ui" line="63"/>
         <source>Remove profile</source>
         <translation>Rimuovi profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="99"/>
+        <location filename="../profile_manager_dialog_base.ui" line="56"/>
         <source>Rename profile</source>
         <translation>Rinomina profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="125"/>
+        <location filename="../profile_manager_dialog_base.ui" line="49"/>
         <source>Copy profile</source>
         <translation>Copia profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="180"/>
-        <source>Settings</source>
-        <translation>Impostazioni</translation>
-    </message>
-    <message>
-        <location filename="../profile_manager_dialog_base.ui" line="208"/>
+        <location filename="../profile_manager_dialog_base.ui" line="108"/>
         <source>Import</source>
         <translation>Importa</translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="231"/>
-        <source>Select source profile</source>
-        <translation>Profilo sorgente</translation>
-    </message>
-    <message>
-        <location filename="../profile_manager_dialog_base.ui" line="244"/>
-        <source>Remove</source>
-        <translation>Rimuovi</translation>
-    </message>
-    <message>
-        <location filename="../profile_manager_dialog_base.ui" line="257"/>
-        <source>Select target profile</source>
-        <translation>Profilo destinazione</translation>
-    </message>
-    <message>
-        <location filename="../profile_manager_dialog_base.ui" line="293"/>
-        <source>Check everything</source>
-        <translation>Controlla tutto</translation>
-    </message>
-    <message>
-        <location filename="../profile_manager_dialog_base.ui" line="339"/>
-        <source>Datasources</source>
-        <translation>Sorgenti dati</translation>
-    </message>
-    <message>
-        <location filename="../profile_manager_dialog_base.ui" line="346"/>
+        <location filename="../profile_manager_dialog_base.ui" line="225"/>
         <source>Plugins</source>
         <translation>Plugin</translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="378"/>
-        <source>Source</source>
-        <translation>Sorgente</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="123"/>
+        <source>Source profile</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="391"/>
-        <source>Target</source>
-        <translation>Destinazione</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="133"/>
+        <source>Target profile</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="397"/>
-        <source>Other</source>
-        <translation>Altro</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="146"/>
+        <source>Select all items</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="424"/>
-        <source>Import models</source>
-        <translation>Importa modelli</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="156"/>
+        <source>Remove selected items</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="437"/>
-        <source>Import scripts</source>
-        <translation>Importa script</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="166"/>
+        <source>Import selected items</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="450"/>
-        <source>import bookmarks</source>
-        <translation>Importa segnalibri</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="200"/>
+        <source>Data Sources</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="463"/>
-        <source>Import styles + labels</source>
-        <translation>Importa stili + etichette</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="207"/>
+        <source>Source Profile:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="476"/>
-        <source>import favourites</source>
-        <translation>Importa favoriti</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="216"/>
+        <source>Target Profile:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="489"/>
-        <source>Import functions</source>
-        <translation>Importa funzioni</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="231"/>
+        <source>Plugins in source profile</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager_dialog_base.ui" line="502"/>
-        <source>Import UI Adjustments (e.g. hidden toolbar icons)</source>
-        <translation>Importa personalizzazioni impostazioni UI (es. hidden toolbar icons)</translation>
+        <location filename="../profile_manager_dialog_base.ui" line="241"/>
+        <source>Plugins in target profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="252"/>
+        <source>Other (Import only)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="267"/>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="274"/>
+        <source>Favourites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="281"/>
+        <source>Models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="288"/>
+        <source>Scripts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="295"/>
+        <source>Styles + Labels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="302"/>
+        <source>UI Customization (e.g. hidden toolbar icons)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="309"/>
+        <source>Expression Functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="153"/>
+        <source>Remove selected items from source profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="163"/>
+        <source>Import selected items from source to target profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager_dialog_base.ui" line="143"/>
+        <source>Select all items in the source profile</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProfileRemover</name>
     <message>
-        <location filename="../profiles/profile_remover.py" line="48"/>
+        <location filename="../profiles/profile_remover.py" line="32"/>
         <source>Remove Profile</source>
         <translation>Rimuovi Profilo</translation>
     </message>
     <message>
-        <location filename="../profiles/profile_remover.py" line="44"/>
-        <source>Profile has been removed</source>
-        <translation type="obsolete">Profil wurde gelöscht</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_remover.py" line="28"/>
-        <source>Please choose a profile to remove first!</source>
-        <translation>Prima scegli un profilo da rimuovere!</translation>
-    </message>
-    <message>
-        <location filename="../profiles/profile_remover.py" line="48"/>
-        <source>Profile has been removed!</source>
-        <translation>Il profilo è stato rimosso!</translation>
-    </message>
-</context>
-<context>
-    <name>RemoveProfileDialog</name>
-    <message>
-        <location filename="../userInterface/remove_profile_dialog.py" line="18"/>
-        <source>Remove Profile!</source>
-        <translation>Rimozione profilo!</translation>
-    </message>
-    <message>
-        <location filename="../userInterface/remove_profile_dialog.py" line="21"/>
-        <source>Are you sure you want to delete the profile: </source>
-        <translation>Sei sicuro di voler cancellare il profilo: </translation>
-    </message>
-    <message>
-        <location filename="../userInterface/remove_profile_dialog.py" line="22"/>
-        <source>A backup will be created at </source>
-        <translation>Un backup verrà creato in </translation>
-    </message>
-</context>
-<context>
-    <name>RemoveSourcesDialog</name>
-    <message>
-        <location filename="../userInterface/remove_sources_dialog.py" line="16"/>
-        <source>Remove Sources!</source>
-        <translation>Rimozione Sorgenti!</translation>
-    </message>
-    <message>
-        <location filename="../userInterface/remove_sources_dialog.py" line="19"/>
-        <source>Are you sure you want to delete these sources?
+        <location filename="../profiles/profile_remover.py" line="32"/>
+        <source>Are you sure you want to remove the profile &apos;{0}&apos;?
 
-A backup will be created at </source>
-        <translation>Sei sicuro di voler cancellare questi sorgenti: ?
-
-Un backup verrà creato in </translation>
-    </message>
-</context>
-<context>
-    <name>self.profile_manager</name>
-    <message>
-        <location filename="../userInterface/interface_handler.py" line="57"/>
-        <source>Source Profile: </source>
-        <translation type="obsolete">Quellprofil: </translation>
+A backup will be created at &apos;{1}&apos;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="63"/>
-        <source>Target Profile: </source>
-        <translation type="obsolete">Zielprofil: </translation>
+        <location filename="../profiles/profile_remover.py" line="56"/>
+        <source>Aborting removal of profile &apos;{0}&apos; due to error:
+{1}</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/remove_sources_dialog.py" line="15"/>
-        <source>Remove Sources!</source>
-        <translation type="obsolete">Datenquellen löschen!</translation>
+        <location filename="../profiles/profile_remover.py" line="49"/>
+        <source>Backup could not be created</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/remove_sources_dialog.py" line="18"/>
-        <source>Are you sure you want to delete these sources?
-
-A backup will be created at </source>
-        <translation type="obsolete">Datenquellen wirklich löschen?
-
-Backup wird erstellt unter </translation>
-    </message>
-</context>
-<context>
-    <name>self.profilemngr</name>
-    <message>
-        <location filename="../userInterface/remove_profile_dialog.py" line="17"/>
-        <source>Remove Profile!</source>
-        <translation type="obsolete">Profil löschen!</translation>
+        <location filename="../profiles/profile_remover.py" line="60"/>
+        <source>Profile could not be removed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/remove_profile_dialog.py" line="20"/>
-        <source>Are you sure you want to delete the profile: </source>
-        <translation type="obsolete">Profil wirklich löschen: </translation>
+        <location filename="../profiles/profile_remover.py" line="64"/>
+        <source>Profile removed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/remove_profile_dialog.py" line="21"/>
-        <source>A backup will be created at </source>
-        <translation type="obsolete">Backup wird erstellt unter </translation>
+        <location filename="../profiles/profile_remover.py" line="64"/>
+        <source>Profile &apos;{}&apos; has been removed.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
