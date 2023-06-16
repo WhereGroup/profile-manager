@@ -94,7 +94,7 @@ class InterfaceHandler(QDialog):
                 font.setItalic(True)
                 self.dlg.comboBoxNamesTarget.setItemData(i, QVariant(font), Qt.FontRole)
             # Add profiles to list view
-            list_item = QListWidgetItem(QIcon(':/plugins/profile_manager/icon.png'), name)
+            list_item = QListWidgetItem(QIcon('../icon.png'), name)
             if name == active_profile_name:
                 font = list_item.font()
                 font.setItalic(True)

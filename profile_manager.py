@@ -40,9 +40,6 @@ from .profiles.profile_action_handler import ProfileActionHandler
 from .userInterface.interface_handler import InterfaceHandler
 from .utils import wait_cursor
 
-# Initialize Qt resources from file resources.py
-from .resources import *
-
 
 class ProfileManager:
     """QGIS Plugin Implementation."""
@@ -186,10 +183,9 @@ class ProfileManager:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ':/plugins/profile_manager/icon.png'
         self.add_action(
-            icon_path,
-            text=self.tr(u'Profile Manager'),
+            path.join(path.dirname(__file__), 'icon.png'),
+            text=self.tr('Profile Manager'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
