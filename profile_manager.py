@@ -72,7 +72,7 @@ class ProfileManager:
         self.plugin_dir = path.dirname(__file__)
         # initialize locale
 
-        locale = QSettings().value('locale/userLocale')[0:2]
+        locale = QSettings().value('locale/userLocale', QLocale().name())[0:2]
         locale_path = path.join(
             self.plugin_dir,
             'i18n',
