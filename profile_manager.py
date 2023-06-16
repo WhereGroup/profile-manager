@@ -337,7 +337,7 @@ class ProfileManager:
         clicked_button = QMessageBox.question(
             None,
             self.tr("Remove Data Sources"),
-            self.tr("Are you sure you want to remove these sources?\n\nA backup will be created at {}") \
+            self.tr("Are you sure you want to remove these sources?\n\nA backup will be created at '{}'") \
             .format(self.backup_path),
         )
 

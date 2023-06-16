@@ -28,7 +28,7 @@ class ProfileEditor(QDialog):
             self.qgis_path + "/" + old_profile_name.replace(" - ", "")
         )
 
-        dialog = NameProfileDialog(title=self.tr("Rename Profile {}").format(old_profile_name))
+        dialog = NameProfileDialog(title=self.tr("Rename Profile '{}'").format(old_profile_name))
         return_code = dialog.exec()
 
         if return_code == QDialog.Accepted:

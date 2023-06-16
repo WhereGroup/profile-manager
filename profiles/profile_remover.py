@@ -32,7 +32,7 @@ class ProfileRemover(QDialog):
         clicked_button = QMessageBox.question(
             None,
             self.tr("Remove Profile"),
-            self.tr("Are you sure you want to remove the profile '{0}'?\n\nA backup will be created at {1}") \
+            self.tr("Are you sure you want to remove the profile '{0}'?\n\nA backup will be created at '{1}'") \
             .format(profile_name, self.profile_manager.backup_path),
         )
 
@@ -62,5 +62,5 @@ class ProfileRemover(QDialog):
                 )
             else:
                 QMessageBox.information(
-                    None, self.tr("Profile removed"), self.tr("Profile '{}' has been removed").format(profile_name)
+                    None, self.tr("Profile removed"), self.tr("Profile '{}' has been removed.").format(profile_name)
                 )
