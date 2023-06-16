@@ -139,6 +139,9 @@
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_checkAll">
+            <property name="toolTip">
+             <string>Select all items in the source profile</string>
+            </property>
             <property name="text">
              <string>Select all items</string>
             </property>
@@ -146,6 +149,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="removeSourcesButton">
+            <property name="toolTip">
+             <string>Remove selected items from source profile</string>
+            </property>
             <property name="text">
              <string>Remove selected items</string>
             </property>
@@ -153,6 +159,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="importButton">
+            <property name="toolTip">
+             <string>Import selected items from source to target profile</string>
+            </property>
             <property name="text">
              <string>Import selected items</string>
             </property>
