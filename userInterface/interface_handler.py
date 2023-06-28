@@ -128,7 +128,7 @@ class InterfaceHandler(QDialog):
             file_tree_palette.setColor(QPalette.Highlight, QColor(93, 93, 93))
             self.dlg.treeWidgetSource.setPalette(file_tree_palette)
 
-            # set checkbox indiciator of listwidget from black to white
+            # set checkbox indicator of listwidget from black to white
             self.dlg.list_plugins.setPalette(file_tree_palette)
 
     def setup_connections(self):

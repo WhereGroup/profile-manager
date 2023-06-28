@@ -45,6 +45,7 @@ class DataSourceProvider:
 
         children = []
         try:
+            # the connections are inside the qgis section
             qgis_keys = self.parser['qgis']
         except KeyError:
             QgsMessageLog.logMessage(f"No entry for 'qgis' found", "Profile Manager", Qgis.Info)
@@ -55,7 +56,7 @@ class DataSourceProvider:
                 source_name_raw = search(self.service_name_regex, key)
                 source_name = source_name_raw.group(0).replace("\\", "")
 
-                source_name = unquote(source_name, 'latin-1')
+                source_name = unquote(source_name, 'latin-1')  # needed for e.g. %20 in connection names
 
                 data_sources_child = QTreeWidgetItem([source_name])
                 if is_source:

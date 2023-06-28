@@ -59,7 +59,7 @@ class ProfileManager:
         self.qgis_profiles_path = ""
         self.ini_path = ""
         self.operating_system = ""
-        self.qgs_profile_manager = None
+        self.qgs_profile_manager = None  # TODO in QGIS 3.30 we could and should use iface.userProfileManager()
         self.data_source_handler: DataSourceHandler = None
         self.data_source_provider: DataSourceProvider = None
         self.profile_manager_action_handler: ProfileActionHandler = None
