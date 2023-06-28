@@ -33,22 +33,30 @@ class InterfaceHandler(QDialog):
 
         # collect data sources from ini file
         data_source_list = [
-            self.data_source_provider.get_db_sources_tree('^ogr.GPKG.connections.*path', "GeoPackage", "providers",
-                                                          source_profile),
-            self.data_source_provider.get_db_sources_tree('^connections.*sqlitepath', "SpatiaLite", "SpatiaLite",
-                                                          source_profile),
-            self.data_source_provider.get_db_sources_tree('^connections.*host', "PostgreSQL", "PostgreSQL", source_profile),
+            self.data_source_provider.get_db_sources_tree(
+                '^ogr.GPKG.connections.*path', "GeoPackage", "providers", source_profile
+            ),
+            self.data_source_provider.get_db_sources_tree(
+                '^connections.*sqlitepath', "SpatiaLite", "SpatiaLite", source_profile
+            ),
+            self.data_source_provider.get_db_sources_tree(
+                '^connections.*host', "PostgreSQL", "PostgreSQL", source_profile
+            ),
             self.data_source_provider.get_db_sources_tree('^connections.*host', "MSSQL", "MSSQL", source_profile),
             self.data_source_provider.get_db_sources_tree('^connections.*host', "DB2", "DB2", source_profile),
             self.data_source_provider.get_db_sources_tree('^connections.*host', "Oracle", "Oracle", source_profile),
-            self.data_source_provider.get_data_sources_tree('^connections-wms.*url', "WMS", source_profile),
-            self.data_source_provider.get_data_sources_tree('^connections-wfs.*url', "WFS", source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-wms.*url', "WMS/WMTS", source_profile),
+            self.data_source_provider.get_data_sources_tree(
+                '^connections-wfs.*url', "WFS / OGC API - Features", source_profile
+            ),
             self.data_source_provider.get_data_sources_tree('^connections-wcs.*url', "WCS", source_profile),
-            self.data_source_provider.get_data_sources_tree('^connections-xyz.*url', "XYZ", source_profile),
-            self.data_source_provider.get_data_sources_tree('^connections-arcgismapserver.*url', "ArcGisMapServer",
-                                                            source_profile),
-            self.data_source_provider.get_data_sources_tree('^connections-arcgisfeatureserver.*url', "ArcGisFeatureServer",
-                                                            source_profile),
+            self.data_source_provider.get_data_sources_tree('^connections-xyz.*url', "XYZ Tiles", source_profile),
+            self.data_source_provider.get_data_sources_tree(
+                '^connections-arcgismapserver.*url', "ArcGisMapServer", source_profile
+            ),
+            self.data_source_provider.get_data_sources_tree(
+                '^connections-arcgisfeatureserver.*url', "ArcGisFeatureServer", source_profile
+            ),
             self.data_source_provider.get_data_sources_tree('^connections-geonode.*url', "GeoNode", source_profile)
         ]
 

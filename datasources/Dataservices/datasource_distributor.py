@@ -14,10 +14,10 @@ class DatasourceDistributor:
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
         self.available_web_sources = {
-            "WMS": [],
-            "WFS": [],
+            "WMS/WMTS": [],
+            "WFS / OGC API - Features": [],
             "WCS": [],
-            "XYZ": [],
+            "XYZ Tiles": [],
             "ArcGisMapServer": [],
             "ArcGisFeatureServer": [],
             "GeoNode": [],
