@@ -11,7 +11,6 @@ class DatasourceDistributor:
         self.parser.optionxform = str
         self.dictionary_of_checked_database_sources = {}
         self.dictionary_of_checked_web_sources = {}
-        self.dictionary_of_checked_sources = {}
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
         self.available_web_sources = {
@@ -26,10 +25,10 @@ class DatasourceDistributor:
 
     def import_sources(self):
         """Handles data source import"""
-        self.dictionary_of_checked_sources = {**self.dictionary_of_checked_database_sources,
-                                              **self.dictionary_of_checked_web_sources}
+        dictionary_of_checked_sources = {**self.dictionary_of_checked_database_sources,
+                                         **self.dictionary_of_checked_web_sources}
 
-        if self.dictionary_of_checked_sources:
+        if dictionary_of_checked_sources:
             self.parser.clear()
 
             self.source_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.source_qgis_ini_file)
@@ -41,7 +40,7 @@ class DatasourceDistributor:
             target_parser.optionxform = str
             target_parser.read(self.target_qgis_ini_file)
 
-            for key in self.dictionary_of_checked_sources:
+            for key in dictionary_of_checked_sources:
                 iterator = 0
 
                 if key in self.available_web_sources:
@@ -61,17 +60,17 @@ class DatasourceDistributor:
 
     def remove_sources(self):
         """Handles data source removal from file"""
-        self.dictionary_of_checked_sources = {**self.dictionary_of_checked_database_sources,
-                                              **self.dictionary_of_checked_web_sources}
+        dictionary_of_checked_sources = {**self.dictionary_of_checked_database_sources,
+                                         **self.dictionary_of_checked_web_sources}
 
         self.source_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.source_qgis_ini_file)
         self.target_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.target_qgis_ini_file)
 
-        if self.dictionary_of_checked_sources:
+        if dictionary_of_checked_sources:
             self.parser.clear()
             self.parser.read(self.source_qgis_ini_file)
 
-            for key in self.dictionary_of_checked_sources:
+            for key in dictionary_of_checked_sources:
                 iterator = 0
 
                 if key in self.available_web_sources:

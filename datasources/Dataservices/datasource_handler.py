@@ -39,18 +39,6 @@ class DataSourceHandler:
         self.dictionary_of_checked_web_sources = dictionary_of_checked_web_sources
         self.dictionary_of_checked_data_base_sources = dictionary_of_checked_data_base_sources
 
-        self.remove_empty_key_from_data_sources()
-
-    def remove_empty_key_from_data_sources(self):
-        """Removes empty keys from dict"""
-        empty_keys_db_sources = [k for k, v in self.dictionary_of_checked_data_base_sources.items() if not v]
-        for k in empty_keys_db_sources:
-            del self.dictionary_of_checked_data_base_sources[k]
-
-        empty_keys_web_sources = [k for k, v in self.dictionary_of_checked_web_sources.items() if not v]
-        for k in empty_keys_web_sources:
-            del self.dictionary_of_checked_web_sources[k]
-
     def import_sources(self):
         """Handles the whole data import action.
 

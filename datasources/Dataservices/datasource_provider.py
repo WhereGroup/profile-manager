@@ -1,4 +1,5 @@
 from configparser import RawConfigParser
+from collections import defaultdict
 from re import compile, search
 from urllib.parse import unquote
 
@@ -16,15 +17,15 @@ class DataSourceProvider:
         self.ini_path = path
         self.service_name_regex = compile(r'\\(.*?)\\')
         self.gpkg_service_name_regex = compile(r'\\(.+).\\')
-        self.dictionary_of_checked_web_sources = {}
-        self.dictionary_of_checked_database_sources = {}
 
     def update_path(self, path):
         """Sets .ini path"""
         self.ini_path = path
 
     def get_data_sources_tree(self, compile_string, tree_name, is_source):
-        """Returns a tree of items for all data sources matching the search string.
+        """Returns a tree of checkable items for all data sources matching the search string.
+
+        The tree contains a checkable item per data source found.
 
         Args:
             compile_string (str): Regex for searching corresponding data sources in ini file
@@ -126,33 +127,26 @@ class DataSourceProvider:
         else:
             return None
 
-    def init_checked_sources(self):
-        """"Loops trough sources and stores checked ones in the dict"""
+    def get_checked_sources(self):
+        """"Collects all items checked in the data source import dialog and sorts them into dicts.
 
-        self.dictionary_of_checked_web_sources = {
-            "WMS": [],
-            "WFS": [],
-            "WCS": [],
-            "XYZ": [],
-            "ArcGisMapServer": [],
-            "ArcGisFeatureServer": [],
-            "GeoNode": [],
-        }
+        Returns:
+            TODO
+        """
 
-        self.dictionary_of_checked_database_sources = {
-            "providers": [],
-            "SpatiaLite": [],
-            "PostgreSQL": [],
-            "MSSQL": [],
-            "DB2": [],
-            "Oracle": [],
-        }
+        dictionary_of_checked_web_sources = defaultdict(list)
+        dictionary_of_checked_database_sources = defaultdict(list)
 
         for item in self.dlg.treeWidgetSource.findItems("", Qt.MatchContains | Qt.MatchRecursive):
             if item.childCount() == 0 and item.checkState(0) == Qt.Checked:
-                if item.parent().text(0) in self.dictionary_of_checked_database_sources:
-                    self.dictionary_of_checked_database_sources[item.parent().text(0)].append(item.text(0))
-                elif item.parent().text(0) == "GeoPackage":
-                    self.dictionary_of_checked_database_sources["providers"].append(item.text(0))
+                parent_text = item.parent().text(0)  # the provider group in the tree
+                item_text = item.text(0)  # a specific data source in the provider's group
+                if parent_text in ["SpatiaLite", "PostgreSQL", "MSSQL", "DB2", "Oracle"]:
+                    dictionary_of_checked_database_sources[parent_text].append(item_text)
+                # GeoPackage connections are stored under [providers] in the ini
+                elif parent_text == "GeoPackage":
+                    dictionary_of_checked_database_sources["providers"].append(item_text)
                 else:
-                    self.dictionary_of_checked_web_sources[item.parent().text(0)].append(item.text(0))
+                    dictionary_of_checked_web_sources[parent_text].append(item_text)
+
+        return dictionary_of_checked_database_sources, dictionary_of_checked_web_sources
