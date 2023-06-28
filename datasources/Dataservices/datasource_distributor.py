@@ -13,15 +13,15 @@ class DatasourceDistributor:
         self.dictionary_of_checked_web_sources = {}
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
-        self.available_web_sources = {
-            "WMS/WMTS": [],
-            "WFS / OGC API - Features": [],
-            "WCS": [],
-            "XYZ Tiles": [],
-            "ArcGisMapServer": [],
-            "ArcGisFeatureServer": [],
-            "GeoNode": [],
-        }
+        self.known_web_sources = [
+            "WMS/WMTS",
+            "WFS / OGC API - Features",
+            "WCS",
+            "XYZ Tiles",
+            "ArcGisMapServer",
+            "ArcGisFeatureServer",
+            "GeoNode",
+        ]
 
     def import_sources(self):
         """Handles data source import"""
@@ -43,12 +43,13 @@ class DatasourceDistributor:
             for key in dictionary_of_checked_sources:
                 iterator = 0
 
-                if key in self.available_web_sources:
+                if key in self.known_web_sources:
                     if self.parser.has_section('qgis'):
                         for element in range(len(self.dictionary_of_checked_web_sources[key])):
                             self.import_web_sources(iterator, key, target_parser)
                             iterator += 1
                 else:
+                    # seems to be a database source
                     for element in range(len(self.dictionary_of_checked_database_sources[key])):
                         self.import_db_sources(iterator, key, target_parser)
                         iterator += 1
@@ -73,12 +74,13 @@ class DatasourceDistributor:
             for key in dictionary_of_checked_sources:
                 iterator = 0
 
-                if key in self.available_web_sources:
+                if key in self.known_web_sources:
                     if self.parser.has_section('qgis'):
                         for element in range(len(self.dictionary_of_checked_web_sources[key])):
                             self.remove_web_sources(key, iterator)
                             iterator += 1
                 else:
+                    # seems to be a database source
                     for element in range(len(self.dictionary_of_checked_database_sources[key])):
                         self.remove_db_sources(key, iterator)
                         iterator += 1
