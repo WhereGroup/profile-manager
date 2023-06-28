@@ -132,7 +132,7 @@ class DataSourceProvider:
         """"Collects all items checked in the data source import dialog and sorts them into dicts.
 
         Returns:
-            TODO
+            tuple[dict[list], dict[list]]: The checked web sources and the checked database sources as dicts of lists
         """
 
         dictionary_of_checked_web_sources = defaultdict(list)
@@ -150,4 +150,4 @@ class DataSourceProvider:
                 else:
                     dictionary_of_checked_web_sources[parent_text].append(item_text)
 
-        return dictionary_of_checked_database_sources, dictionary_of_checked_web_sources
+        return dictionary_of_checked_web_sources, dictionary_of_checked_database_sources

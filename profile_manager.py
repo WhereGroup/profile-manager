@@ -378,8 +378,8 @@ class ProfileManager:
 
     def get_checked_sources(self):
         """Gets all checked data sources"""
-        checked_database_sources, checked_web_sources = self.data_source_provider.get_checked_sources()
-        self.data_source_handler.set_data_sources(checked_database_sources, checked_web_sources)
+        checked_web_sources, checked_database_sources = self.data_source_provider.get_checked_sources()
+        self.data_source_handler.set_data_sources(checked_web_sources, checked_database_sources)
 
     def get_profile_paths(self):
         """Gets path to current chosen source and target profile"""
