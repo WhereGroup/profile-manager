@@ -14,14 +14,14 @@ class DatasourceDistributor:
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
         self.known_web_sources = [
-            "WMS/WMTS",
-            "WFS / OGC API - Features",
+            "WMS",
+            "WFS",
             "WCS",
-            "XYZ Tiles",
+            "XYZ",
             "ArcGisMapServer",
             "ArcGisFeatureServer",
             "GeoNode",
-        ]
+        ]  # must match the names in InterfaceHandler.populate_data_source_tree's data_source_list
 
     def import_sources(self):
         """Handles data source import"""
@@ -92,12 +92,18 @@ class DatasourceDistributor:
 
     def import_web_sources(self, iterator, key, target_parser):
         """Imports web source strings to target file"""
+        # get the whole qgis section
         to_be_imported_dictionary_sources = dict(self.parser.items("qgis"))
+
+        # filter to all entries matching the provider key (e. g. wms)
         to_be_imported_dictionary_sources = dict(
             filter(
+                # FIXME store the key to lookup separately to allow different GUI display vs technical implementation
                 lambda item: str("connections-" + key.lower()) in item[0], to_be_imported_dictionary_sources.items()
             )
         )
+
+        # filter to all remaining entries matching the data source name
         to_be_imported_dictionary_sources = dict(
             filter(
                 lambda item: "\\" + quote(
@@ -114,7 +120,11 @@ class DatasourceDistributor:
 
     def import_db_sources(self, iterator, key, target_parser):
         """Imports data base strings to target file"""
+
+        # filter to all entries matching the provider key (e. g. PostgreSQL)
         to_be_imported_dictionary_sources = dict(self.parser.items(key))
+
+        # filter to all remaining entries matching the data source name
         to_be_imported_dictionary_sources = dict(
             filter(
                 lambda item: "\\" + quote(
@@ -123,6 +133,7 @@ class DatasourceDistributor:
                 to_be_imported_dictionary_sources.items()
             )
         )
+
         for data_source in to_be_imported_dictionary_sources:
             if not target_parser.has_section(key):
                 target_parser[key] = {}
@@ -130,13 +141,19 @@ class DatasourceDistributor:
 
     def remove_web_sources(self, key, iterator):
         """Removes web source strings from target file"""
+
+        # get the whole qgis section
         to_be_deleted_dictionary_sources = dict(self.parser.items("qgis"))
+
+        # filter to all entries matching the provider key (e. g. wms)
         to_be_deleted_dictionary_sources = dict(
             filter(
                 lambda item: str("connections-" + key.lower()) in item[0],
                 to_be_deleted_dictionary_sources.items()
             )
         )
+
+        # filter to all remaining entries matching the data source name
         to_be_deleted_dictionary_sources = dict(
             filter(
                 lambda item: "\\" + quote(
@@ -151,7 +168,11 @@ class DatasourceDistributor:
 
     def remove_db_sources(self, key, iterator):
         """Remove data base sources from target file"""
+
+        # filter to all entries matching the provider key (e. g. PostgreSQL)
         to_be_deleted_dictionary_sources = dict(self.parser.items(key))
+
+        # filter to all remaining entries matching the data source name
         to_be_deleted_dictionary_sources = dict(
             filter(
                 lambda item: "\\" + quote(
