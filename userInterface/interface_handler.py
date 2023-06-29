@@ -121,6 +121,8 @@ class InterfaceHandler(QDialog):
                 list_item.setFont(font)
             self.dlg.list_profiles.addItem(list_item)
 
+        self.dlg.comboBoxNamesSource.setCurrentText(active_profile_name)
+
         self.dlg.comboBoxNamesSource.blockSignals(False)
         self.dlg.comboBoxNamesTarget.blockSignals(False)
         self.dlg.list_profiles.blockSignals(False)
