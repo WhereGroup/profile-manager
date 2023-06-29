@@ -17,7 +17,7 @@ class ProfileCopier(QDialog):
     def copy_profile(self):
         source_profile = self.dlg.list_profiles.currentItem()
         assert source_profile is not None  # should be forced by the GUI
-        source_profile_path = self.qgis_path + "/" + source_profile.text().replace(" - ", "") + "/"
+        source_profile_path = self.qgis_path + "/" + source_profile.text() + "/"
 
         dialog = NameProfileDialog()
         return_code = dialog.exec()

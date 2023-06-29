@@ -25,7 +25,7 @@ class ProfileEditor(QDialog):
         assert old_profile_name != Path(QgsApplication.qgisSettingsDirPath()).name
 
         profile_before_change = self.profile_manager.adjust_to_operating_system(
-            self.qgis_path + "/" + old_profile_name.replace(" - ", "")
+            self.qgis_path + "/" + old_profile_name
         )
 
         dialog = NameProfileDialog(title=self.tr("Rename Profile '{}'").format(old_profile_name))

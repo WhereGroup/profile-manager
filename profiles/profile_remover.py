@@ -26,7 +26,7 @@ class ProfileRemover(QDialog):
         assert profile_item is not None
         assert profile_item.text() != Path(QgsApplication.qgisSettingsDirPath()).name
 
-        profile_name = profile_item.text().replace(" - ", "")
+        profile_name = profile_item.text()
         profile_path = self.profile_manager.adjust_to_operating_system(self.qgis_path + "/" + profile_name)
 
         clicked_button = QMessageBox.question(
