@@ -3,7 +3,7 @@ name=Profile Manager
 qgisMinimumVersion=3.12
 description=Makes handling profiles easy by giving you an UI to easily import settings from one profile to another
 about=A QGIS Plugin that provides an UI to easily manage your profiles and import various settings from one profile to another
-version=0.5
+version=0.4
 author=WhereGroup GmbH
 email=info@wheregroup.com
 repository=https://github.com/WhereGroup/profile-manager/
@@ -21,12 +21,15 @@ hasProcessingProvider=no
 server=False
 
 changelog=
-    Version 0.5:
-    - TODO
-    - Big refactor and cleanup
+    Version 0.4:
+    - Fairly big refactoring and cleanup
     - Better and more verbose error handling
-    - TODO
+    - Improve performance
+    - Reduce backup size, change backup directory
+    - Improve dialogs and messages
+    - Add support for Vector Tiles connections
     - Fix a crash (thanks Ivano Giuliano!)
+    - ...
     Version 0.31:
     - Update metadata
     Version 0.3:
