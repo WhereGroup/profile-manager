@@ -48,7 +48,7 @@ class DataSourceProvider:
             # the connections are inside the qgis section
             qgis_keys = self.parser['qgis']
         except KeyError:
-            QgsMessageLog.logMessage(f"No entry for 'qgis' found", "Profile Manager", Qgis.Info)
+            QgsMessageLog.logMessage(f"- 0 {tree_name} connections found", "Profile Manager", Qgis.Info)
             return None
 
         for key in qgis_keys:
@@ -65,9 +65,7 @@ class DataSourceProvider:
 
                 children.append(data_sources_child)
 
-        QgsMessageLog.logMessage(
-            f"{len(children)} items for 'qgis'->'{compile_string}' found", "Profile Manager", Qgis.Info
-        )
+        QgsMessageLog.logMessage(f"- {len(children)} {tree_name} connections found", "Profile Manager", Qgis.Info)
         if children:
             data_sources_parent.addChildren(children)
             return data_sources_parent
@@ -100,7 +98,7 @@ class DataSourceProvider:
         try:
             service_block_keys = self.parser[service_block]
         except KeyError:
-            QgsMessageLog.logMessage(f"No entry for '{service_block}' found", "Profile Manager", Qgis.Info)
+            QgsMessageLog.logMessage(f"- 0 {tree_name} connections found", "Profile Manager", Qgis.Info)
             return None
 
         for key in service_block_keys:
@@ -121,7 +119,7 @@ class DataSourceProvider:
 
                 children.append(data_base_sources_child)
 
-        QgsMessageLog.logMessage(f"{len(children)} items for {service_block} found", "Profile Manager", Qgis.Info)
+        QgsMessageLog.logMessage(f"- {len(children)} {tree_name} connections found", "Profile Manager", Qgis.Info)
         if children:
             data_base_sources_parent.addChildren(children)
             return data_base_sources_parent

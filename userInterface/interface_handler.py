@@ -24,7 +24,9 @@ class InterfaceHandler(QDialog):
             profile_name (str): Name of the profile for labelling
             source_profile (bool): If the source profile is populated
         """
-        QgsMessageLog.logMessage(f"Scanning profile '{profile_name}' for data sources:", "Profile Manager", Qgis.Info)
+        QgsMessageLog.logMessage(
+            f"Scanning profile '{profile_name}' for data source connections:", "Profile Manager", Qgis.Info
+        )
         ini_paths = self.profile_manager.get_ini_paths()
         if source_profile:
             self.data_source_provider.ini_path = ini_paths["source"]
@@ -66,6 +68,9 @@ class InterfaceHandler(QDialog):
             ),
             self.data_source_provider.get_data_sources_tree('^connections-geonode.*url', "GeoNode", source_profile)
         ]
+        QgsMessageLog.logMessage(
+            f"Scanning profile '{profile_name}' for data source connections: Done!", "Profile Manager", Qgis.Info
+        )
 
         if source_profile:
             self.dlg.treeWidgetSource.clear()
