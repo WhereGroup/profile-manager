@@ -30,7 +30,7 @@ from sys import platform
 from qgis.PyQt.QtCore import QCoreApplication, QLocale, QSettings, QSize, QTranslator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox, QWidget
-from qgis.core import QgsUserProfileManager
+from qgis.core import Qgis, QgsMessageLog, QgsUserProfileManager
 
 # Import subclasses
 from .datasources.Dataservices.datasource_handler import DataSourceHandler
@@ -372,7 +372,7 @@ class ProfileManager:
                 self.interface_handler.uncheck_everything()
 
     def update_data_sources(self, only_update_plugins_for_target_profile=False, update_source=True):
-        """Updates data source in the UI"""
+        """Updates data sources and plugin lists in the UI"""
         source_profile = self.dlg.comboBoxNamesSource.currentText()
         target_profile = self.dlg.comboBoxNamesTarget.currentText()
 

@@ -93,6 +93,12 @@ class DatasourceDistributor:
 
     def import_web_sources(self, iterator, key, target_parser):
         """Imports web source strings to target file"""
+
+        # FIXME
+        # The code below uses the user-visible titles of data source groups for looking up the corresponding lines
+        # in the INI file. This obviously fails if we want to use nicely readable titles in the GUI.
+        # The following replacement is a temporary workaround to allow this without too much of a refactor.
+        # To be fixed when https://github.com/WhereGroup/profile-manager/issues/7 is solved.
         # get the whole qgis section
         to_be_imported_dictionary_sources = dict(self.parser.items("qgis"))
 
