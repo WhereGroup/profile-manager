@@ -41,7 +41,7 @@ class ProfileRemover(QDialog):
 
             with wait_cursor():
                 try:
-                    self.profile_manager.make_backup()
+                    self.profile_manager.make_backup(profile_name)
                 except OSError as e:
                     error_message = \
                         self.tr("Aborting removal of profile '{0}' due to error:\n{1}").format(profile_name, e)

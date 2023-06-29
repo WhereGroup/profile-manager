@@ -265,15 +265,22 @@ class ProfileManager:
         else:
             return path_to_adjust.replace("\\", "/").replace("/QGIS/QGIS3.ini", "/qgis.org/QGIS3.ini")
 
-    def make_backup(self):
-        """Creates a backup of the profile folders
+    def make_backup(self, profile: str):
+        """Creates a backup of the specified profile.
+
+        Args:
+            profile (str): Name of the profile to back up
 
         Raises:
             OSError: If copytree raises something
         """
         ts = int(time.time())
         target_path = self.backup_path + str(ts)
-        copytree(self.qgis_profiles_path, target_path)
+        source_path = f"{self.qgis_profiles_path}/{profile}"
+        QgsMessageLog.logMessage(
+            f"Backing up profile '{source_path}' to '{target_path}'", "Profile Manager", level=Qgis.Info
+        )
+        copytree(source_path, target_path)
 
     def import_action_handler(self):
         """Handles data source import
@@ -291,7 +298,7 @@ class ProfileManager:
             self.data_source_handler.set_path_to_bookmark_files(source_profile_name,
                                                                 target_profile_name)
             try:
-                self.make_backup()
+                self.make_backup(target_profile_name)
             except OSError as e:
                 error_message = self.tr("Aborting import due to error:\n{}").format(e)
 
@@ -328,7 +335,8 @@ class ProfileManager:
         Aborts and shows an error message if no backup could be made.
         """
         self.get_checked_sources()
-        self.data_source_handler.set_path_to_files(self.dlg.comboBoxNamesSource.currentText(), "")
+        source_profile_name = self.dlg.comboBoxNamesSource.currentText()
+        self.data_source_handler.set_path_to_files(source_profile_name, "")
 
         clicked_button = QMessageBox.question(
             None,
@@ -341,7 +349,7 @@ class ProfileManager:
             error_message = None
             with wait_cursor():
                 try:
-                    self.make_backup()
+                    self.make_backup(source_profile_name)
                 except OSError as e:
                     error_message = self.tr("Aborting removal due to error:\n{}").format(e)
 
