@@ -14,6 +14,7 @@ class DatasourceDistributor:
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
         self.known_web_sources = [
+            "Vector-Tile",
             "WMS",
             "WFS",
             "WCS",

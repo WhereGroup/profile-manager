@@ -49,6 +49,9 @@ class InterfaceHandler(QDialog):
             self.data_source_provider.get_db_sources_tree('^connections.*host', "MSSQL", "MSSQL", source_profile),
             self.data_source_provider.get_db_sources_tree('^connections.*host', "DB2", "DB2", source_profile),
             self.data_source_provider.get_db_sources_tree('^connections.*host', "Oracle", "Oracle", source_profile),
+            self.data_source_provider.get_data_sources_tree(
+                '^connections-vector-tile.*url', "Vector-Tile", source_profile
+            ),
             self.data_source_provider.get_data_sources_tree('^connections-wms.*url', "WMS", source_profile),
             self.data_source_provider.get_data_sources_tree(
                 '^connections-wfs.*url', "WFS", source_profile
