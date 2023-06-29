@@ -27,7 +27,7 @@ from pathlib import Path
 from shutil import copytree
 from sys import platform
 
-from qgis.PyQt.QtCore import QCoreApplication, QSettings, QSize, QTranslator
+from qgis.PyQt.QtCore import QCoreApplication, QLocale, QSettings, QSize, QTranslator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox, QWidget
 from qgis.core import QgsUserProfileManager
