@@ -4,42 +4,42 @@
 <context>
     <name>InterfaceHandler</name>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="59"/>
+        <location filename="../userInterface/interface_handler.py" line="79"/>
         <source>Source Profile: {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="65"/>
+        <location filename="../userInterface/interface_handler.py" line="85"/>
         <source>Target Profile: {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="207"/>
+        <location filename="../userInterface/interface_handler.py" line="228"/>
         <source>Target profile can not be same as source profile</source>
         <translation type="unfinished">Il profilo destinazione non può essere uguale al profilo origine</translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="220"/>
+        <location filename="../userInterface/interface_handler.py" line="241"/>
         <source>Please choose a profile to remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="222"/>
+        <location filename="../userInterface/interface_handler.py" line="243"/>
         <source>Please choose a profile to rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="224"/>
+        <location filename="../userInterface/interface_handler.py" line="245"/>
         <source>Please select a profile to copy from</source>
         <translation type="unfinished">Bitte zu kopierendes Profil wählen</translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="228"/>
+        <location filename="../userInterface/interface_handler.py" line="249"/>
         <source>The active profile cannot be removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../userInterface/interface_handler.py" line="230"/>
+        <location filename="../userInterface/interface_handler.py" line="251"/>
         <source>The active profile cannot be renamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -138,71 +138,71 @@
 <context>
     <name>ProfileManager</name>
     <message>
-        <location filename="../profile_manager.py" line="203"/>
+        <location filename="../profile_manager.py" line="199"/>
         <source>&amp;Profile Manager</source>
         <translation>&amp;Gestore Profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="191"/>
+        <location filename="../profile_manager.py" line="187"/>
         <source>Profile Manager</source>
         <translation>Gestore Profilo</translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="307"/>
+        <location filename="../profile_manager.py" line="311"/>
         <source>Aborting import due to error:
 {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="364"/>
+        <location filename="../profile_manager.py" line="369"/>
         <source>Backup could not be created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="325"/>
+        <location filename="../profile_manager.py" line="329"/>
         <source>Data Source Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="319"/>
+        <location filename="../profile_manager.py" line="323"/>
         <source>There were errors on import.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="325"/>
+        <location filename="../profile_manager.py" line="329"/>
         <source>Data sources have been successfully imported.
 
 Please refresh the QGIS Browser to see the changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="344"/>
+        <location filename="../profile_manager.py" line="349"/>
         <source>Remove Data Sources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="344"/>
-        <source>Are you sure you want to remove these sources?
-
-A backup will be created at &apos;{}&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../profile_manager.py" line="357"/>
+        <location filename="../profile_manager.py" line="362"/>
         <source>Aborting removal due to error:
 {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="366"/>
+        <location filename="../profile_manager.py" line="371"/>
         <source>Data Sources Removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../profile_manager.py" line="366"/>
+        <location filename="../profile_manager.py" line="371"/>
         <source>Data sources have been successfully removed.
 
 Please refresh the QGIS Browser to see the changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profile_manager.py" line="349"/>
+        <source>Are you sure you want to remove these sources?
+
+A backup will be created at &apos;{}&apos;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -362,13 +362,6 @@ Please refresh the QGIS Browser to see the changes.</source>
         <translation>Rimuovi Profilo</translation>
     </message>
     <message>
-        <location filename="../profiles/profile_remover.py" line="32"/>
-        <source>Are you sure you want to remove the profile &apos;{0}&apos;?
-
-A backup will be created at &apos;{1}&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../profiles/profile_remover.py" line="56"/>
         <source>Aborting removal of profile &apos;{0}&apos; due to error:
 {1}</source>
@@ -392,6 +385,13 @@ A backup will be created at &apos;{1}&apos;</source>
     <message>
         <location filename="../profiles/profile_remover.py" line="64"/>
         <source>Profile &apos;{}&apos; has been removed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../profiles/profile_remover.py" line="32"/>
+        <source>Are you sure you want to remove the profile &apos;{0}&apos;?
+
+A backup will be created at &apos;{1}&apos;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
