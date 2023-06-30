@@ -242,6 +242,8 @@ class InterfaceHandler(QDialog):
             self.dlg.removeProfileButton.setEnabled(False)
             self.dlg.editProfileButton.setToolTip(self.tr("The active profile cannot be renamed"))
             self.dlg.editProfileButton.setEnabled(False)
+            self.dlg.copyProfileButton.setToolTip("")
+            self.dlg.copyProfileButton.setEnabled(True)
         else:
             self.dlg.removeProfileButton.setToolTip("")
             self.dlg.removeProfileButton.setEnabled(True)
