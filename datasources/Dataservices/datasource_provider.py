@@ -13,7 +13,7 @@ class DataSourceProvider:
     def __init__(self, path, profile_manager):
         self.dlg = profile_manager
         self.parser = RawConfigParser()
-        self.parser.optionxform = str
+        self.parser.optionxform = str  # str = case sensitive option names
         self.ini_path = path
         self.service_name_regex = compile(r'\\(.*?)\\')
         self.gpkg_service_name_regex = compile(r'\\(.+).\\')

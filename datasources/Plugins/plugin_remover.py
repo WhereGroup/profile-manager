@@ -11,7 +11,7 @@ class PluginRemover(QObject):
         super().__init__(*args, **kwargs)
         self.profile_manager = profile_manager
         self.parser = RawConfigParser()
-        self.parser.optionxform = str
+        self.parser.optionxform = str  # str = case sensitive option names
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
         self.checked_items = []

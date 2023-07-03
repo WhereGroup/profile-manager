@@ -18,7 +18,7 @@ class CustomizationHandler:
         self.path_source_customini = ""
         self.path_target_customini = ""
         self.parser = RawConfigParser()
-        self.parser.optionxform = str
+        self.parser.optionxform = str  # str = case sensitive option names
 
     def import_customizations(self):
         if path.exists(self.path_source_customini):

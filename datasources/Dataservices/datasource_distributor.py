@@ -8,7 +8,7 @@ class DatasourceDistributor:
         self.dlg = profile_manager_dialog
         self.profile_manager = profile_manager
         self.parser = RawConfigParser()
-        self.parser.optionxform = str
+        self.parser.optionxform = str  # str = case sensitive option names
         self.dictionary_of_checked_database_sources = {}
         self.dictionary_of_checked_web_sources = {}
         self.source_qgis_ini_file = ""
@@ -38,7 +38,7 @@ class DatasourceDistributor:
             self.parser.read(self.source_qgis_ini_file)
 
             target_parser = RawConfigParser()
-            target_parser.optionxform = str
+            target_parser.optionxform = str  # str = case sensitive option names
             target_parser.read(self.target_qgis_ini_file)
 
             for key in dictionary_of_checked_sources:
