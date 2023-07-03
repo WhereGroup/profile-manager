@@ -48,7 +48,7 @@ class FunctionHandler:
                     QgsMessageLog.logMessage(f"Found '{entry}'", "Profile Manager", Qgis.Info)
 
             with open(self.target_qgis_ini_file, 'w') as qgisconf:
-                self.parser.write(qgisconf)
+                self.parser.write(qgisconf, space_around_delimiters=False)
         except Exception as e:
             # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly
             error = f"{type(e)}: {str(e)}"

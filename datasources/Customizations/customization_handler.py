@@ -40,7 +40,7 @@ class CustomizationHandler:
                 self.parser.set("UI", setting, ui_data[setting])
 
             with open(ini_paths["target"], 'w') as qgisconf:
-                self.parser.write(qgisconf)
+                self.parser.write(qgisconf, space_around_delimiters=False)
 
     def set_path_files(self, source, target):
         self.path_source_customini = self.profile_manager.adjust_to_operating_system(

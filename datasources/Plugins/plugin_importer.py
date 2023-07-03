@@ -47,7 +47,7 @@ class PluginImporter:
                     continue
 
         with open(self.target_qgis_ini_file, 'w') as qgisconf:
-            self.parser.write(qgisconf)
+            self.parser.write(qgisconf, space_around_delimiters=False)
 
     def set_ini_paths(self, source, target):
         self.source_qgis_ini_file = source

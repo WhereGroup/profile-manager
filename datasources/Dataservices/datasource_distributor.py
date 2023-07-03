@@ -56,7 +56,7 @@ class DatasourceDistributor:
                         iterator += 1
 
             with open(self.target_qgis_ini_file, 'w') as qgisconf:
-                target_parser.write(qgisconf)
+                target_parser.write(qgisconf, space_around_delimiters=False)
 
         self.profile_manager.update_data_sources(False)
 
@@ -87,7 +87,7 @@ class DatasourceDistributor:
                         iterator += 1
 
                 with open(self.source_qgis_ini_file, 'w') as qgisconf:
-                    self.parser.write(qgisconf)
+                    self.parser.write(qgisconf, space_around_delimiters=False)
 
         self.profile_manager.update_data_sources(False)
 

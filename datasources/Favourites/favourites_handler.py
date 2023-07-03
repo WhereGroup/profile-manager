@@ -52,7 +52,7 @@ class FavouritesHandler:
             self.parser.set("browser", "favourites", favourites_to_be_preserved + import_string)
 
             with open(self.target_qgis_ini_file, 'w') as qgisconf:
-                self.parser.write(qgisconf)
+                self.parser.write(qgisconf, space_around_delimiters=False)
         except Exception as e:
             # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly
             error = f"{type(e)}: {str(e)}"
