@@ -58,15 +58,13 @@ class PluginDisplayer:
             if entry in self.core_plugins:
                 continue
             else:
-                if available_plugins_from_source_profile[entry] == "true":
-                    active_plugins_from_source_profile.append(entry)
-
-                    list_entry = QListWidgetItem()
-                    list_entry.setText(str(entry))
-                    if not only_populate_target_profile:
-                        list_entry.setFlags(list_entry.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
-                        list_entry.setCheckState(Qt.Unchecked)
-                    self.plugin_list_widget.addItem(list_entry)
+                active_plugins_from_source_profile.append(entry)
+                list_entry = QListWidgetItem()
+                list_entry.setText(str(entry))
+                if not only_populate_target_profile:
+                    list_entry.setFlags(list_entry.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
+                    list_entry.setCheckState(Qt.Unchecked)
+                self.plugin_list_widget.addItem(list_entry)
 
         self.active_plugins_from_profile = active_plugins_from_source_profile
 
