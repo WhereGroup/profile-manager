@@ -17,8 +17,12 @@ class PluginImporter:
         self.checked_items = []
         self.plugin_list_widget = self.profile_manager.dlg.list_plugins
 
-    def import_active_plugins(self):
-        """Copies plugin folders into target destination"""
+    def import_selected_plugins(self):
+        """Copies selected plugins into target profile.
+
+        Copies the files and sets the INI options accordingly.
+        Imported plugins are always set to be active.
+        """
         self.parser.clear()
         self.parser.read(self.target_qgis_ini_file)
 

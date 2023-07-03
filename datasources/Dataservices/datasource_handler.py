@@ -94,18 +94,18 @@ class DataSourceHandler:
             self.customization_handler.set_path_files(self.source_profile_path, self.target_profile_path)
             self.customization_handler.import_customizations()  # currently has no error handling
 
-        self.plugin_handler.import_active_plugins()
+        self.plugin_handler.import_selected_plugins()
 
         return had_errors
 
     def import_plugins(self):
         self.setup_datasource_distributor()
-        self.plugin_handler.import_active_plugins()
+        self.plugin_handler.import_selected_plugins()
 
     def display_plugins(self, only_for_target_profile=False):
         """Displays plugins in treeWidget"""
         self.plugin_handler.set_path_files()
-        self.plugin_handler.show_active_plugins_in_list(only_for_target_profile=only_for_target_profile)
+        self.plugin_handler.populate_plugins_list(only_for_target_profile=only_for_target_profile)
 
     def remove_sources(self):
         """Handles data removal"""

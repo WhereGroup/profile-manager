@@ -13,25 +13,25 @@ class PluginHandler:
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
 
-    def show_active_plugins_in_list(self, only_for_target_profile=False):
+    def populate_plugins_list(self, only_for_target_profile=False):
         """Gets active plugins from ini file and displays them in treeWidget"""
         self.set_path_files()
         self.plugin_displayer.set_ini_paths(self.source_qgis_ini_file, self.target_qgis_ini_file)
-        self.plugin_displayer.show_active_plugins_in_list(only_populate_target_profile=only_for_target_profile)
+        self.plugin_displayer.populate_plugins_list(only_populate_target_profile=only_for_target_profile)
 
-    def import_active_plugins(self):
-        """Import chosen plugins into target profile"""
+    def import_selected_plugins(self):
+        """Import selected plugins into target profile"""
         self.set_path_files()
         self.plugin_importer.set_ini_paths(self.source_qgis_ini_file, self.target_qgis_ini_file)
-        self.plugin_importer.import_active_plugins()
-        self.show_active_plugins_in_list()
+        self.plugin_importer.import_selected_plugins()
+        self.populate_plugins_list()
 
     def remove_plugins(self):
         """Removes chosen plugins from source profile"""
         self.set_path_files()
         self.plugin_remover.set_ini_paths(self.source_qgis_ini_file, self.target_qgis_ini_file)
         self.plugin_remover.remove_plugins()
-        self.show_active_plugins_in_list()
+        self.populate_plugins_list()
 
     def set_path_files(self):
         """Sets file paths"""
