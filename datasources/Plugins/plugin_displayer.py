@@ -16,16 +16,18 @@ class PluginDisplayer:
         self.target_qgis_ini_file = ""
         self.checked_items = []
         self.active_plugins_from_profile = []
+        self.plugin_list_widget = self.profile_manager.dlg.list_plugins
+
+        # Via QGIS/python/plugins/CMakeLists.txt
         self.core_plugins = [
-            "GdalTools",  # not a plugin anymore since QGIS 3.0
-            "MetaSearch",
             "db_manager",
-            "processing",
+            "GdalTools",  # not a plugin anymore since QGIS 3.0
             "grassprovider",  # plugin since 3.22
-            "otbprovider"  # plugin since 3.22
+            "MetaSearch",
+            "otbprovider",  # plugin since 3.22
+            "processing",
             "sagaprovider",  # removed in 3.30
         ]
-        self.plugin_list_widget = self.profile_manager.dlg.list_plugins
 
     def show_active_plugins_in_list(self, only_populate_target_profile=False):
         """Gets active plugins from ini file and displays them in treeWidget
