@@ -1,6 +1,8 @@
 from configparser import RawConfigParser
 from urllib.parse import quote
 
+from ...utils import adjust_to_operating_system
+
 
 class DatasourceDistributor:
 
@@ -32,8 +34,8 @@ class DatasourceDistributor:
         if dictionary_of_checked_sources:
             self.parser.clear()
 
-            self.source_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.source_qgis_ini_file)
-            self.target_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.target_qgis_ini_file)
+            self.source_qgis_ini_file = adjust_to_operating_system(self.source_qgis_ini_file)
+            self.target_qgis_ini_file = adjust_to_operating_system(self.target_qgis_ini_file)
 
             self.parser.read(self.source_qgis_ini_file)
 
@@ -65,8 +67,8 @@ class DatasourceDistributor:
         dictionary_of_checked_sources = {**self.dictionary_of_checked_database_sources,
                                          **self.dictionary_of_checked_web_sources}
 
-        self.source_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.source_qgis_ini_file)
-        self.target_qgis_ini_file = self.profile_manager.adjust_to_operating_system(self.target_qgis_ini_file)
+        self.source_qgis_ini_file = adjust_to_operating_system(self.source_qgis_ini_file)
+        self.target_qgis_ini_file = adjust_to_operating_system(self.target_qgis_ini_file)
 
         if dictionary_of_checked_sources:
             self.parser.clear()

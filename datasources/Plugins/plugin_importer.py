@@ -5,6 +5,8 @@ from shutil import copytree
 
 from qgis.PyQt.QtCore import Qt
 
+from ...utils import adjust_to_operating_system
+
 
 class PluginImporter:
 
@@ -33,9 +35,9 @@ class PluginImporter:
 
                 profile_paths = self.profile_manager.get_profile_paths()
 
-                source_plugins_dir = self.profile_manager.adjust_to_operating_system(
+                source_plugins_dir = adjust_to_operating_system(
                     profile_paths["source"] + 'python/plugins/' + item.text() + '/')
-                target_plugins_dir = self.profile_manager.adjust_to_operating_system(
+                target_plugins_dir = adjust_to_operating_system(
                     profile_paths["target"] + 'python/plugins/' + item.text() + '/')
 
                 if path.exists(source_plugins_dir):

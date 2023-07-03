@@ -4,6 +4,7 @@ from shutil import rmtree
 from qgis.PyQt.QtCore import QObject, Qt
 from qgis.PyQt.QtWidgets import QMessageBox
 
+from ...utils import adjust_to_operating_system
 
 class PluginRemover(QObject):
 
@@ -34,7 +35,7 @@ class PluginRemover(QObject):
 
                 profile_paths = self.profile_manager.get_profile_paths()
 
-                source_plugins_dir = self.profile_manager.adjust_to_operating_system(
+                source_plugins_dir = adjust_to_operating_system(
                     profile_paths["source"] + 'python/plugins/' + plugin_name + '/')
 
                 try:

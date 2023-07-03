@@ -4,7 +4,7 @@ from shutil import rmtree
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.core import QgsApplication
 
-from ..utils import wait_cursor
+from ..utils import adjust_to_operating_system, wait_cursor
 
 
 class ProfileRemover(QDialog):
@@ -27,7 +27,7 @@ class ProfileRemover(QDialog):
         assert profile_item.text() != Path(QgsApplication.qgisSettingsDirPath()).name
 
         profile_name = profile_item.text()
-        profile_path = self.profile_manager.adjust_to_operating_system(self.qgis_path + "/" + profile_name)
+        profile_path = adjust_to_operating_system(self.qgis_path + "/" + profile_name)
 
         clicked_button = QMessageBox.question(
             None,

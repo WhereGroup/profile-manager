@@ -2,6 +2,7 @@ from configparser import RawConfigParser
 from os import path
 from shutil import copy2
 
+from ...utils import adjust_to_operating_system
 
 class CustomizationHandler:
     """Handler for importing UI customizations, as stored in QGIS/QGISCUSTOMIZATION3.ini .
@@ -43,9 +44,5 @@ class CustomizationHandler:
                 self.parser.write(qgisconf, space_around_delimiters=False)
 
     def set_path_files(self, source, target):
-        self.path_source_customini = self.profile_manager.adjust_to_operating_system(
-            source + "QGIS/QGISCUSTOMIZATION3.ini"
-        )
-        self.path_target_customini = self.profile_manager.adjust_to_operating_system(
-            target + "QGIS/QGISCUSTOMIZATION3.ini"
-        )
+        self.path_source_customini = adjust_to_operating_system(source + "QGIS/QGISCUSTOMIZATION3.ini")
+        self.path_target_customini = adjust_to_operating_system(target + "QGIS/QGISCUSTOMIZATION3.ini")

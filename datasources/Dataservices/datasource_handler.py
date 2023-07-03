@@ -8,7 +8,7 @@ from ..Models.model_handler import ModelHandler
 from ..Models.script_handler import ScriptHandler
 from ..Plugins.plugin_handler import PluginHandler
 from ..Styles.style_handler import StyleHandler
-
+from ...utils import adjust_to_operating_system
 
 class DataSourceHandler:
 
@@ -119,16 +119,14 @@ class DataSourceHandler:
         self.source_qgis_ini_file = ini_paths['source']
         self.target_qgis_ini_file = ini_paths['target']
 
-        self.source_profile_path = self.profile_manager.adjust_to_operating_system(self.qgis_path + '/'
-                                                                                   + source_profile_name + '/')
-        self.target_profile_path = self.profile_manager.adjust_to_operating_system(self.qgis_path + '/'
-                                                                                   + target_profile_name + '/')
+        self.source_profile_path = adjust_to_operating_system(self.qgis_path + '/' + source_profile_name + '/')
+        self.target_profile_path = adjust_to_operating_system(self.qgis_path + '/' + target_profile_name + '/')
 
     def set_path_to_bookmark_files(self, source_profile_name, target_profile_name):
         """Sets file paths"""
-        self.source_bookmark_file = self.profile_manager.adjust_to_operating_system(
+        self.source_bookmark_file = adjust_to_operating_system(
             self.qgis_path + '/' + source_profile_name + '/' + 'bookmarks.xml')
-        self.target_bookmark_file = self.profile_manager.adjust_to_operating_system(
+        self.target_bookmark_file = adjust_to_operating_system(
             self.qgis_path + '/' + target_profile_name + '/' + 'bookmarks.xml')
 
     def setup_datasource_distributor(self):

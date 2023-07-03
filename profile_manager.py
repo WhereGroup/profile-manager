@@ -38,7 +38,7 @@ from .datasources.Dataservices.datasource_provider import DataSourceProvider
 from .profile_manager_dialog import ProfileManagerDialog
 from .profiles.profile_action_handler import ProfileActionHandler
 from .userInterface.interface_handler import InterfaceHandler
-from .utils import wait_cursor
+from .utils import adjust_to_operating_system, wait_cursor
 
 
 class ProfileManager:
@@ -254,16 +254,7 @@ class ProfileManager:
                 self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini"
             self.operating_system = "unix"
 
-        self.backup_path = self.adjust_to_operating_system(str(Path.home()) + "/QGIS Profile Manager Backup/")
-
-    def adjust_to_operating_system(self, path_to_adjust):
-        """Adjusts path to current OS"""
-        if self.operating_system is "windows":
-            return path_to_adjust.replace("/", "\\")
-        elif self.operating_system is "unix":
-            return path_to_adjust.replace("\\", "/")
-        else:
-            return path_to_adjust.replace("\\", "/").replace("/QGIS/QGIS3.ini", "/qgis.org/QGIS3.ini")
+        self.backup_path = adjust_to_operating_system(str(Path.home()) + "/QGIS Profile Manager Backup/")
 
     def make_backup(self, profile: str):
         """Creates a backup of the specified profile.
@@ -391,9 +382,9 @@ class ProfileManager:
 
     def get_profile_paths(self):
         """Gets path to current chosen source and target profile"""
-        source = self.adjust_to_operating_system(
+        source = adjust_to_operating_system(
             self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/")
-        target = self.adjust_to_operating_system(
+        target = adjust_to_operating_system(
             self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/")
 
         profile_paths = {
@@ -406,14 +397,14 @@ class ProfileManager:
     def get_ini_paths(self):
         """Gets path to current chosen source and target qgis.ini file"""
         if self.operating_system == "mac":
-            ini_path_source = self.adjust_to_operating_system(
+            ini_path_source = adjust_to_operating_system(
                 self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/qgis.org/QGIS3.ini")
-            ini_path_target = self.adjust_to_operating_system(
+            ini_path_target = adjust_to_operating_system(
                 self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/qgis.org/QGIS3.ini")
         else:
-            ini_path_source = self.adjust_to_operating_system(
+            ini_path_source = adjust_to_operating_system(
                 self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/QGIS/QGIS3.ini")
-            ini_path_target = self.adjust_to_operating_system(
+            ini_path_target = adjust_to_operating_system(
                 self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/QGIS/QGIS3.ini")
 
         ini_paths = {
