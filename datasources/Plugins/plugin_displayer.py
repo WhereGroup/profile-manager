@@ -27,7 +27,7 @@ class PluginDisplayer:
         ]
 
     def populate_plugins_list(self, only_populate_target_profile=False):
-        """Gets plugins from ini file and add them to treeWidget
+        """Gets plugins from ini file and add them to treeWidget using their directory name
 
         Args:
             only_populate_target_profile (bool): If only the target list should be populated
@@ -51,14 +51,20 @@ class PluginDisplayer:
 
         # add an item to the list for each non-core plugin
         for plugin_name in plugins_in_profile:
-            if plugin_name in self.core_plugins:
-                continue
+            item = QListWidgetItem()
+
+            if not only_populate_target_profile:
+                item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                item.setCheckState(Qt.Unchecked)
             else:
-                item = QListWidgetItem(str(plugin_name))
-                if not only_populate_target_profile:
-                    item.setFlags(item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
-                    item.setCheckState(Qt.Unchecked)
-                plugin_list_widget.addItem(item)
+                item.setFlags(item.flags() & ~Qt.ItemIsSelectable)
+
+            if plugin_name in self.core_plugins:
+                item.setFlags(item.flags() & ~Qt.ItemIsEnabled)
+                plugin_name = f"{plugin_name} (Core Plugin)"
+
+            item.setText(str(plugin_name))
+            plugin_list_widget.addItem(item)
 
         if not only_populate_target_profile:
             self.populate_plugins_list(only_populate_target_profile=True)
