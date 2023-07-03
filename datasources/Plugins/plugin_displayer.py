@@ -17,11 +17,13 @@ class PluginDisplayer:
         self.checked_items = []
         self.active_plugins_from_profile = []
         self.core_plugins = [
-            "GdalTools",
+            "GdalTools",  # not a plugin anymore since QGIS 3.0
             "MetaSearch",
             "db_manager",
             "processing",
             "grassprovider",  # plugin since 3.22
+            "otbprovider"  # plugin since 3.22
+            "sagaprovider",  # removed in 3.30
         ]
         self.plugin_list_widget = self.profile_manager.dlg.list_plugins
 
