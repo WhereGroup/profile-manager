@@ -16,7 +16,13 @@ class PluginDisplayer:
         self.target_qgis_ini_file = ""
         self.checked_items = []
         self.active_plugins_from_profile = []
-        self.core_plugins = ["GdalTools", "MetaSearch", "db_manager", "processing"]
+        self.core_plugins = [
+            "GdalTools",
+            "MetaSearch",
+            "db_manager",
+            "processing",
+            "grassprovider",  # plugin since 3.22
+        ]
         self.plugin_list_widget = self.profile_manager.dlg.list_plugins
 
     def show_active_plugins_in_list(self, only_populate_target_profile=False):
