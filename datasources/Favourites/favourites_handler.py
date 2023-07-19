@@ -14,8 +14,6 @@ class FavouritesHandler:
     """
 
     def __init__(self):
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str  # str = case sensitive option names
         self.source_qgis_ini_file = None
         self.target_qgis_ini_file = None
 
@@ -25,11 +23,12 @@ class FavouritesHandler:
         Returns:
             error_message (str): An error message, if something XML related failed.
         """
-        self.parser.clear()
-        self.parser.read(self.source_qgis_ini_file)
+        source_ini_parser = RawConfigParser()
+        source_ini_parser.optionxform = str  # str = case-sensitive option names
+        source_ini_parser.read(self.source_qgis_ini_file)
 
         try:
-            get_favourites = dict(self.parser.items("browser"))
+            get_favourites = dict(source_ini_parser.items("browser"))
 
             favourites_to_be_imported = {}
             favourites_to_be_preserved = ""
@@ -38,20 +37,21 @@ class FavouritesHandler:
                 if entry == "favourites":
                     favourites_to_be_imported[entry] = get_favourites[entry]
 
-            self.parser.clear()
-            self.parser.read(self.target_qgis_ini_file)
+            target_ini_parser = RawConfigParser()
+            target_ini_parser.optionxform = str  # str = case-sensitive option names
+            target_ini_parser.read(self.target_qgis_ini_file)
 
-            if not self.parser.has_section("browser"):
-                self.parser["browser"] = {}
-            elif self.parser.has_option("browser", "favourites"):
-                favourites_to_be_preserved = self.parser.get("browser", "favourites")
+            if not target_ini_parser.has_section("browser"):
+                target_ini_parser["browser"] = {}
+            elif target_ini_parser.has_option("browser", "favourites"):
+                favourites_to_be_preserved = target_ini_parser.get("browser", "favourites")
 
             import_string = favourites_to_be_imported["favourites"].replace(favourites_to_be_preserved, "")
 
-            self.parser.set("browser", "favourites", favourites_to_be_preserved + import_string)
+            target_ini_parser.set("browser", "favourites", favourites_to_be_preserved + import_string)
 
             with open(self.target_qgis_ini_file, 'w') as qgisconf:
-                self.parser.write(qgisconf, space_around_delimiters=False)
+                target_ini_parser.write(qgisconf, space_around_delimiters=False)
         except Exception as e:
             # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly
             error = f"{type(e)}: {str(e)}"

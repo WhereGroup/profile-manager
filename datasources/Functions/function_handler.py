@@ -18,8 +18,6 @@ class FunctionHandler:
     """
 
     def __init__(self):
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str  # str = case sensitive option names
         self.source_qgis_ini_file = None
         self.target_qgis_ini_file = None
 
@@ -30,24 +28,28 @@ class FunctionHandler:
             error_message (str): An error message, if something failed.
         """
         QgsMessageLog.logMessage(f"Importing expression functions...", "Profile Manager", Qgis.Info)
-        self.parser.clear()
-        self.parser.read(self.source_qgis_ini_file)
+
+        source_ini_parser = RawConfigParser()
+        source_ini_parser.optionxform = str  # str = case-sensitive option names
+
+        source_ini_parser.read(self.source_qgis_ini_file)
         try:
-            get_functions = dict(self.parser.items("expressions"))
+            get_functions = dict(source_ini_parser.items("expressions"))
 
-            self.parser.clear()
-            self.parser.read(self.target_qgis_ini_file)
+            target_ini_parser = RawConfigParser()
+            target_ini_parser.optionxform = str  # str = case-sensitive option names
+            target_ini_parser.read(self.target_qgis_ini_file)
 
-            if not self.parser.has_section("expressions"):
-                self.parser["expressions"] = {}
+            if not target_ini_parser.has_section("expressions"):
+                target_ini_parser["expressions"] = {}
 
             for entry in get_functions:
                 if "expression" in entry or "helpText" in entry:
-                    self.parser.set("expressions", entry, get_functions[entry])
+                    target_ini_parser.set("expressions", entry, get_functions[entry])
                     QgsMessageLog.logMessage(f"Found '{entry}'", "Profile Manager", Qgis.Info)
 
             with open(self.target_qgis_ini_file, 'w') as qgisconf:
-                self.parser.write(qgisconf, space_around_delimiters=False)
+                target_ini_parser.write(qgisconf, space_around_delimiters=False)
         except Exception as e:
             # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly
             error = f"{type(e)}: {str(e)}"

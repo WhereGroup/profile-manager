@@ -21,7 +21,6 @@ class BookmarkHandler:
     def __init__(self):
         self.source_bookmark_file = ""
         self.target_bookmark_file = ""
-        self.parser = et.XMLParser(remove_blank_text=True)
 
     def import_bookmarks(self):
         """Imports bookmarks from source to target profile.
@@ -31,7 +30,7 @@ class BookmarkHandler:
         """
         # get the element tree of the source file
         try:
-            source_tree = et.parse(self.source_bookmark_file, self.parser)
+            source_tree = et.parse(self.source_bookmark_file, et.XMLParser(remove_blank_text=True))
             self.insert_bookmarks_to_target_profile(source_tree)
         except et.Error as e:
             error = f"{type(e)}: {str(e)}"
@@ -49,7 +48,7 @@ class BookmarkHandler:
         # get the element tree of the target file
         # fill if empty
         try:
-            target_tree = et.parse(self.target_bookmark_file, self.parser)
+            target_tree = et.parse(self.target_bookmark_file, et.XMLParser(remove_blank_text=True))
         except et.Error:
             raise
 

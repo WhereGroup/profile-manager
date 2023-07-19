@@ -8,10 +8,6 @@ class PluginDisplayer:
 
     def __init__(self, profile_manager):
         self.profile_manager = profile_manager
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str  # str = case sensitive option names
-        self.parser_target = RawConfigParser()
-        self.parser_target.optionxform = str  # str = case sensitive option names
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
 
@@ -32,22 +28,23 @@ class PluginDisplayer:
         Args:
             only_populate_target_profile (bool): If only the target list should be populated
         """
-        self.parser.clear()
+        ini_parser = RawConfigParser()
+        ini_parser.optionxform = str  # str = case-sensitive option names
 
         if only_populate_target_profile:
-            self.parser.read(self.target_qgis_ini_file)
+            ini_parser.read(self.target_qgis_ini_file)
             plugin_list_widget = self.profile_manager.dlg.list_plugins_target
         else:
-            self.parser.read(self.source_qgis_ini_file)
+            ini_parser.read(self.source_qgis_ini_file)
             plugin_list_widget = self.profile_manager.dlg.list_plugins
 
         plugin_list_widget.clear()
 
         try:
-            plugins_in_profile = dict(self.parser.items("PythonPlugins"))
+            plugins_in_profile = dict(ini_parser.items("PythonPlugins"))
         except NoSectionError:
-            self.parser["PythonPlugins"] = {}
-            plugins_in_profile = dict(self.parser.items("PythonPlugins"))
+            ini_parser["PythonPlugins"] = {}
+            plugins_in_profile = dict(ini_parser.items("PythonPlugins"))
 
         # add an item to the list for each non-core plugin
         for plugin_name in plugins_in_profile:

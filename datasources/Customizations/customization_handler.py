@@ -18,8 +18,6 @@ class CustomizationHandler:
         self.profile_manager = profile_manager
         self.path_source_customini = ""
         self.path_target_customini = ""
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str  # str = case sensitive option names
 
     def import_customizations(self):
         if path.exists(self.path_source_customini):
@@ -27,21 +25,25 @@ class CustomizationHandler:
 
         ini_paths = self.profile_manager.get_ini_paths()
 
-        self.parser.read(ini_paths["source"])
+        source_ini_parser = RawConfigParser()
+        source_ini_parser.optionxform = str  # str = case-sensitive option names
+        source_ini_parser.read(ini_paths["source"])
 
-        if self.parser.has_section('UI'):
-            ui_data = dict(self.parser.items('UI'))
-            self.parser.clear()
-            self.parser.read(ini_paths["target"])
+        if source_ini_parser.has_section('UI'):
+            ui_data = dict(source_ini_parser.items('UI'))
+
+            target_ini_parser = RawConfigParser()
+            target_ini_parser.optionxform = str  # str = case-sensitive option names
+            target_ini_parser.read(ini_paths["target"])
 
             for setting in ui_data:
-                if not self.parser.has_section("UI"):
-                    self.parser["UI"] = {}
+                if not target_ini_parser.has_section("UI"):
+                    target_ini_parser["UI"] = {}
 
-                self.parser.set("UI", setting, ui_data[setting])
+                target_ini_parser.set("UI", setting, ui_data[setting])
 
             with open(ini_paths["target"], 'w') as qgisconf:
-                self.parser.write(qgisconf, space_around_delimiters=False)
+                target_ini_parser.write(qgisconf, space_around_delimiters=False)
 
     def set_path_files(self, source, target):
         self.path_source_customini = adjust_to_operating_system(source + "QGIS/QGISCUSTOMIZATION3.ini")

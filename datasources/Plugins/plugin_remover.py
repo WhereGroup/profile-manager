@@ -11,8 +11,6 @@ class PluginRemover(QObject):
     def __init__(self, profile_manager, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.profile_manager = profile_manager
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str  # str = case sensitive option names
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
         self.checked_items = []
@@ -20,8 +18,9 @@ class PluginRemover(QObject):
 
     def remove_plugins(self):
         """Removes all enabled plugins"""
-        self.parser.clear()
-        self.parser.read(self.source_qgis_ini_file)
+        ini_parser = RawConfigParser()
+        ini_parser.optionxform = str  # str = case-sensitive option names
+        ini_parser.read(self.source_qgis_ini_file)
 
         self.plugin_list_widget = self.profile_manager.dlg.list_plugins
         for item in self.plugin_list_widget.findItems("", Qt.MatchContains | Qt.MatchRecursive):
@@ -30,8 +29,8 @@ class PluginRemover(QObject):
                 self.checked_items.append(plugin_name)
 
                 # Removes plugin from active state list in PythonPlugins Section
-                if self.parser.has_option("PythonPlugins", plugin_name):
-                    self.parser.remove_option("PythonPlugins", plugin_name)
+                if ini_parser.has_option("PythonPlugins", plugin_name):
+                    ini_parser.remove_option("PythonPlugins", plugin_name)
 
                 profile_paths = self.profile_manager.get_profile_paths()
 
@@ -49,7 +48,7 @@ class PluginRemover(QObject):
                     continue
 
         with open(self.source_qgis_ini_file, 'w') as qgisconf:
-            self.parser.write(qgisconf, space_around_delimiters=False)
+            ini_parser.write(qgisconf, space_around_delimiters=False)
 
     def set_ini_paths(self, source, target):
         self.source_qgis_ini_file = source
