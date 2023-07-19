@@ -21,9 +21,9 @@ def adjust_to_operating_system(path_to_adjust):
     """
     if platform.startswith('win32'):
         return path_to_adjust.replace("/", "\\")
-    elif platform == "unix":
+    elif platform.startswith("linux") or "bsd" in platform:
         return path_to_adjust.replace("\\", "/")
-    elif platform == "darwin":  # macos
+    elif platform.startswith("darwin"):  # macos
         return path_to_adjust.replace("\\", "/").replace("/QGIS/QGIS3.ini", "/qgis.org/QGIS3.ini")
     else:
-        raise NotImplementedError("Unsupported platform '{platform}'")
+        raise NotImplementedError(f"Unsupported platform '{platform}'")
