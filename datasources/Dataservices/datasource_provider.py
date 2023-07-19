@@ -18,10 +18,6 @@ class DataSourceProvider:
         self.service_name_regex = compile(r'\\(.*?)\\')
         self.gpkg_service_name_regex = compile(r'\\(.+).\\')
 
-    def update_path(self, path):
-        """Sets .ini path"""
-        self.ini_path = path
-
     def get_data_sources_tree(self, compile_string, tree_name, is_source):
         """Returns a tree of checkable items for all data sources matching the search string.
 
