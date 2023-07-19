@@ -13,8 +13,7 @@ class FavouritesHandler:
     ...
     """
 
-    def __init__(self, profile_manager):
-        self.profile_manager = profile_manager
+    def __init__(self):
         self.parser = RawConfigParser()
         self.parser.optionxform = str  # str = case sensitive option names
         self.source_qgis_ini_file = None

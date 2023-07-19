@@ -18,9 +18,7 @@ class BookmarkHandler:
     </Bookmarks>
     """
 
-    def __init__(self, qgis_path, profile_manager):
-        self.profile_manager = profile_manager
-        self.qgis_path = qgis_path
+    def __init__(self):
         self.bookmark_list = []
         self.source_bookmark_file = ""
         self.target_bookmark_file = ""

@@ -24,14 +24,14 @@ class DataSourceHandler:
         self.target_qgis_ini_file = ""
         self.source_bookmark_file = ""
         self.target_bookmark_file = ""
-        self.datasource_distributor = DatasourceDistributor(profile_manager_dialog, profile_manager)
+        self.datasource_distributor = DatasourceDistributor(self.profile_manager)
         self.plugin_handler = PluginHandler(self.profile_manager)
-        self.bookmark_handler = BookmarkHandler(self.qgis_path, self.profile_manager)
-        self.favourites_handler = FavouritesHandler(self.profile_manager)
-        self.models_handler = ModelHandler(self.profile_manager)
-        self.scripts_handler = ScriptHandler(self.profile_manager)
+        self.bookmark_handler = BookmarkHandler()
+        self.favourites_handler = FavouritesHandler()
+        self.models_handler = ModelHandler()
+        self.scripts_handler = ScriptHandler()
         self.styles_handler = StyleHandler()
-        self.function_handler = FunctionHandler(self.profile_manager)
+        self.function_handler = FunctionHandler()
         self.customization_handler = CustomizationHandler(self.profile_manager)
 
     def set_data_sources(self, dictionary_of_checked_web_sources, dictionary_of_checked_data_base_sources):

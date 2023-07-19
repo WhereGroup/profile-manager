@@ -14,8 +14,7 @@ class ScriptHandler:
     ...
     """
 
-    def __init__(self, profile_manager):
-        self.profile_manager = profile_manager
+    def __init__(self):
         self.source_scripts_dir = ""
         self.target_scripts_dir = ""
 

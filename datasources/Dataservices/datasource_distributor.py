@@ -6,8 +6,7 @@ from ...utils import adjust_to_operating_system
 
 class DatasourceDistributor:
 
-    def __init__(self, profile_manager_dialog, profile_manager):
-        self.dlg = profile_manager_dialog
+    def __init__(self, profile_manager):
         self.profile_manager = profile_manager
         self.parser = RawConfigParser()
         self.parser.optionxform = str  # str = case sensitive option names

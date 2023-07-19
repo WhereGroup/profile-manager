@@ -14,8 +14,7 @@ class ModelHandler:
     ...
     """
 
-    def __init__(self, profile_manager):
-        self.profile_manager = profile_manager
+    def __init__(self):
         self.source_model_dir = ""
         self.target_model_dir = ""
 
