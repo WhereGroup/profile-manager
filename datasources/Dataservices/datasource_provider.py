@@ -125,28 +125,3 @@ class DataSourceProvider:
             return data_base_sources_parent
         else:
             return None
-
-    def get_checked_sources(self):
-        """"Collects all items checked in the data source import dialog and sorts them into dicts.
-
-        Returns:
-            tuple[dict[list], dict[list]]: The checked web sources and the checked database sources as dicts of lists
-        """
-
-        dictionary_of_checked_web_sources = defaultdict(list)
-        dictionary_of_checked_database_sources = defaultdict(list)
-
-        for item in self.dlg.treeWidgetSource.findItems("", Qt.MatchContains | Qt.MatchRecursive):
-            if item.childCount() == 0 and item.checkState(0) == Qt.Checked:
-                parent_text = item.parent().text(0)  # the provider group in the tree
-                item_text = item.text(0)  # a specific data source in the provider's group
-                # FIXME hardcoded list of GUI titles
-                if parent_text in ["SpatiaLite", "PostgreSQL", "MSSQL", "DB2", "Oracle"]:
-                    dictionary_of_checked_database_sources[parent_text].append(item_text)
-                # GeoPackage connections are stored under [providers] in the ini
-                elif parent_text == "GeoPackage":  # FIXME hardcoded relationship between GeoPackage and 'providers'
-                    dictionary_of_checked_database_sources["providers"].append(item_text)
-                else:
-                    dictionary_of_checked_web_sources[parent_text].append(item_text)
-
-        return dictionary_of_checked_web_sources, dictionary_of_checked_database_sources

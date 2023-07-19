@@ -22,12 +22,13 @@
 """
 # Import the code for the dialog
 import time
+from collections import defaultdict
 from os import path
 from pathlib import Path
 from shutil import copytree
 from sys import platform
 
-from qgis.PyQt.QtCore import QCoreApplication, QLocale, QSettings, QSize, QTranslator
+from qgis.PyQt.QtCore import QCoreApplication, QLocale, QSettings, QSize, Qt, QTranslator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox, QWidget
 from qgis.core import Qgis, QgsMessageLog, QgsUserProfileManager
@@ -376,8 +377,27 @@ class ProfileManager:
         self.data_source_handler.display_plugins(only_for_target_profile=only_update_plugins_for_target_profile)
 
     def get_checked_sources(self):
-        """Gets all checked data sources"""
-        checked_web_sources, checked_database_sources = self.data_source_provider.get_checked_sources()
+        """Gets all checked data sources and communicates them to the data source handler"""
+
+        # TODO why is the split between web and db necessary??
+        # TODO what titles does QGIS use in the GUI? can we use the same when needed in the plugin?
+
+        checked_web_sources = defaultdict(list)
+        checked_database_sources = defaultdict(list)
+
+        for item in self.dlg.treeWidgetSource.findItems("", Qt.MatchContains | Qt.MatchRecursive):
+            if item.childCount() == 0 and item.checkState(0) == Qt.Checked:
+                parent_text = item.parent().text(0)  # the provider group in the tree
+                item_text = item.text(0)  # a specific data source in the provider's group
+                # FIXME hardcoded list of GUI titles
+                if parent_text in ["SpatiaLite", "PostgreSQL", "MSSQL", "DB2", "Oracle"]:
+                    checked_database_sources[parent_text].append(item_text)
+                # GeoPackage connections are stored under [providers] in the ini
+                elif parent_text == "GeoPackage":  # FIXME hardcoded relationship between GeoPackage and 'providers'
+                    checked_database_sources["providers"].append(item_text)
+                else:
+                    checked_web_sources[parent_text].append(item_text)
+
         self.data_source_handler.set_data_sources(checked_web_sources, checked_database_sources)
 
     def get_profile_paths(self):
