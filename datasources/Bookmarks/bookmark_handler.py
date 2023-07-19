@@ -19,7 +19,6 @@ class BookmarkHandler:
     """
 
     def __init__(self):
-        self.bookmark_list = []
         self.source_bookmark_file = ""
         self.target_bookmark_file = ""
         self.parser = et.XMLParser(remove_blank_text=True)
