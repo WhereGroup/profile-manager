@@ -1,13 +1,13 @@
 from PyQt5.QtWidgets import QMessageBox
 from .datasource_distributor import DatasourceDistributor
-from ..Bookmarks.bookmark_handler import BookmarkHandler
-from ..Customizations.customization_handler import CustomizationHandler
-from ..Favourites.favourites_handler import FavouritesHandler
-from ..Functions.function_handler import FunctionHandler
-from ..Models.model_handler import ModelHandler
-from ..Models.script_handler import ScriptHandler
+from ..Bookmarks.bookmark_handler import import_bookmarks
+from ..Customizations.customization_handler import import_customizations
+from ..Favourites.favourites_handler import import_favourites
+from ..Functions.function_handler import import_expression_functions
+from ..Models.model_handler import import_models
+from ..Models.script_handler import import_scripts
 from ..Plugins.plugin_handler import PluginHandler
-from ..Styles.style_handler import StyleHandler
+from ..Styles.style_handler import import_styles
 from ...utils import adjust_to_operating_system
 
 class DataSourceHandler:
@@ -26,13 +26,6 @@ class DataSourceHandler:
         self.target_bookmark_file = ""
         self.datasource_distributor = DatasourceDistributor(self.profile_manager)
         self.plugin_handler = PluginHandler(self.profile_manager)
-        self.bookmark_handler = BookmarkHandler()
-        self.favourites_handler = FavouritesHandler()
-        self.models_handler = ModelHandler()
-        self.scripts_handler = ScriptHandler()
-        self.styles_handler = StyleHandler()
-        self.function_handler = FunctionHandler()
-        self.customization_handler = CustomizationHandler(self.profile_manager)
 
     def set_data_sources(self, dictionary_of_checked_web_sources, dictionary_of_checked_data_base_sources):
         """Sets data sources"""
@@ -52,47 +45,37 @@ class DataSourceHandler:
         self.datasource_distributor.import_sources()
 
         if self.dlg.bookmark_check.isChecked():
-            self.bookmark_handler.set_path_files(self.source_bookmark_file, self.target_bookmark_file)
-            error_message = self.bookmark_handler.import_bookmarks()
+            error_message = import_bookmarks(self.source_bookmark_file, self.target_bookmark_file)
             if error_message:
                 had_errors = True
                 QMessageBox.critical(None, "Error while importing bookmarks", error_message)
 
         if self.dlg.favourites_check.isChecked():
-            self.favourites_handler.set_path_files(self.source_qgis_ini_file, self.target_qgis_ini_file)
-            error_message = self.favourites_handler.import_favourites()
+            error_message = import_favourites(self.source_qgis_ini_file, self.target_qgis_ini_file)
             if error_message:
                 had_errors = True
                 QMessageBox.critical(None, "Error while importing favourites", error_message)
 
         if self.dlg.models_check.isChecked():
-            self.models_handler.set_path_files(self.source_profile_path + "processing/models/",
-                                               self.target_profile_path + "processing/models/")
-            self.models_handler.import_models()  # currently has no error handling
+            import_models(self.source_profile_path, self.target_profile_path)  # currently has no error handling
 
         if self.dlg.scripts_check.isChecked():
-            self.scripts_handler.set_path_files(self.source_profile_path + "processing/scripts/",
-                                                self.target_profile_path + "processing/scripts/")
-            self.scripts_handler.import_scripts()  # currently has no error handling
+            import_scripts(self.source_profile_path, self.target_profile_path)  # currently has no error handling
 
         if self.dlg.styles_check.isChecked():
-            self.styles_handler.set_db_connection(self.source_profile_path + "symbology-style.db",
-                                                  self.target_profile_path + "symbology-style.db")
-            error_message = self.styles_handler.import_styles()
+            error_message = import_styles(self.source_profile_path, self.target_profile_path)
             if error_message:
                 had_errors = True
                 QMessageBox.critical(None, "Error while importing styles", error_message)
 
         if self.dlg.functions_check.isChecked():
-            self.function_handler.set_path_files(self.source_qgis_ini_file, self.target_qgis_ini_file)
-            error_message = self.function_handler.import_functions()
+            error_message = import_expression_functions(self.source_qgis_ini_file, self.target_qgis_ini_file)
             if error_message:
                 had_errors = True
                 QMessageBox.critical(None, "Error while importing expression functions", error_message)
 
         if self.dlg.ui_check.isChecked():
-            self.customization_handler.set_path_files(self.source_profile_path, self.target_profile_path)
-            self.customization_handler.import_customizations()  # currently has no error handling
+            import_customizations(self.source_profile_path, self.target_profile_path)  # currently has no error handling
 
         self.plugin_handler.import_selected_plugins()
 

@@ -3,35 +3,32 @@ from pathlib import Path
 from shutil import copy2
 
 
-class ModelHandler:
-    """Handler for importing Processing models, as stored in processing/models/ .
+def import_models(source_profile_path: str, target_profile_path: str):
+    """Imports Processing models from source to target profile.
 
-    Note: Existing scripts with identical filenames will be overwritten!
+    Note: Existing models with identical filenames will be overwritten!
 
-    E.g.
+    Models are stored in the processing/models/ subdirectory of a profile, e.g.:
+    ...
     processing/models/my_model.model3
     processing/models/das.model3
     ...
+
+    Args:
+        TODO
     """
+    source_models_dir = source_profile_path + "processing/models/"
+    target_models_dir = target_profile_path + "processing/models/"
 
-    def __init__(self):
-        self.source_model_dir = ""
-        self.target_model_dir = ""
-
-    def import_models(self):
-        if path.exists(self.source_model_dir):
-            if not path.exists(self.target_model_dir):
-                Path(self.target_model_dir).mkdir(parents=True, exist_ok=True)
-            for item in listdir(self.source_model_dir):
-                source = path.join(self.source_model_dir, item)
-                dest = path.join(self.target_model_dir, item)
-                if path.isdir(source):
-                    continue
-                else:
-                    copy2(source, dest)
-        else:
-            pass
-
-    def set_path_files(self, source_model_dir, target_model_dir):
-        self.source_model_dir = source_model_dir
-        self.target_model_dir = target_model_dir
+    if path.exists(source_models_dir):
+        if not path.exists(target_models_dir):
+            Path(target_models_dir).mkdir(parents=True, exist_ok=True)
+        for item in listdir(source_models_dir):
+            source = path.join(source_models_dir, item)
+            dest = path.join(target_models_dir, item)
+            if path.isdir(source):
+                continue
+            else:
+                copy2(source, dest)
+    else:
+        pass
