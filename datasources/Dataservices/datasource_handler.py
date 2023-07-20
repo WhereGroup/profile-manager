@@ -82,7 +82,6 @@ class DataSourceHandler:
         return had_errors
 
     def import_plugins(self):
-        self.setup_datasource_distributor()
         self.plugin_handler.import_selected_plugins()
 
     def display_plugins(self, only_for_target_profile=False):
