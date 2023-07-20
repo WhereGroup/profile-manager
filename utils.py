@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 from sys import platform
 
-from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtCore import Qt, QCoreApplication
 from qgis.PyQt.QtGui import QCursor, QGuiApplication
 
 
@@ -27,3 +27,7 @@ def adjust_to_operating_system(path_to_adjust):
         return path_to_adjust.replace("\\", "/").replace("/QGIS/QGIS3.ini", "/qgis.org/QGIS3.ini")
     else:
         raise NotImplementedError(f"Unsupported platform '{platform}'")
+
+def tr(message):
+    # for translating in non-QObject class contexts
+    return QCoreApplication.translate('ProfileManager', message)

@@ -97,7 +97,7 @@ class DataSourceHandler:
 
     def remove_datasources_and_plugins(self):
         """Handles data removal"""
-        self.plugin_handler.remove_plugins()
+        self.plugin_handler.remove_selected_plugins()
 
         remove_data_sources(
             self.source_qgis_ini_file,

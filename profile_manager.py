@@ -400,19 +400,18 @@ class ProfileManager:
 
         self.data_source_handler.set_data_sources(checked_web_sources, checked_database_sources)
 
-    def get_profile_paths(self):
-        """Gets path to current chosen source and target profile"""
+    def get_profile_paths(self) -> tuple[str, str]:
+        """Returns the paths to the currently chosen source and target profiles.
+
+        Returns:
+            tuple[str, str]: Path to source profile, path to target profile
+        """
         source = adjust_to_operating_system(
             self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesSource.currentText() + "/")
         target = adjust_to_operating_system(
             self.qgis_profiles_path + "/" + self.dlg.comboBoxNamesTarget.currentText() + "/")
 
-        profile_paths = {
-            "source": source,
-            "target": target,
-        }
-
-        return profile_paths
+        return source, target
 
     def get_ini_paths(self):
         """Gets path to current chosen source and target qgis.ini file"""
