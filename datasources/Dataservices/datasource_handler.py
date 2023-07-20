@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMessageBox
-from .datasource_distributor import DatasourceDistributor
+from .datasource_distributor import import_data_sources, remove_data_sources
 from ..Bookmarks.bookmark_handler import import_bookmarks
 from ..Customizations.customization_handler import import_customizations
 from ..Favourites.favourites_handler import import_favourites
@@ -24,7 +24,6 @@ class DataSourceHandler:
         self.target_qgis_ini_file = ""
         self.source_bookmark_file = ""
         self.target_bookmark_file = ""
-        self.datasource_distributor = DatasourceDistributor(self.profile_manager)
         self.plugin_handler = PluginHandler(self.profile_manager)
 
     def set_data_sources(self, dictionary_of_checked_web_sources, dictionary_of_checked_data_base_sources):
@@ -32,7 +31,8 @@ class DataSourceHandler:
         self.dictionary_of_checked_web_sources = dictionary_of_checked_web_sources
         self.dictionary_of_checked_data_base_sources = dictionary_of_checked_data_base_sources
 
-    def import_sources(self):
+    def import_all_the_things(self):
+        # TODO rename
         """Handles the whole data import action.
 
         Returns:
@@ -40,9 +40,14 @@ class DataSourceHandler:
         """
         had_errors = False
 
-        self.setup_datasource_distributor()
+        import_data_sources(
+            self.source_qgis_ini_file,
+            self.target_qgis_ini_file,
+            self.dictionary_of_checked_web_sources,
+            self.dictionary_of_checked_data_base_sources,
+        )
 
-        self.datasource_distributor.import_sources()
+        self.profile_manager.update_data_sources(False)  # TODO moved from DS_D.import_data_sources, do we really need it?!
 
         if self.dlg.bookmark_check.isChecked():
             error_message = import_bookmarks(self.source_bookmark_file, self.target_bookmark_file)
@@ -77,6 +82,7 @@ class DataSourceHandler:
         if self.dlg.ui_check.isChecked():
             import_customizations(self.source_profile_path, self.target_profile_path)  # currently has no error handling
 
+        # TODO why does data source import also import plugins again?
         self.plugin_handler.import_selected_plugins()
 
         return had_errors
@@ -89,11 +95,17 @@ class DataSourceHandler:
         self.plugin_handler.set_path_files()
         self.plugin_handler.populate_plugins_list(only_for_target_profile=only_for_target_profile)
 
-    def remove_sources(self):
+    def remove_datasources_and_plugins(self):
         """Handles data removal"""
-        self.setup_datasource_distributor()
         self.plugin_handler.remove_plugins()
-        self.datasource_distributor.remove_sources()
+
+        remove_data_sources(
+            self.source_qgis_ini_file,
+            self.dictionary_of_checked_web_sources,
+            self.dictionary_of_checked_data_base_sources,
+        )
+
+        self.profile_manager.update_data_sources(False)  # TODO moved from DS_D.remove_data_sources, do we really need it?!
 
     def set_path_to_files(self, source_profile_name, target_profile_name):
         """Sets file paths"""
@@ -110,11 +122,3 @@ class DataSourceHandler:
             self.qgis_path + '/' + source_profile_name + '/' + 'bookmarks.xml')
         self.target_bookmark_file = adjust_to_operating_system(
             self.qgis_path + '/' + target_profile_name + '/' + 'bookmarks.xml')
-
-    def setup_datasource_distributor(self):
-        """Sets up data source distributor"""
-        self.datasource_distributor.dictionary_of_checked_web_sources = self.dictionary_of_checked_web_sources
-        self.datasource_distributor.dictionary_of_checked_database_sources = \
-            self.dictionary_of_checked_data_base_sources
-        self.datasource_distributor.source_qgis_ini_file = self.source_qgis_ini_file
-        self.datasource_distributor.target_qgis_ini_file = self.target_qgis_ini_file

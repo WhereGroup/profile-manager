@@ -300,7 +300,7 @@ class ProfileManager:
 
         with wait_cursor():
             self.data_source_handler.import_plugins()
-            errors_on_sources = self.data_source_handler.import_sources()
+            errors_on_sources = self.data_source_handler.import_all_the_things()
             self.update_data_sources(only_update_plugins_for_target_profile=True)
 
         if errors_on_sources:
@@ -346,7 +346,7 @@ class ProfileManager:
                     error_message = self.tr("Aborting removal due to error:\n{}").format(e)
 
                 if not error_message:
-                    self.data_source_handler.remove_sources()
+                    self.data_source_handler.remove_datasources_and_plugins()
                     self.update_data_sources(True)
 
             if error_message:
