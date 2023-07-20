@@ -6,6 +6,8 @@ from qgis.PyQt.QtGui import QColor, QIcon, QPalette
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
 from qgis.core import Qgis, QgsApplication, QgsMessageLog
 
+from ..datasources.Dataservices.datasource_provider import get_data_sources_tree, get_db_sources_tree
+
 
 class InterfaceHandler(QDialog):
 
@@ -14,65 +16,78 @@ class InterfaceHandler(QDialog):
 
         self.profile_manager = profile_manager
         self.dlg = profile_manager_dialog
-        self.data_source_provider = profile_manager.data_source_provider
         self.checked = False
 
-    def populate_data_source_tree(self, profile_name, source_profile):
+    def populate_data_source_tree(self, profile_name, populating_source_profile):
         """Populates the chosen profile's data source tree.
 
         Args:
             profile_name (str): Name of the profile for labelling
-            source_profile (bool): If the source profile is populated
+            populating_source_profile (bool): If the source profile is populated
         """
         QgsMessageLog.logMessage(
             f"Scanning profile '{profile_name}' for data source connections:", "Profile Manager", Qgis.Info
         )
         ini_paths = self.profile_manager.get_ini_paths()
-        if source_profile:
-            self.data_source_provider.ini_path = ini_paths["source"]
+        if populating_source_profile:
+            target_ini_path = ini_paths["source"]
         else:
-            self.data_source_provider.ini_path = ini_paths["target"]
+            target_ini_path = ini_paths["target"]
 
-        # collect data sources from ini file
+        # collect data source tree items from ini file
         # WARNING:
         # The "tree_name"s must match the connections-* lines in the INI (in lowercase) as they are used for lookup
         # later in the DatasourceDistributor! E.g. "Vector-Tile" will be used for "connections-vector-tile ...".
         # FIXME Use a better structure with a clear separation of names for the GUI and strings to lookup in the INI.
         data_source_list = [
-            self.data_source_provider.get_db_sources_tree(
-                '^ogr.GPKG.connections.*path', "GeoPackage", "providers", source_profile
+            get_db_sources_tree(
+                target_ini_path, '^ogr.GPKG.connections.*path', "GeoPackage", "providers", make_checkable=populating_source_profile
             ),
-            self.data_source_provider.get_db_sources_tree(
-                '^connections.*sqlitepath', "SpatiaLite", "SpatiaLite", source_profile
+            get_db_sources_tree(
+                target_ini_path, '^connections.*sqlitepath', "SpatiaLite", "SpatiaLite", make_checkable=populating_source_profile
             ),
-            self.data_source_provider.get_db_sources_tree(
-                '^connections.*host', "PostgreSQL", "PostgreSQL", source_profile
+            get_db_sources_tree(
+                target_ini_path, '^connections.*host', "PostgreSQL", "PostgreSQL", make_checkable=populating_source_profile
             ),
-            self.data_source_provider.get_db_sources_tree('^connections.*host', "MSSQL", "MSSQL", source_profile),
-            self.data_source_provider.get_db_sources_tree('^connections.*host', "DB2", "DB2", source_profile),
-            self.data_source_provider.get_db_sources_tree('^connections.*host', "Oracle", "Oracle", source_profile),
-            self.data_source_provider.get_data_sources_tree(
-                '^connections-vector-tile.*url', "Vector-Tile", source_profile
+            get_db_sources_tree(
+                target_ini_path, '^connections.*host', "MSSQL", "MSSQL", make_checkable=populating_source_profile
             ),
-            self.data_source_provider.get_data_sources_tree('^connections-wms.*url', "WMS", source_profile),
-            self.data_source_provider.get_data_sources_tree(
-                '^connections-wfs.*url', "WFS", source_profile
+            get_db_sources_tree(
+                target_ini_path, '^connections.*host', "DB2", "DB2", make_checkable=populating_source_profile
             ),
-            self.data_source_provider.get_data_sources_tree('^connections-wcs.*url', "WCS", source_profile),
-            self.data_source_provider.get_data_sources_tree('^connections-xyz.*url', "XYZ", source_profile),
-            self.data_source_provider.get_data_sources_tree(
-                '^connections-arcgismapserver.*url', "ArcGisMapServer", source_profile
+            get_db_sources_tree(
+                target_ini_path, '^connections.*host', "Oracle", "Oracle", make_checkable=populating_source_profile
             ),
-            self.data_source_provider.get_data_sources_tree(
-                '^connections-arcgisfeatureserver.*url', "ArcGisFeatureServer", source_profile
+            get_data_sources_tree(
+                target_ini_path, '^connections-vector-tile.*url', "Vector-Tile", make_checkable=populating_source_profile
             ),
-            self.data_source_provider.get_data_sources_tree('^connections-geonode.*url', "GeoNode", source_profile)
+            get_data_sources_tree(
+                target_ini_path, '^connections-wms.*url', "WMS", make_checkable=populating_source_profile
+            ),
+            get_data_sources_tree(
+                target_ini_path, '^connections-wfs.*url', "WFS", make_checkable=populating_source_profile
+            ),
+            get_data_sources_tree(
+                target_ini_path, '^connections-wcs.*url', "WCS", make_checkable=populating_source_profile
+            ),
+            get_data_sources_tree(
+                target_ini_path, '^connections-xyz.*url', "XYZ", make_checkable=populating_source_profile
+            ),
+            get_data_sources_tree(
+                target_ini_path, '^connections-arcgismapserver.*url', "ArcGisMapServer", make_checkable=populating_source_profile
+            ),
+            get_data_sources_tree(
+                target_ini_path, '^connections-arcgisfeatureserver.*url', "ArcGisFeatureServer", make_checkable=populating_source_profile
+            ),
+            get_data_sources_tree(
+                target_ini_path, '^connections-geonode.*url', "GeoNode", make_checkable=populating_source_profile
+            ),
         ]
         QgsMessageLog.logMessage(
             f"Scanning profile '{profile_name}' for data source connections: Done!", "Profile Manager", Qgis.Info
         )
 
-        if source_profile:
+        if populating_source_profile:
             self.dlg.treeWidgetSource.clear()
             self.dlg.treeWidgetSource.setHeaderLabel(self.tr("Source Profile: {}").format(profile_name))
             for dataSource in data_source_list:
