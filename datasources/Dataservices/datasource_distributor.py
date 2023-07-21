@@ -13,7 +13,7 @@ KNOWN_WEB_SOURCES = [
     "ArcGisMapServer",
     "ArcGisFeatureServer",
     "GeoNode",
-]  # must match the names in InterfaceHandler.populate_data_source_tree's data_source_list
+]  # must match the names in data source provider's DATA_SOURCE_SEARCH_LOCATIONS. TODO re-use a single rules object!
 
 def import_data_sources(
         source_qgis_ini_file: str,

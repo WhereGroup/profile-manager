@@ -6,7 +6,7 @@ from qgis.PyQt.QtGui import QColor, QIcon, QPalette
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
 from qgis.core import Qgis, QgsApplication, QgsMessageLog
 
-from ..datasources.Dataservices.datasource_provider import get_data_sources_tree, get_db_sources_tree
+from ..datasources.Dataservices.datasource_provider import get_data_sources_tree, DATA_SOURCE_SEARCH_LOCATIONS
 
 
 class InterfaceHandler(QDialog):
@@ -35,70 +35,26 @@ class InterfaceHandler(QDialog):
             target_ini_path = ini_paths["target"]
 
         # collect data source tree items from ini file
-        # WARNING:
-        # The "tree_name"s must match the connections-* lines in the INI (in lowercase) as they are used for lookup
-        # later in the DatasourceDistributor! E.g. "Vector-Tile" will be used for "connections-vector-tile ...".
-        # FIXME Use a better structure with a clear separation of names for the GUI and strings to lookup in the INI.
-        data_source_list = [
-            get_db_sources_tree(
-                target_ini_path, '^ogr.GPKG.connections.*path', "GeoPackage", "providers", make_checkable=populating_source_profile
-            ),
-            get_db_sources_tree(
-                target_ini_path, '^connections.*sqlitepath', "SpatiaLite", "SpatiaLite", make_checkable=populating_source_profile
-            ),
-            get_db_sources_tree(
-                target_ini_path, '^connections.*host', "PostgreSQL", "PostgreSQL", make_checkable=populating_source_profile
-            ),
-            get_db_sources_tree(
-                target_ini_path, '^connections.*host', "MSSQL", "MSSQL", make_checkable=populating_source_profile
-            ),
-            get_db_sources_tree(
-                target_ini_path, '^connections.*host', "DB2", "DB2", make_checkable=populating_source_profile
-            ),
-            get_db_sources_tree(
-                target_ini_path, '^connections.*host', "Oracle", "Oracle", make_checkable=populating_source_profile
-            ),
-            get_data_sources_tree(
-                target_ini_path, '^connections-vector-tile.*url', "Vector-Tile", make_checkable=populating_source_profile
-            ),
-            get_data_sources_tree(
-                target_ini_path, '^connections-wms.*url', "WMS", make_checkable=populating_source_profile
-            ),
-            get_data_sources_tree(
-                target_ini_path, '^connections-wfs.*url', "WFS", make_checkable=populating_source_profile
-            ),
-            get_data_sources_tree(
-                target_ini_path, '^connections-wcs.*url', "WCS", make_checkable=populating_source_profile
-            ),
-            get_data_sources_tree(
-                target_ini_path, '^connections-xyz.*url', "XYZ", make_checkable=populating_source_profile
-            ),
-            get_data_sources_tree(
-                target_ini_path, '^connections-arcgismapserver.*url', "ArcGisMapServer", make_checkable=populating_source_profile
-            ),
-            get_data_sources_tree(
-                target_ini_path, '^connections-arcgisfeatureserver.*url', "ArcGisFeatureServer", make_checkable=populating_source_profile
-            ),
-            get_data_sources_tree(
-                target_ini_path, '^connections-geonode.*url', "GeoNode", make_checkable=populating_source_profile
-            ),
-        ]
+        data_source_list = []
+        for provider in DATA_SOURCE_SEARCH_LOCATIONS.keys():
+            tree_root_item = get_data_sources_tree(target_ini_path, provider, make_checkable=populating_source_profile)
+            if tree_root_item:
+                data_source_list.append(tree_root_item)
         QgsMessageLog.logMessage(
             f"Scanning profile '{profile_name}' for data source connections: Done!", "Profile Manager", Qgis.Info
         )
 
+        # populate tree
         if populating_source_profile:
             self.dlg.treeWidgetSource.clear()
             self.dlg.treeWidgetSource.setHeaderLabel(self.tr("Source Profile: {}").format(profile_name))
-            for dataSource in data_source_list:
-                if dataSource is not None:
-                    self.dlg.treeWidgetSource.addTopLevelItem(dataSource)
+            for tree_root_item in data_source_list:
+                self.dlg.treeWidgetSource.addTopLevelItem(tree_root_item)
         else:
             self.dlg.treeWidgetTarget.clear()
             self.dlg.treeWidgetTarget.setHeaderLabel(self.tr("Target Profile: {}").format(profile_name))
-            for dataSource in data_source_list:
-                if dataSource is not None:
-                    self.dlg.treeWidgetTarget.addTopLevelItem(dataSource)
+            for tree_root_item in data_source_list:
+                self.dlg.treeWidgetTarget.addTopLevelItem(tree_root_item)
 
     def populate_profile_listings(self):
         """Populates the main list as well as the comboboxes with available profile names.
