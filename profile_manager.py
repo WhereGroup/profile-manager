@@ -35,7 +35,6 @@ from qgis.core import Qgis, QgsMessageLog, QgsUserProfileManager
 
 # Import subclasses
 from .datasources.Dataservices.datasource_handler import DataSourceHandler
-from .datasources.Dataservices.datasource_provider import DataSourceProvider
 from .profile_manager_dialog import ProfileManagerDialog
 from .profiles.profile_action_handler import ProfileActionHandler
 from .userInterface.interface_handler import InterfaceHandler
@@ -62,7 +61,6 @@ class ProfileManager:
         self.operating_system = ""
         self.qgs_profile_manager = None  # TODO in QGIS 3.30 we could and should use iface.userProfileManager()
         self.data_source_handler: DataSourceHandler = None
-        self.data_source_provider: DataSourceProvider = None
         self.profile_manager_action_handler: ProfileActionHandler = None
         self.interface_handler: InterfaceHandler = None
         self.dlg = None
@@ -216,7 +214,6 @@ class ProfileManager:
 
                 self.qgs_profile_manager = QgsUserProfileManager(self.qgis_profiles_path)
                 self.data_source_handler = DataSourceHandler(self.dlg, self)
-                self.data_source_provider = DataSourceProvider(self.ini_path, self.dlg)
                 self.profile_manager_action_handler = ProfileActionHandler(self.dlg, self.qgis_profiles_path, self)
                 self.interface_handler = InterfaceHandler(self, self.dlg)
 
