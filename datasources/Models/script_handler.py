@@ -1,31 +1,33 @@
-# -*- coding: utf-8 -*-
-
+from os import listdir, path
 from pathlib import Path
-from os import path, listdir
-from shutil import copytree, copy2
+from shutil import copy2
 
 
-class ScriptHandler:
+def import_scripts(source_profile_path: str, target_profile_path: str):
+    """Imports Processing scripts from source to target profile.
 
-    def __init__(self, profile_manager):
-        self.profile_manager = profile_manager
-        self.source_scripts_dir = ""
-        self.target_scripts_dir = ""
+    Note: Existing scripts with identical filenames will be overwritten!
 
-    def import_scripts(self):
-        if path.exists(self.source_scripts_dir):
-            if not path.exists(self.target_scripts_dir):
-                Path(self.target_scripts_dir).mkdir(parents=True, exist_ok=True)
-            for item in listdir(self.source_scripts_dir):
-                source = path.join(self.source_scripts_dir, item)
-                dest = path.join(self.target_scripts_dir, item)
-                if path.isdir(source):
-                    continue
-                else:
-                    copy2(source, dest)
-        else:
-            pass
+    Scripts are stored in the processing/scripts/ subdirectory of a profile, e.g.:
+    ...
+    processing/scripts/my_great_processing_script.py
+    processing/scripts/snakes.py
+    ...
 
-    def set_path_files(self, source_model_dir, target_model_dir):
-        self.source_scripts_dir = source_model_dir
-        self.target_scripts_dir = target_model_dir
+    Args:
+        TODO
+    """
+    source_scripts_dir = source_profile_path + "processing/scripts/"
+    target_scripts_dir = target_profile_path + "processing/scripts/"
+    if path.exists(source_scripts_dir):
+        if not path.exists(target_scripts_dir):
+            Path(target_scripts_dir).mkdir(parents=True, exist_ok=True)
+        for item in listdir(source_scripts_dir):
+            source = path.join(source_scripts_dir, item)
+            dest = path.join(target_scripts_dir, item)
+            if path.isdir(source):
+                continue
+            else:
+                copy2(source, dest)
+    else:
+        pass

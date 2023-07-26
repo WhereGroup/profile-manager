@@ -48,7 +48,7 @@ class TestInit(unittest.TestCase):
         LOGGER.info(file_path)
         metadata = []
         parser = configparser.ConfigParser()
-        parser.optionxform = str
+        parser.optionxform = str  # str = case sensitive option names
         parser.read(file_path)
         message = 'Cannot find a section named "general" in %s' % file_path
         assert parser.has_section('general'), message

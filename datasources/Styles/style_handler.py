@@ -1,51 +1,55 @@
-# -*- coding: utf-8 -*-
+import sqlite3
 
-from sqlite3 import connect
 from os import path
 from shutil import copy
-import sys
+
+from qgis.core import Qgis, QgsMessageLog
 
 
-class StyleHandler:
+def import_styles(source_profile_path: str, target_profile_path: str):
+    """Imports styles from source profile to target profile.
 
-    def __init__(self):
-        self.source_db = None
-        self.target_db = None
+    Note: Currently it only imports symbols (not 3D) and label settings, not 3D symbols, color ramps, tags, etc.
 
-        self.source_db_cursor = None
-        self.target_db_cursor = None
+    Styles are stored in symbology-style.db.
 
-    def set_db_connection(self, source_db_path, target_db_path):
-        self.source_db = connect(source_db_path)
-        if path.isfile(target_db_path) is False:
-            copy(source_db_path, target_db_path.replace("symbology-style.db", ""))
+    Args:
+        TODO
 
-        self.target_db = connect(target_db_path)
+    Returns:
+        error_message (str): An error message, if something SQL related failed.
+    """
 
-        self.source_db_cursor = self.source_db.cursor()
-        self.target_db_cursor = self.target_db.cursor()
+    source_db_path = source_profile_path + "symbology-style.db"
+    target_db_path = target_profile_path + "symbology-style.db"
 
-    def import_styles(self):
-        try:
-            self.import_labels()
-            self.import_symbols()
+    if not path.isfile(target_db_path):
+        copy(source_db_path, target_db_path)
+        return
 
-            self.source_db.commit()
-            self.target_db.commit()
+    source_db = sqlite3.connect(source_db_path)
+    target_db = sqlite3.connect(target_db_path)
 
-            self.source_db.close()
-            self.target_db.close()
-        except:
-            print("Oops!", sys.exc_info()[0], "occurred.")
+    source_db_cursor = source_db.cursor()
+    target_db_cursor = target_db.cursor()
 
-    def import_symbols(self):
-        custom_symbols = self.source_db_cursor.execute('SELECT * FROM symbol WHERE id>115')
+    try:
+        # import label settings
+        custom_labels = source_db_cursor.execute('SELECT * FROM labelsettings')
+        target_db_cursor.executemany('INSERT OR REPLACE INTO labelsettings VALUES (?,?,?,?)', custom_labels)
 
-        self.target_db_cursor.executemany('INSERT OR REPLACE INTO symbol VALUES (?,?,?,?)', custom_symbols)
+        # import symbols
+        # FIXME: This has a hard-coded assumption that symbols with ids <= 115 are builtin symbols,
+        #        this will fail as soon as a new builtin symbol is shipped by QGIS.
+        custom_symbols = source_db_cursor.execute('SELECT * FROM symbol WHERE id>115')
+        target_db_cursor.executemany('INSERT OR REPLACE INTO symbol VALUES (?,?,?,?)', custom_symbols)
 
-    def import_labels(self):
-        custom_labels = self.source_db_cursor.execute('SELECT * FROM labelsettings')
+        source_db.commit()
+        target_db.commit()
 
-        self.target_db_cursor.executemany('INSERT OR REPLACE INTO labelsettings VALUES (?,?,?,?)', custom_labels)
-
-
+        source_db.close()
+        target_db.close()
+    except sqlite3.Error as e:
+        error = f"{type(e)}: {str(e)}"
+        QgsMessageLog.logMessage(error, "Profile Manager", level=Qgis.Warning)
+        return error

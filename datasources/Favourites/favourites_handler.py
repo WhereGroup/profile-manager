@@ -1,56 +1,54 @@
-# -*- coding: utf-8 -*-
-
 from configparser import RawConfigParser
-import sys
+
+from qgis.core import Qgis, QgsMessageLog
 
 
+def import_favourites(source_qgis_ini_file, target_qgis_ini_file):
+    """Imports browser favourites from source to target profile.
 
-class FavouritesHandler:
+    Favourites are stored in QGIS/QGIS3.ini's [browser] section, e.g.:
+    ...
+    [browser]
+    favourites=/path/to|||My favourite folder!, /tmp/test|||title, ...
+    ...
 
-    def __init__(self, profile_manager):
-        self.profile_manager = profile_manager
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str
-        self.source_qgis_ini_file = None
-        self.target_qgis_ini_file = None
+    Args:
+        TODO
 
-    def import_favourites(self):
-        """Gets favourite options from ini file and pastes them in target file"""
-        self.parser.clear()
-        self.parser.read(self.source_qgis_ini_file)
+    Returns:
+        error_message (str): An error message, if something XML related failed.
+    """
+    source_ini_parser = RawConfigParser()
+    source_ini_parser.optionxform = str  # str = case-sensitive option names
+    source_ini_parser.read(source_qgis_ini_file)
 
-        try:
-            get_favourites = dict(self.parser.items("browser"))
+    try:
+        get_favourites = dict(source_ini_parser.items("browser"))
 
-            favourites_to_be_imported = {}
-            favourites_to_be_preserved = ""
+        favourites_to_be_imported = {}
+        favourites_to_be_preserved = ""
 
-            for entry in get_favourites:
-                if entry == "favourites":
-                    favourites_to_be_imported[entry] = get_favourites[entry]
+        for entry in get_favourites:
+            if entry == "favourites":
+                favourites_to_be_imported[entry] = get_favourites[entry]
 
-            self.parser.clear()
-            self.parser.read(self.target_qgis_ini_file)
+        target_ini_parser = RawConfigParser()
+        target_ini_parser.optionxform = str  # str = case-sensitive option names
+        target_ini_parser.read(target_qgis_ini_file)
 
-            if not self.parser.has_section("browser"):
-                self.parser["browser"] = {}
-            elif self.parser.has_option("browser", "favourites"):
-                favourites_to_be_preserved = self.parser.get("browser", "favourites")
+        if not target_ini_parser.has_section("browser"):
+            target_ini_parser["browser"] = {}
+        elif target_ini_parser.has_option("browser", "favourites"):
+            favourites_to_be_preserved = target_ini_parser.get("browser", "favourites")
 
-            import_string = favourites_to_be_imported["favourites"].replace(favourites_to_be_preserved, "")
+        import_string = favourites_to_be_imported["favourites"].replace(favourites_to_be_preserved, "")
 
-            self.parser.set("browser", "favourites", favourites_to_be_preserved + import_string)
+        target_ini_parser.set("browser", "favourites", favourites_to_be_preserved + import_string)
 
-            with open(self.target_qgis_ini_file, 'w') as qgisconf:
-                self.parser.write(qgisconf)
-        except:
-            print("Oops!", sys.exc_info()[0], "occurred.")
-
-        
-
-    def set_path_files(self, source_qgis_ini_file, target_qgis_ini_file):
-        """Sets file path's"""
-        self.source_qgis_ini_file = source_qgis_ini_file
-        self.target_qgis_ini_file = target_qgis_ini_file
-
-
+        with open(target_qgis_ini_file, 'w') as qgisconf:
+            target_ini_parser.write(qgisconf, space_around_delimiters=False)
+    except Exception as e:
+        # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly
+        error = f"{type(e)}: {str(e)}"
+        QgsMessageLog.logMessage(error, "Profile Manager", level=Qgis.Warning)
+        return error
