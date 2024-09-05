@@ -11,3 +11,9 @@ venv.bak/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# IDE
+.idea
+
+# packaging
+zip_build

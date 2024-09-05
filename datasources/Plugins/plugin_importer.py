@@ -1,82 +1,57 @@
-# -*- coding: utf-8 -*-
-
 from configparser import RawConfigParser
-from pathlib import Path
 from os import path
-from shutil import copytree, rmtree
-from PyQt5.QtCore import Qt
+from pathlib import Path
+from shutil import copytree
+
+from ...utils import adjust_to_operating_system
 
 
-class PluginImporter:
+def import_plugins(
+        source_profile_path: str,
+        target_profile_path: str,
+        target_qgis_ini_file: str,
+        plugin_names: list[str],
+):
+    """Copies the specified plugins from source to target profile.
 
-    def __init__(self, profile_manager):
-        self.profile_manager = profile_manager
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str
-        self.source_qgis_ini_file = ""
-        self.target_qgis_ini_file = ""
-        self.checked_items = []
-        self.plugin_list_widget = self.profile_manager.dlg.list_plugins
+    Copies the files and sets the INI options accordingly.
+    Imported plugins are always set to be active.
 
-    def import_active_plugins(self):
-        """Copies plugin folders into target destination"""
-        self.parser.clear()
-        self.parser.read(self.target_qgis_ini_file)
+    Note: Plugin specific settings are not copied as we have no way of knowing where or how they are stored.
 
-        if not self.parser.has_section("PythonPlugins"):
-            self.parser["PythonPlugins"] = {}
+    Plugins are stored in python/plugins/
+    Their active state is tracked in QGIS/QGIS3.ini's [PythonPlugins] section, e.g.:
+    ...
+    [PythonPlugins]
+    ...
+    fooPlugin=true
+    PluggyBar=true
+    BaZ=false
+    ...
 
-        self.plugin_list_widget = self.profile_manager.dlg.list_plugins
-        for item in self.plugin_list_widget.findItems("", Qt.MatchContains | Qt.MatchRecursive):
-            if item.checkState() == Qt.Checked:
-                self.checked_items.append(item.text())
-                self.parser.set("PythonPlugins", item.text(), "true")
+    Args:
+        TODO
+    """
+    ini_parser = RawConfigParser()
+    ini_parser.optionxform = str  # str = case-sensitive option names
+    ini_parser.read(target_qgis_ini_file)
 
-                profile_paths = self.profile_manager.get_profile_paths()
+    if not ini_parser.has_section("PythonPlugins"):
+        ini_parser["PythonPlugins"] = {}
 
-                source_plugins_dir = self.profile_manager.adjust_to_operating_system(profile_paths["source"] + 'python/plugins/'
-                                                                                     + item.text() + '/')
-                target_plugins_dir = self.profile_manager.adjust_to_operating_system(profile_paths["target"] + 'python/plugins/'
-                                                                                     + item.text() + '/')
+    for plugin_name in plugin_names:
+        ini_parser.set("PythonPlugins", plugin_name, "true")
 
-                if path.exists(source_plugins_dir):
-                    if not path.exists(profile_paths["target"] + 'python/plugins/'):
-                        Path(profile_paths["target"] + 'python/plugins/').mkdir(parents=True, exist_ok=True)
-                    if not path.isdir(target_plugins_dir):
-                        copytree(source_plugins_dir, target_plugins_dir)
-                else:
-                    continue
+        source_plugin_dir = adjust_to_operating_system(source_profile_path + 'python/plugins/' + plugin_name + '/')
+        target_plugin_dir = adjust_to_operating_system(target_profile_path + 'python/plugins/' + plugin_name + '/')
 
-        with open(self.target_qgis_ini_file, 'w') as qgisconf:
-            self.parser.write(qgisconf)
+        if path.exists(source_plugin_dir):
+            if not path.exists(target_profile_path + 'python/plugins/'):
+                Path(target_profile_path + 'python/plugins/').mkdir(parents=True, exist_ok=True)
+            if not path.isdir(target_plugin_dir):
+                copytree(source_plugin_dir, target_plugin_dir)
+        else:
+            continue  # TODO error, dont skip silently!
 
-        self.import_plugin_settings()
-
-    def import_plugin_settings(self):
-        """Gets plugin options from ini file and pastes them in target ini file"""
-        self.parser.clear()
-        self.parser.read(self.source_qgis_ini_file)
-
-        for item in self.checked_items:
-            get_plugin_options = []
-
-            if not self.parser.has_section(item):
-                continue
-            else:
-                get_plugin_options.append(self.parser.items(item))
-
-            self.parser.clear()
-            self.parser.read(self.target_qgis_ini_file)
-
-            if not self.parser.has_section(item):
-                self.parser[item] = {}
-
-            for option in get_plugin_options[0]:
-                self.parser.set(item, option[0], option[1])
-
-            with open(self.target_qgis_ini_file, 'w') as qgisconf:
-                self.parser.write(qgisconf)
-
-    def set_ini_paths(self, source, target):
-        self.source_qgis_ini_file = source
-        self.target_qgis_ini_file = target
+    with open(target_qgis_ini_file, 'w') as qgisconf:
+        ini_parser.write(qgisconf, space_around_delimiters=False)

@@ -1,99 +1,70 @@
-# -*- coding: utf-8 -*-
+from configparser import NoSectionError, RawConfigParser
 
-from configparser import RawConfigParser, NoSectionError
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import QListWidgetItem
 
 
 class PluginDisplayer:
 
     def __init__(self, profile_manager):
         self.profile_manager = profile_manager
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str
-        self.parser_target = RawConfigParser()
-        self.parser_target.optionxform = str
         self.source_qgis_ini_file = ""
         self.target_qgis_ini_file = ""
-        self.checked_items = []
-        self.active_plugins_from_profile = []
-        self.core_plugins = ["GdalTools", "MetaSearch", "db_manager", "processing"]
-        self.plugin_list_widget = self.profile_manager.dlg.list_plugins
 
-    def show_active_plugins_in_list(self, target=False):
-        """Gets active plugins from ini file and displays them in treeWidget"""
-        if target:
-            self.show_active_plugins_in_target_list()
-        else:        
-            self.parser.clear()
+        # Via QGIS/python/plugins/CMakeLists.txt
+        self.core_plugins = [
+            "db_manager",
+            "GdalTools",  # not a plugin anymore since QGIS 3.0
+            "grassprovider",  # plugin since 3.22
+            "MetaSearch",
+            "otbprovider",  # plugin since 3.22
+            "processing",
+            "sagaprovider",  # removed in 3.30
+        ]
 
-            if target:
-                self.parser.read(self.target_qgis_ini_file)
-                self.plugin_list_widget = self.profile_manager.dlg.list_plugins_target
-            else:
-                self.parser.read(self.source_qgis_ini_file)
-                self.plugin_list_widget = self.profile_manager.dlg.list_plugins
+    def populate_plugins_list(self, only_populate_target_profile=False):
+        """Gets plugins from ini file and add them to treeWidget using their directory name
 
-            self.plugin_list_widget.clear()
+        Args:
+            only_populate_target_profile (bool): If only the target list should be populated
+        """
+        ini_parser = RawConfigParser()
+        ini_parser.optionxform = str  # str = case-sensitive option names
 
-            try:
-                available_plugins_from_source_profile = dict(self.parser.items("PythonPlugins"))
-            except NoSectionError:
-                self.parser["PythonPlugins"] = {}
-                available_plugins_from_source_profile = dict(self.parser.items("PythonPlugins"))
+        if only_populate_target_profile:
+            ini_parser.read(self.target_qgis_ini_file)
+            plugin_list_widget = self.profile_manager.dlg.list_plugins_target
+        else:
+            ini_parser.read(self.source_qgis_ini_file)
+            plugin_list_widget = self.profile_manager.dlg.list_plugins
 
-            active_plugins_from_source_profile = []
-
-            for entry in available_plugins_from_source_profile:
-                if entry in self.core_plugins:
-                    continue
-                else:
-                    if available_plugins_from_source_profile[entry] == "true":
-                        active_plugins_from_source_profile.append(entry)
-
-                        list_entry = QtWidgets.QListWidgetItem()
-                        list_entry.setText(str(entry))
-                        if not target:
-                            list_entry.setFlags(list_entry.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
-                            list_entry.setCheckState(Qt.Unchecked)
-                        self.plugin_list_widget.addItem(list_entry)
-
-            self.active_plugins_from_profile = active_plugins_from_source_profile
-
-            if not target:
-                self.show_active_plugins_in_list(True)
-
-
-    def show_active_plugins_in_target_list(self):
-        """Gets active plugins from ini file and displays them in treeWidget"""
-        self.parser.clear()
-
-        self.parser.read(self.target_qgis_ini_file)
-        self.plugin_list_widget = self.profile_manager.dlg.list_plugins_target
-
-        self.plugin_list_widget.clear()
+        plugin_list_widget.clear()
 
         try:
-            available_plugins_from_source_profile = dict(self.parser.items("PythonPlugins"))
+            plugins_in_profile = dict(ini_parser.items("PythonPlugins"))
         except NoSectionError:
-            self.parser["PythonPlugins"] = {}
-            available_plugins_from_source_profile = dict(self.parser.items("PythonPlugins"))
+            ini_parser["PythonPlugins"] = {}
+            plugins_in_profile = dict(ini_parser.items("PythonPlugins"))
 
-        active_plugins_from_source_profile = []
+        # add an item to the list for each non-core plugin
+        for plugin_name in plugins_in_profile:
+            item = QListWidgetItem()
 
-        for entry in available_plugins_from_source_profile:
-            if entry in self.core_plugins:
-                continue
+            if not only_populate_target_profile:
+                item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                item.setCheckState(Qt.Unchecked)
             else:
-                if available_plugins_from_source_profile[entry] == "true":
-                    active_plugins_from_source_profile.append(entry)
+                item.setFlags(item.flags() & ~Qt.ItemIsSelectable)
 
-                    list_entry = QtWidgets.QListWidgetItem()
-                    list_entry.setText(str(entry))
-                    
-                    self.plugin_list_widget.addItem(list_entry)
+            if plugin_name in self.core_plugins:
+                item.setFlags(item.flags() & ~Qt.ItemIsEnabled)
+                plugin_name = f"{plugin_name} (Core Plugin)"
 
-        self.active_plugins_from_profile = active_plugins_from_source_profile
+            item.setText(str(plugin_name))
+            plugin_list_widget.addItem(item)
+
+        if not only_populate_target_profile:
+            self.populate_plugins_list(only_populate_target_profile=True)
 
     def set_ini_paths(self, source, target):
         self.source_qgis_ini_file = source
