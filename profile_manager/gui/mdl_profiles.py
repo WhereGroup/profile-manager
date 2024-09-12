@@ -60,7 +60,7 @@ class ProfileListModel(QStandardItemModel):
         if profile:
             row = self.rowCount()
             self.insertRow(row)
-            self.setData(self.index(row, self.NAME_COL), profile.alias())
+            self.setData(self.index(row, self.NAME_COL), profile.name())
             self.setData(
                 self.index(row, self.NAME_COL), profile.icon(), Qt.DecorationRole
             )
