@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from pathlib import Path
 from sys import platform
 from typing import Any, Dict, List, Optional
@@ -141,3 +142,102 @@ def get_profile_name_list() -> List[str]:
         List[str]: profile name list
     """
     return QgsUserProfileManager(qgis_profiles_path()).allProfiles()
+
+
+@dataclass
+class PluginInformation:
+    name: str
+    folder_name: str
+    official_repository: bool
+    plugin_id: str
+    version: str
+
+
+def define_plugin_version_from_metadata(
+    manager_metadata: Dict[str, Any], plugin_metadata: Dict[str, Any]
+) -> str:
+    """Define plugin version from available metadata
+
+    Args:
+        manager_metadata (Dict[str, Any]): QGIS plugin manager metadata
+        plugin_metadata (Dict[str, Any]): installed plugin metadata
+
+    Returns:
+        str: plugin version
+    """
+    # Use version from plugin metadata
+    if "version" in plugin_metadata:
+        return plugin_metadata["version"]
+
+    # Fallback to stable version
+    if manager_metadata["version_available_stable"]:
+        return manager_metadata["version_available_stable"]
+    # Fallback to experimental version
+    if manager_metadata["version_available_experimental"]:
+        return manager_metadata["version_available_experimental"]
+    # Fallback to available version
+    if manager_metadata["version_available"]:
+        return manager_metadata["version_available"]
+    # No version defined
+    return ""
+
+
+def get_profile_plugin_information(
+    profile_name: str, plugin_slug_name: str
+) -> Optional[PluginInformation]:
+    """Get plugin information from profile. Only official plugin are supported.
+
+    Args:
+        profile_name (str): profile name
+        plugin_slug_name (str):  plugin slug name
+
+    Returns:
+        Optional[PluginInformation]: plugin information, None if plugin is not official
+    """
+    manager_metadata = get_plugin_info_from_qgis_manager(
+        plugin_slug_name=plugin_slug_name
+    )
+    plugin_metadata = get_installed_plugin_metadata(
+        profile_name=profile_name, plugin_slug_name=plugin_slug_name
+    )
+
+    # For now we don't support unofficial plugins
+    if manager_metadata is None:
+        return None
+
+    return PluginInformation(
+        name=manager_metadata["name"],
+        folder_name=plugin_slug_name,
+        official_repository=True,  # For now we only support official repository
+        plugin_id=manager_metadata["plugin_id"],
+        version=define_plugin_version_from_metadata(
+            manager_metadata=manager_metadata,
+            plugin_metadata=plugin_metadata,
+        ),
+    )
+
+
+def get_profile_plugin_list_information(
+    profile_name: str, only_activated: bool = True
+) -> List[PluginInformation]:
+    """Get profile plugin information
+
+    Args:
+        profile_name (str): profile name
+        only_activated (bool, optional): True to get only activated plugin, False to get all installed plugins. Defaults to True.
+
+    Returns:
+        List[PluginInformation]: list of PluginInformation
+    """
+    plugin_list: List[str] = get_installed_plugin_list(
+        profile_name=profile_name, only_activated=only_activated
+    )
+    # Get information about installed plugin
+    profile_plugin_list: List[PluginInformation] = []
+
+    for plugin_name in plugin_list:
+        plugin_info = get_profile_plugin_information(profile_name, plugin_name)
+        if plugin_info and plugin_info.plugin_id != "":
+            profile_plugin_list.append(plugin_info)
+
+    return profile_plugin_list
