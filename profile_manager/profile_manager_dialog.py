@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Optional
 
 from qgis.PyQt import QtWidgets, uic
+from qgis.PyQt.QtWidgets import QMessageBox
 from .userInterface.mdl_profiles import ProfileListModel
 from .qdt_export.profile_export import export_profile_for_qdt, get_qdt_profile_infos_from_file, QDTProfileInfos
 
@@ -120,3 +121,12 @@ class ProfileManagerDialog(QtWidgets.QDialog, FORM_CLASS):
                 clear_export_path=self.qdt_clear_export_folder_checkbox.isChecked(),
                 export_inactive_plugin=self.qdt_inactive_plugin_export_checkbox.isChecked(),
             )
+            QMessageBox.information(
+                self,
+                self.tr("QDT profile export"),
+                self.tr(
+                    "QDT profile have been successfully exported."
+                ),
+            )
+
+
