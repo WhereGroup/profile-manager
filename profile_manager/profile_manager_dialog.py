@@ -22,8 +22,12 @@
 """
 
 import os
+from pathlib import Path
+from typing import Optional
 
 from qgis.PyQt import QtWidgets, uic
+from .userInterface.mdl_profiles import ProfileListModel
+from .qdt_export.profile_export import export_profile_for_qdt, QDTProfileInfos
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(
@@ -41,3 +45,42 @@ class ProfileManagerDialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+
+        self.profile_mdl = ProfileListModel(self)
+        self.qdt_export_profile_cbx.setModel(self.profile_mdl)
+        self.export_qdt_button.clicked.connect(self.export_qdt_handler)
+
+        self.comboBoxNamesSource.setModel(self.profile_mdl)
+        self.comboBoxNamesTarget.setModel(self.profile_mdl)
+        self.list_profiles.setModel(self.profile_mdl)
+
+    def get_list_selection_profile_name(self) -> Optional[str]:
+        """Get selected profile name from list
+
+        Returns:
+            Optional[str]: selected profile name, None if no profile selected
+        """
+        index = self.list_profiles.selectionModel().currentIndex()
+        if index.isValid():
+            return self.list_profiles.model().data(index, ProfileListModel.NAME_COL)
+        return None
+
+    def export_qdt_handler(self):
+        """Export selected profile as QDT profile"""
+        profile_path = self.qdt_file_widget.filePath()
+        if profile_path:
+            source_profile_name = self.qdt_export_profile_cbx.currentText()
+            qdt_profile_infos = QDTProfileInfos(
+                description=self.qdt_description_edit.toPlainText(),
+                email=self.qdt_email_edit.text(),
+                version=self.qdt_version_edit.text(),
+                qgis_min_version=self.qdt_qgis_min_version_edit.text(),
+                qgis_max_version=self.qdt_qgis_max_version_edit.text(),
+            )
+            export_profile_for_qdt(
+                profile_name=source_profile_name,
+                export_path=Path(profile_path),
+                qdt_profile_infos=qdt_profile_infos,
+                clear_export_path=self.qdt_clear_export_folder_checkbox.isChecked(),
+                export_inactive_plugin=self.qdt_inactive_plugin_export_checkbox.isChecked(),
+            )
