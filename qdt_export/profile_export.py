@@ -28,6 +28,26 @@ class QDTProfileInfos:
     qgis_max_version: str = ""
 
 
+def get_qdt_profile_infos_from_file(profile_file : Path) -> QDTProfileInfos:
+    """Get QDT Profile informations from a profile.json file
+    File must exists
+
+    Args:
+        profile_file (Path): profile.json path
+
+    Returns:
+        QDTProfileInfos: QDT Profile informations
+    """
+    with open(profile_file, 'r') as f:
+        qdt_profile_data = json.load(f)
+        return QDTProfileInfos(
+            description=qdt_profile_data.get("description", ""),
+            email=qdt_profile_data.get("email", ""),
+            version=qdt_profile_data.get("version", ""),
+            qgis_min_version=qdt_profile_data.get("qgisMinimumVersion", ""),
+            qgis_max_version=qdt_profile_data.get("qgisMaximumVersion", ""),
+        )
+
 def qdt_profile_dict(
     profile_name: str,
     qdt_profile_infos: QDTProfileInfos,
