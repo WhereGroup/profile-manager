@@ -8,6 +8,8 @@ from configparser import NoSectionError, RawConfigParser
 from qgis.core import QgsUserProfileManager
 from qgis.utils import iface
 
+import pyplugin_installer
+
 
 def qgis_profiles_path() -> Path:
     """Get QGIS profiles paths from current platforms
@@ -122,16 +124,19 @@ def get_installed_plugin_metadata(
 
 
 def get_plugin_info_from_qgis_manager(
-    plugin_slug_name: str,
+    plugin_slug_name: str, reload_manager : bool = False
 ) -> Optional[Dict[str, str]]:
     """Get plugin informations from QGIS plugin manager
 
     Args:
-        plugin_slug_name (str): plugin slug name
+        plugin_slug_name (str): _description_
+        reload_manager (bool, optional): reload manager for new plugins. Defaults to False.
 
     Returns:
         Optional[Dict[str, str]]: metadata from plugin manager, None if plugin not found
     """
+    if reload_manager:
+        pyplugin_installer.instance().reloadAndExportData()
     return iface.pluginManagerInterface().pluginMetadata(plugin_slug_name)
 
 

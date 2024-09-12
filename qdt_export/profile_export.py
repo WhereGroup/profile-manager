@@ -6,6 +6,8 @@ from typing import Any, Dict
 
 import json
 
+import pyplugin_installer
+
 from ..profiles.utils import (
     qgis_profiles_path,
     get_profile_plugin_list_information,
@@ -79,6 +81,7 @@ def export_profile_for_qdt(
         clear_export_path (bool, optional): True for export path clear before export. Defaults to False.
         export_inactive_plugin (bool, optional): True for inactive profile plugin export. Defaults to False.
     """
+    pyplugin_installer.instance().reloadAndExportData()
 
     if clear_export_path:
         # Delete current export content
