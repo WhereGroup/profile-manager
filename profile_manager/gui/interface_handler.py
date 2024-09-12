@@ -82,7 +82,6 @@ class InterfaceHandler(QDialog):
 
         self.dlg.comboBoxNamesSource.clear()
         self.dlg.comboBoxNamesTarget.clear()
-        self.dlg.qdt_export_profile_cbx.clear()
         self.dlg.list_profiles.clear()
         for i, name in enumerate(profile_names):
             # Init source profiles combobox
@@ -97,14 +96,7 @@ class InterfaceHandler(QDialog):
                 font = self.dlg.comboBoxNamesTarget.font()
                 font.setItalic(True)
                 self.dlg.comboBoxNamesTarget.setItemData(i, QVariant(font), Qt.FontRole)
-            # Init qdt export profiles combobox
-            self.dlg.qdt_export_profile_cbx.addItem(name)
-            if name == active_profile_name:
-                font = self.dlg.qdt_export_profile_cbx.font()
-                font.setItalic(True)
-                self.dlg.qdt_export_profile_cbx.setItemData(
-                    i, QVariant(font), Qt.FontRole
-                )
+
             # Add profiles to list view
             list_item = QListWidgetItem(QIcon("../icon.png"), name)
             if name == active_profile_name:
