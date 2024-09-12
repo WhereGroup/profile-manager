@@ -12,31 +12,12 @@ import pyplugin_installer
 
 
 def qgis_profiles_path() -> Path:
-    """Get QGIS profiles paths from current platforms
-
-    - Windows : $HOME / "AppData" / "Roaming" / "QGIS" / "QGIS3" / "profiles"
-    - MacOS : $HOME / "Library" / "Application Support" / "QGIS" / "QGIS3" / "profiles"
-    - Linux : $HOME / ".local" / "share" / "QGIS" / "QGIS3" / "profiles"
+    """Get QGIS profiles paths from current QGIS application
 
     Returns:
         Path: QGIS profiles path
     """
-    home_path = Path.home()
-    # Windows
-    if platform.startswith("win32"):
-        return home_path / "AppData" / "Roaming" / "QGIS" / "QGIS3" / "profiles"
-    # MacOS
-    if platform == "darwin":
-        return (
-            home_path
-            / "Library"
-            / "Application Support"
-            / "QGIS"
-            / "QGIS3"
-            / "profiles"
-        )
-    # Linux
-    return home_path / ".local" / "share" / "QGIS" / "QGIS3" / "profiles"
+    return Path(iface.userProfileManager().rootLocation())
 
 
 def get_profile_qgis_ini_path(profile_name: str) -> Path:

@@ -1,4 +1,5 @@
 from os import mkdir
+from sys import platform
 
 from qgis.core import QgsUserProfileManager
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
@@ -27,10 +28,8 @@ class ProfileCreator(QDialog):
                 assert profile_name != ""  # should be forced by the GUI
                 self.qgs_profile_manager.createUserProfile(profile_name)
                 try:
-                    if self.profile_manager.operating_system == "mac":
-                        profile_path = (
-                            self.qgis_path + "/" + profile_name + "/qgis.org/"
-                        )
+                    if platform is 'darwin':
+                        profile_path = self.qgis_path + "/" + profile_name + "/qgis.org/"
                     else:
                         profile_path = self.qgis_path + "/" + profile_name + "/QGIS/"
 
