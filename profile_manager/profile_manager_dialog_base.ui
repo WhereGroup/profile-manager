@@ -97,7 +97,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QListWidget" name="list_profiles"/>
+          <widget class="QListView" name="list_profiles"/>
          </item>
         </layout>
        </item>

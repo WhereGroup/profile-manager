@@ -21,7 +21,7 @@ class ProfileEditor(QDialog):
 
     def edit_profile(self):
         """Renames profile with user input"""
-        old_profile_name = self.dlg.list_profiles.currentItem().text()
+        old_profile_name = self.dlg.get_list_selection_profile_name()
         # bad states that should be prevented by the GUI
         assert old_profile_name is not None
         assert old_profile_name != Path(QgsApplication.qgisSettingsDirPath()).name
