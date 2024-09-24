@@ -1,5 +1,4 @@
 import sqlite3
-
 from os import path
 from shutil import copy
 
@@ -35,14 +34,18 @@ def import_styles(source_profile_path: str, target_profile_path: str):
 
     try:
         # import label settings
-        custom_labels = source_db_cursor.execute('SELECT * FROM labelsettings')
-        target_db_cursor.executemany('INSERT OR REPLACE INTO labelsettings VALUES (?,?,?,?)', custom_labels)
+        custom_labels = source_db_cursor.execute("SELECT * FROM labelsettings")
+        target_db_cursor.executemany(
+            "INSERT OR REPLACE INTO labelsettings VALUES (?,?,?,?)", custom_labels
+        )
 
         # import symbols
         # FIXME: This has a hard-coded assumption that symbols with ids <= 115 are builtin symbols,
         #        this will fail as soon as a new builtin symbol is shipped by QGIS.
-        custom_symbols = source_db_cursor.execute('SELECT * FROM symbol WHERE id>115')
-        target_db_cursor.executemany('INSERT OR REPLACE INTO symbol VALUES (?,?,?,?)', custom_symbols)
+        custom_symbols = source_db_cursor.execute("SELECT * FROM symbol WHERE id>115")
+        target_db_cursor.executemany(
+            "INSERT OR REPLACE INTO symbol VALUES (?,?,?,?)", custom_symbols
+        )
 
         source_db.commit()
         target_db.commit()

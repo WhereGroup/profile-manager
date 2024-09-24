@@ -41,11 +41,15 @@ def import_favourites(source_qgis_ini_file, target_qgis_ini_file):
         elif target_ini_parser.has_option("browser", "favourites"):
             favourites_to_be_preserved = target_ini_parser.get("browser", "favourites")
 
-        import_string = favourites_to_be_imported["favourites"].replace(favourites_to_be_preserved, "")
+        import_string = favourites_to_be_imported["favourites"].replace(
+            favourites_to_be_preserved, ""
+        )
 
-        target_ini_parser.set("browser", "favourites", favourites_to_be_preserved + import_string)
+        target_ini_parser.set(
+            "browser", "favourites", favourites_to_be_preserved + import_string
+        )
 
-        with open(target_qgis_ini_file, 'w') as qgisconf:
+        with open(target_qgis_ini_file, "w") as qgisconf:
             target_ini_parser.write(qgisconf, space_around_delimiters=False)
     except Exception as e:
         # TODO: It would be nice to have a smaller and more specific try block but until then we except broadly

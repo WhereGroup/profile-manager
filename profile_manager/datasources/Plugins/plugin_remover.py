@@ -3,13 +3,13 @@ from shutil import rmtree
 
 from qgis.PyQt.QtWidgets import QMessageBox
 
-from ...utils import adjust_to_operating_system, tr
+from profile_manager.utils import adjust_to_operating_system, tr
 
 
 def remove_plugins(
-        profile_path: str,
-        qgis_ini_file: str,
-        plugin_names: list[str],
+    profile_path: str,
+    qgis_ini_file: str,
+    plugin_names: list[str],
 ):
     """Removes the specified plugins from the profile.
 
@@ -29,7 +29,9 @@ def remove_plugins(
         if ini_parser.has_option("PythonPlugins", plugin_name):
             ini_parser.remove_option("PythonPlugins", plugin_name)
 
-        plugins_dir = adjust_to_operating_system(profile_path + 'python/plugins/' + plugin_name + '/')
+        plugins_dir = adjust_to_operating_system(
+            profile_path + "python/plugins/" + plugin_name + "/"
+        )
 
         try:
             rmtree(plugins_dir)
@@ -38,9 +40,11 @@ def remove_plugins(
             QMessageBox.critical(
                 None,
                 tr("Plugin could not be removed"),
-                tr("Plugin '{0}' could not be removed due to error:\n{1}").format(plugin_name, e)
+                tr("Plugin '{0}' could not be removed due to error:\n{1}").format(
+                    plugin_name, e
+                ),
             )
             continue
 
-    with open(qgis_ini_file, 'w') as qgisconf:
+    with open(qgis_ini_file, "w") as qgisconf:
         ini_parser.write(qgisconf, space_around_delimiters=False)

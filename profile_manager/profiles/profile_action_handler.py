@@ -1,14 +1,16 @@
 from qgis.PyQt.QtWidgets import QDialog
 
-from .profile_copier import ProfileCopier
-from .profile_creator import ProfileCreator
-from .profile_editor import ProfileEditor
-from .profile_remover import ProfileRemover
+from profile_manager.profiles.profile_copier import ProfileCopier
+from profile_manager.profiles.profile_creator import ProfileCreator
+from profile_manager.profiles.profile_editor import ProfileEditor
+from profile_manager.profiles.profile_remover import ProfileRemover
 
 
 class ProfileActionHandler(QDialog):
 
-    def __init__(self, profile_manager_dialog, qgis_path, profile_manager, *args, **kwargs):
+    def __init__(
+        self, profile_manager_dialog, qgis_path, profile_manager, *args, **kwargs
+    ):
         super().__init__(*args, **kwargs)
 
         self.is_cancel_button_clicked = False
@@ -16,9 +18,13 @@ class ProfileActionHandler(QDialog):
         self.dlg = profile_manager_dialog
         self.qgis_path = qgis_path
         self.profile_manager = profile_manager
-        self.profile_remover = ProfileRemover(self.dlg, self.qgis_path, self.profile_manager)
+        self.profile_remover = ProfileRemover(
+            self.dlg, self.qgis_path, self.profile_manager
+        )
         self.profile_creator = ProfileCreator(self.qgis_path, self.profile_manager)
-        self.profile_editor = ProfileEditor(self.dlg, self.qgis_path, self.profile_manager)
+        self.profile_editor = ProfileEditor(
+            self.dlg, self.qgis_path, self.profile_manager
+        )
         self.profile_copier = ProfileCopier(self.dlg, self.qgis_path)
 
     def create_new_profile(self):

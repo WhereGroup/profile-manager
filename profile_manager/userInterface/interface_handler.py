@@ -1,12 +1,14 @@
-import time
 from pathlib import Path
 
-from qgis.PyQt.QtCore import QVariant, Qt
+from qgis.core import Qgis, QgsApplication, QgsMessageLog
+from qgis.PyQt.QtCore import Qt, QVariant
 from qgis.PyQt.QtGui import QColor, QIcon, QPalette
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
-from qgis.core import Qgis, QgsApplication, QgsMessageLog
 
-from ..datasources.Dataservices.datasource_provider import get_data_sources_tree, DATA_SOURCE_SEARCH_LOCATIONS
+from profile_manager.datasources.Dataservices.datasource_provider import (
+    DATA_SOURCE_SEARCH_LOCATIONS,
+    get_data_sources_tree,
+)
 
 
 class InterfaceHandler(QDialog):
@@ -26,7 +28,9 @@ class InterfaceHandler(QDialog):
             populating_source_profile (bool): If the source profile is populated
         """
         QgsMessageLog.logMessage(
-            f"Scanning profile '{profile_name}' for data source connections:", "Profile Manager", Qgis.Info
+            f"Scanning profile '{profile_name}' for data source connections:",
+            "Profile Manager",
+            Qgis.Info,
         )
         ini_paths = self.profile_manager.get_ini_paths()
         if populating_source_profile:
@@ -37,22 +41,30 @@ class InterfaceHandler(QDialog):
         # collect data source tree items from ini file
         data_source_list = []
         for provider in DATA_SOURCE_SEARCH_LOCATIONS.keys():
-            tree_root_item = get_data_sources_tree(target_ini_path, provider, make_checkable=populating_source_profile)
+            tree_root_item = get_data_sources_tree(
+                target_ini_path, provider, make_checkable=populating_source_profile
+            )
             if tree_root_item:
                 data_source_list.append(tree_root_item)
         QgsMessageLog.logMessage(
-            f"Scanning profile '{profile_name}' for data source connections: Done!", "Profile Manager", Qgis.Info
+            f"Scanning profile '{profile_name}' for data source connections: Done!",
+            "Profile Manager",
+            Qgis.Info,
         )
 
         # populate tree
         if populating_source_profile:
             self.dlg.treeWidgetSource.clear()
-            self.dlg.treeWidgetSource.setHeaderLabel(self.tr("Source Profile: {}").format(profile_name))
+            self.dlg.treeWidgetSource.setHeaderLabel(
+                self.tr("Source Profile: {}").format(profile_name)
+            )
             for tree_root_item in data_source_list:
                 self.dlg.treeWidgetSource.addTopLevelItem(tree_root_item)
         else:
             self.dlg.treeWidgetTarget.clear()
-            self.dlg.treeWidgetTarget.setHeaderLabel(self.tr("Target Profile: {}").format(profile_name))
+            self.dlg.treeWidgetTarget.setHeaderLabel(
+                self.tr("Target Profile: {}").format(profile_name)
+            )
             for tree_root_item in data_source_list:
                 self.dlg.treeWidgetTarget.addTopLevelItem(tree_root_item)
 
@@ -85,7 +97,7 @@ class InterfaceHandler(QDialog):
                 font.setItalic(True)
                 self.dlg.comboBoxNamesTarget.setItemData(i, QVariant(font), Qt.FontRole)
             # Add profiles to list view
-            list_item = QListWidgetItem(QIcon('../icon.png'), name)
+            list_item = QListWidgetItem(QIcon("../icon.png"), name)
             if name == active_profile_name:
                 font = list_item.font()
                 font.setItalic(True)
@@ -100,11 +112,12 @@ class InterfaceHandler(QDialog):
         self.conditionally_enable_profile_buttons()
 
     def adjust_to_macOSDark(self):
-        from ..darkdetect import _detect
+        from profile_manager.darkdetect import _detect
+
         if _detect.isDark():
             # Change ComboBox selected from black to white
-            self.dlg.comboBoxNamesSource.setStyleSheet('color: white')
-            self.dlg.comboBoxNamesTarget.setStyleSheet('color: white')
+            self.dlg.comboBoxNamesSource.setStyleSheet("color: white")
+            self.dlg.comboBoxNamesTarget.setStyleSheet("color: white")
 
             # Set checkbox indicator of the treewidget from black to white
             file_tree_palette = QPalette()
@@ -119,15 +132,25 @@ class InterfaceHandler(QDialog):
     def setup_connections(self):
         """Set up connections"""
         # buttons
-        self.dlg.importButton.clicked.connect(self.profile_manager.import_action_handler)
+        self.dlg.importButton.clicked.connect(
+            self.profile_manager.import_action_handler
+        )
         self.dlg.closeDialog.rejected.connect(self.dlg.close)
         self.dlg.createProfileButton.clicked.connect(
             self.profile_manager.profile_manager_action_handler.create_new_profile
         )
-        self.dlg.removeProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler.remove_profile)
-        self.dlg.removeSourcesButton.clicked.connect(self.profile_manager.remove_source_action_handler)
-        self.dlg.editProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler.edit_profile)
-        self.dlg.copyProfileButton.clicked.connect(self.profile_manager.profile_manager_action_handler.copy_profile)
+        self.dlg.removeProfileButton.clicked.connect(
+            self.profile_manager.profile_manager_action_handler.remove_profile
+        )
+        self.dlg.removeSourcesButton.clicked.connect(
+            self.profile_manager.remove_source_action_handler
+        )
+        self.dlg.editProfileButton.clicked.connect(
+            self.profile_manager.profile_manager_action_handler.edit_profile
+        )
+        self.dlg.copyProfileButton.clicked.connect(
+            self.profile_manager.profile_manager_action_handler.copy_profile
+        )
 
         # checkbox
         self.dlg.checkBox_checkAll.stateChanged.connect(self.check_everything)
@@ -139,18 +162,29 @@ class InterfaceHandler(QDialog):
         self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(
             lambda: self.profile_manager.update_data_sources(True, False)
         )
-        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(self.conditionally_enable_import_button)
-        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(self.conditionally_enable_import_button)
-        self.dlg.list_profiles.currentItemChanged.connect(self.conditionally_enable_profile_buttons)
+        self.dlg.comboBoxNamesSource.currentIndexChanged.connect(
+            self.conditionally_enable_import_button
+        )
+        self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(
+            self.conditionally_enable_import_button
+        )
+        self.dlg.list_profiles.currentItemChanged.connect(
+            self.conditionally_enable_profile_buttons
+        )
+
     def check_everything(self):
         """Checks/Unchecks every checkbox in the gui"""
         if self.checked:
             self.uncheck_everything()
         else:
-            for item in self.dlg.treeWidgetSource.findItems("", Qt.MatchContains | Qt.MatchRecursive):
+            for item in self.dlg.treeWidgetSource.findItems(
+                "", Qt.MatchContains | Qt.MatchRecursive
+            ):
                 item.setCheckState(0, Qt.Checked)
 
-            for item in self.dlg.list_plugins.findItems("", Qt.MatchContains | Qt.MatchRecursive):
+            for item in self.dlg.list_plugins.findItems(
+                "", Qt.MatchContains | Qt.MatchRecursive
+            ):
                 item.setCheckState(Qt.Checked)
 
             self.dlg.bookmark_check.setCheckState(Qt.Checked)
@@ -174,7 +208,9 @@ class InterfaceHandler(QDialog):
         self.dlg.ui_check.setChecked(Qt.Unchecked)
         self.dlg.checkBox_checkAll.setChecked(Qt.Unchecked)
 
-        for item in self.dlg.treeWidgetSource.findItems("", Qt.MatchContains | Qt.MatchRecursive):
+        for item in self.dlg.treeWidgetSource.findItems(
+            "", Qt.MatchContains | Qt.MatchRecursive
+        ):
             item.setCheckState(0, Qt.Unchecked)
 
         for iterator in range(self.dlg.list_plugins.count()):
@@ -187,8 +223,13 @@ class InterfaceHandler(QDialog):
         """
 
         # Don't allow import of a profile into itself
-        if self.dlg.comboBoxNamesSource.currentText() == self.dlg.comboBoxNamesTarget.currentText():
-            self.dlg.importButton.setToolTip(self.tr("Target profile can not be same as source profile"))
+        if (
+            self.dlg.comboBoxNamesSource.currentText()
+            == self.dlg.comboBoxNamesTarget.currentText()
+        ):
+            self.dlg.importButton.setToolTip(
+                self.tr("Target profile can not be same as source profile")
+            )
             self.dlg.importButton.setEnabled(False)
         else:
             self.dlg.importButton.setToolTip("")
@@ -201,17 +242,30 @@ class InterfaceHandler(QDialog):
         """
         # A profile must be selected
         if self.dlg.list_profiles.currentItem() is None:
-            self.dlg.removeProfileButton.setToolTip(self.tr("Please choose a profile to remove"))
+            self.dlg.removeProfileButton.setToolTip(
+                self.tr("Please choose a profile to remove")
+            )
             self.dlg.removeProfileButton.setEnabled(False)
-            self.dlg.editProfileButton.setToolTip(self.tr("Please choose a profile to rename"))
+            self.dlg.editProfileButton.setToolTip(
+                self.tr("Please choose a profile to rename")
+            )
             self.dlg.editProfileButton.setEnabled(False)
-            self.dlg.copyProfileButton.setToolTip(self.tr("Please select a profile to copy from"))
+            self.dlg.copyProfileButton.setToolTip(
+                self.tr("Please select a profile to copy from")
+            )
             self.dlg.copyProfileButton.setEnabled(False)
         # Some actions can/should not be done on the currently active profile
-        elif self.dlg.list_profiles.currentItem().text() == Path(QgsApplication.qgisSettingsDirPath()).name:
-            self.dlg.removeProfileButton.setToolTip(self.tr("The active profile cannot be removed"))
+        elif (
+            self.dlg.list_profiles.currentItem().text()
+            == Path(QgsApplication.qgisSettingsDirPath()).name
+        ):
+            self.dlg.removeProfileButton.setToolTip(
+                self.tr("The active profile cannot be removed")
+            )
             self.dlg.removeProfileButton.setEnabled(False)
-            self.dlg.editProfileButton.setToolTip(self.tr("The active profile cannot be renamed"))
+            self.dlg.editProfileButton.setToolTip(
+                self.tr("The active profile cannot be renamed")
+            )
             self.dlg.editProfileButton.setEnabled(False)
             self.dlg.copyProfileButton.setToolTip("")
             self.dlg.copyProfileButton.setEnabled(True)

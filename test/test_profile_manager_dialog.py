@@ -1,4 +1,3 @@
-# coding=utf-8
 """Dialog test.
 
 .. note:: This program is free software; you can redistribute it and/or modify
@@ -8,17 +7,17 @@
 
 """
 
-__author__ = 'dominik.szill@wheregroup.com'
-__date__ = '2020-03-17'
-__copyright__ = 'Copyright 2020, Dominik Szill / WhereGroup GmbH'
+__author__ = "dominik.szill@wheregroup.com"
+__date__ = "2020-03-17"
+__copyright__ = "Copyright 2020, Dominik Szill / WhereGroup GmbH"
 
 import unittest
 
-from qgis.PyQt.QtGui import QDialogButtonBox, QDialog
-
-from profile_manager_dialog import ProfileManagerDialog
-
+from qgis.PyQt.QtGui import QDialog, QDialogButtonBox
 from utilities import get_qgis_app
+
+from profile_manager.profile_manager_dialog import ProfileManagerDialog
+
 QGIS_APP = get_qgis_app()
 
 
@@ -48,8 +47,8 @@ class ProfileManagerDialogTest(unittest.TestCase):
         result = self.dialog.result()
         self.assertEqual(result, QDialog.Rejected)
 
+
 if __name__ == "__main__":
     suite = unittest.makeSuite(ProfileManagerDialogTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
-

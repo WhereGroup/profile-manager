@@ -32,4 +32,5 @@ def classFactory(iface):  # pylint: disable=invalid-name
     """
     #
     from .profile_manager import ProfileManager
+
     return ProfileManager(iface)
