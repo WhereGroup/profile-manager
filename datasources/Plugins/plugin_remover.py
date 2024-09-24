@@ -1,54 +1,46 @@
-# -*- coding: utf-8 -*-
-
 from configparser import RawConfigParser
-from os import path, chmod
 from shutil import rmtree
-from stat import S_IWRITE
-from PyQt5.QtCore import Qt
+
+from qgis.PyQt.QtWidgets import QMessageBox
+
+from ...utils import adjust_to_operating_system, tr
 
 
-class PluginRemover:
+def remove_plugins(
+        profile_path: str,
+        qgis_ini_file: str,
+        plugin_names: list[str],
+):
+    """Removes the specified plugins from the profile.
 
-    def __init__(self, profile_manager):
-        self.profile_manager = profile_manager
-        self.parser = RawConfigParser()
-        self.parser.optionxform = str
-        self.source_qgis_ini_file = ""
-        self.target_qgis_ini_file = ""
-        self.checked_items = []
-        self.plugin_list_widget = self.profile_manager.dlg.list_plugins
+    Removes both the files from python/plugins/ and the QGIS/QGIS3.ini [PythonPlugins] section entries.
 
-    def remove_plugins(self):
-        """Copies plugin folders into target destination"""
-        self.parser.clear()
-        self.parser.read(self.source_qgis_ini_file)
+    Note: Plugin specific settings are not removed as we have no way of knowing where or how they are stored.
 
-        self.plugin_list_widget = self.profile_manager.dlg.list_plugins
-        for item in self.plugin_list_widget.findItems("", Qt.MatchContains | Qt.MatchRecursive):
-            if item.checkState() == Qt.Checked:
-                self.checked_items.append(item.text())
+    Args:
+        TODO
+    """
+    ini_parser = RawConfigParser()
+    ini_parser.optionxform = str  # str = case-sensitive option names
+    ini_parser.read(qgis_ini_file)
 
-                # Removes plugin from active state list in PythonPlugins Section
-                if self.parser.has_option("PythonPlugins", item.text()):
-                    self.parser.remove_option("PythonPlugins", item.text())
+    for plugin_name in plugin_names:
+        # Removes plugin from active state list in PythonPlugins section
+        if ini_parser.has_option("PythonPlugins", plugin_name):
+            ini_parser.remove_option("PythonPlugins", plugin_name)
 
-                profile_paths = self.profile_manager.get_profile_paths()
+        plugins_dir = adjust_to_operating_system(profile_path + 'python/plugins/' + plugin_name + '/')
 
-                source_plugins_dir = self.profile_manager.adjust_to_operating_system(profile_paths["source"] + 'python/plugins/'
-                                                                                     + item.text() + '/')
+        try:
+            rmtree(plugins_dir)
+        except OSError as e:
+            # TODO do not do GUI stuff in these functions if possible, maybe return a list of errors instead?
+            QMessageBox.critical(
+                None,
+                tr("Plugin could not be removed"),
+                tr("Plugin '{0}' could not be removed due to error:\n{1}").format(plugin_name, e)
+            )
+            continue
 
-                if path.exists(source_plugins_dir):
-                    rmtree(source_plugins_dir, onerror=self.remove_readonly)
-                else:
-                    continue
-
-        with open(self.source_qgis_ini_file, 'w') as qgisconf:
-            self.parser.write(qgisconf)
-
-    def set_ini_paths(self, source, target):
-        self.source_qgis_ini_file = source
-        self.target_qgis_ini_file = target
-
-    def remove_readonly(self, func, path, excinfo):
-        chmod(path, S_IWRITE)
-        func(path)
+    with open(qgis_ini_file, 'w') as qgisconf:
+        ini_parser.write(qgisconf, space_around_delimiters=False)

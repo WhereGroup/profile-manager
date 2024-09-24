@@ -1,51 +1,39 @@
-# -*- coding: utf-8 -*-
-
-from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QDialog
-from qgis.core import QgsUserProfileManager
-from ..utils import wait_cursor
 from shutil import copytree
-from ..userInterface.create_profile_dialog import CreateProfileDialog
-from ..userInterface.message_box_factory import MessageBoxFactory
+
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox
+
+from ..userInterface.name_profile_dialog import NameProfileDialog
+from ..utils import wait_cursor
 
 
 class ProfileCopier(QDialog):
 
-    def __init__(self, profile_manager_dialog, qgis_path, profile_manager, profile_handler, error_text, *args, **kwargs):
-        super(ProfileCopier, self).__init__(*args, **kwargs)
+    def __init__(self, profile_manager_dialog, qgis_path, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.dlg = profile_manager_dialog
-        self.profile_handler = profile_handler
-        self.profile_manager = profile_manager
-        self.is_cancel_button_clicked = False
-        self.is_ok_button_clicked = False
-        self.message_box_factory = MessageBoxFactory(self.dlg)
         self.qgis_path = qgis_path
-        self.qgs_profile_manager = QgsUserProfileManager(self.qgis_path)
-        self.error_text = error_text
 
     def copy_profile(self):
-        if self.dlg.list_profiles.currentItem():
-            source_profile = self.dlg.list_profiles.currentItem()
-            source_profile_path =self.qgis_path + "/" + source_profile.text().replace(" - ", "") + "/"
-            dialog = CreateProfileDialog(self.dlg, self.profile_handler)
-            dialog.exec_()
+        source_profile = self.dlg.list_profiles.currentItem()
+        assert source_profile is not None  # should be forced by the GUI
+        source_profile_path = self.qgis_path + "/" + source_profile.text() + "/"
 
-            while not self.profile_handler.is_cancel_button_clicked and not self.profile_handler.is_ok_button_clicked:
-                QCoreApplication.processEvents()
-
-            if self.profile_handler.is_ok_button_clicked:
-                with wait_cursor():
-                    new_profile = dialog.text_input.text()
-                    if new_profile is "":
-                        self.message_box_factory.create_message_box(self.error_text, self.tr("No profile name provided!"))
-                    else:
-
-                        profile_path = self.qgis_path + "/" + new_profile + "/"
-
-                        try:
-                            copytree(source_profile_path, profile_path)
-                        except FileExistsError:
-                            self.message_box_factory.create_message_box(self.error_text, self.tr("Profile Directory already exists!"))
-        else:
-            self.message_box_factory.create_message_box(self.error_text, self.tr("Please select a profile to copy from!"))
+        dialog = NameProfileDialog()
+        return_code = dialog.exec()
+        if return_code == QDialog.Accepted:
+            error_message = None
+            with wait_cursor():
+                profile_name = dialog.text_input.text()
+                assert profile_name != ""  # should be forced by the GUI
+                profile_path = self.qgis_path + "/" + profile_name + "/"
+                try:
+                    copytree(source_profile_path, profile_path)
+                except FileExistsError:
+                    error_message = self.tr("Profile directory '{}' already exists.").format(profile_name)
+            if error_message:
+                QMessageBox.critical(None, self.tr("Profile could not be copied"), error_message)
+            else:
+                QMessageBox.information(
+                    None, self.tr("Profile copied"), self.tr("Profile '{}' successfully copied.").format(profile_name)
+                )
