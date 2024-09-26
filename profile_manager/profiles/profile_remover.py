@@ -1,15 +1,17 @@
 from pathlib import Path
 from shutil import rmtree
 
-from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.core import QgsApplication
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 
-from ..utils import adjust_to_operating_system, wait_cursor
+from profile_manager.utils import adjust_to_operating_system, wait_cursor
 
 
 class ProfileRemover(QDialog):
 
-    def __init__(self, profile_manager_dialog, qgis_path, profile_manager, *args, **kwargs):
+    def __init__(
+        self, profile_manager_dialog, qgis_path, profile_manager, *args, **kwargs
+    ):
         super().__init__(*args, **kwargs)
 
         self.dlg = profile_manager_dialog
@@ -32,8 +34,9 @@ class ProfileRemover(QDialog):
         clicked_button = QMessageBox.question(
             None,
             self.tr("Remove Profile"),
-            self.tr("Are you sure you want to remove the profile '{0}'?\n\nA backup will be created at '{1}'") \
-            .format(profile_name, self.profile_manager.backup_path),
+            self.tr(
+                "Are you sure you want to remove the profile '{0}'?\n\nA backup will be created at '{1}'"
+            ).format(profile_name, self.profile_manager.backup_path),
         )
 
         if clicked_button == QMessageBox.Yes:
@@ -43,18 +46,22 @@ class ProfileRemover(QDialog):
                 try:
                     self.profile_manager.make_backup(profile_name)
                 except OSError as e:
-                    error_message = \
-                        self.tr("Aborting removal of profile '{0}' due to error:\n{1}").format(profile_name, e)
+                    error_message = self.tr(
+                        "Aborting removal of profile '{0}' due to error:\n{1}"
+                    ).format(profile_name, e)
                 if error_message:
-                    QMessageBox.critical(None, self.tr("Backup could not be created"), error_message)
+                    QMessageBox.critical(
+                        None, self.tr("Backup could not be created"), error_message
+                    )
                     return
 
             with wait_cursor():
                 try:
                     rmtree(profile_path)
                 except FileNotFoundError as e:
-                    error_message = self.tr("Aborting removal of profile '{0}' due to error:\n{1}") \
-                        .format(profile_name, e)
+                    error_message = self.tr(
+                        "Aborting removal of profile '{0}' due to error:\n{1}"
+                    ).format(profile_name, e)
 
             if error_message:
                 QMessageBox.critical(
@@ -62,5 +69,7 @@ class ProfileRemover(QDialog):
                 )
             else:
                 QMessageBox.information(
-                    None, self.tr("Profile removed"), self.tr("Profile '{}' has been removed.").format(profile_name)
+                    None,
+                    self.tr("Profile removed"),
+                    self.tr("Profile '{}' has been removed.").format(profile_name),
                 )

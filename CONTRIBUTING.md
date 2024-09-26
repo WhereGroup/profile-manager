@@ -9,4 +9,3 @@ These are mostly guidelines, not rules. Use your best judgment, and feel free to
 We use git hooks through [pre-commit](https://pre-commit.com/) to enforce and automatically check some "rules". Please install them (`pre-commit install`) before to push any commit.
 
 See the relevant configuration file: `.pre-commit-config.yaml`.
-

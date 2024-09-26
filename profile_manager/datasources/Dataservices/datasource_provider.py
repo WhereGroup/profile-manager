@@ -2,14 +2,13 @@ from configparser import RawConfigParser
 from re import compile, search
 from urllib.parse import unquote
 
+from qgis.core import Qgis, QgsMessageLog
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtWidgets import QTreeWidgetItem
-from qgis.core import Qgis, QgsMessageLog
-
 
 # TODO document these! can we directly integrate them below somewhere?
-SERVICE_NAME_REGEX = compile(r'\\(.*?)\\')
-GPKG_SERVICE_NAME_REGEX = compile(r'\\(.+).\\')
+SERVICE_NAME_REGEX = compile(r"\\(.*?)\\")
+GPKG_SERVICE_NAME_REGEX = compile(r"\\(.+).\\")
 
 """
 "providername-ish": [  # a list of searching rules, not just one, because qgis changed between versions
@@ -109,7 +108,9 @@ DATA_SOURCE_SEARCH_LOCATIONS = {
 }
 
 
-def get_data_sources_tree(ini_path: str, provider: str, make_checkable: bool) -> QTreeWidgetItem:
+def get_data_sources_tree(
+    ini_path: str, provider: str, make_checkable: bool
+) -> QTreeWidgetItem:
     """Returns a tree of checkable items for all data sources of the specified provider in the INI file.
 
     The tree contains a checkable item per data source found.
@@ -124,16 +125,22 @@ def get_data_sources_tree(ini_path: str, provider: str, make_checkable: bool) ->
     """
     data_source_connections = gather_data_source_connections(ini_path, provider)
     if not data_source_connections:
-        QgsMessageLog.logMessage(f"- 0 {provider} connections found", "Profile Manager", Qgis.Info)
+        QgsMessageLog.logMessage(
+            f"- 0 {provider} connections found", "Profile Manager", Qgis.Info
+        )
         return None
     else:
         QgsMessageLog.logMessage(
-            f"- {len(data_source_connections)} {provider} connections found", "Profile Manager", Qgis.Info
+            f"- {len(data_source_connections)} {provider} connections found",
+            "Profile Manager",
+            Qgis.Info,
         )
 
     tree_root_item = QTreeWidgetItem([provider])
     if make_checkable:
-        tree_root_item.setFlags(tree_root_item.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
+        tree_root_item.setFlags(
+            tree_root_item.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable
+        )
 
     data_source_items = []
     for data_source_connection in data_source_connections:
@@ -145,6 +152,7 @@ def get_data_sources_tree(ini_path: str, provider: str, make_checkable: bool) ->
 
     tree_root_item.addChildren(data_source_items)
     return tree_root_item
+
 
 def gather_data_source_connections(ini_path: str, provider: str) -> list[str]:
     """Returns the names of all data source connections of the specified provider in the INI file.
@@ -181,16 +189,24 @@ def gather_data_source_connections(ini_path: str, provider: str) -> list[str]:
     regex_pattern = compile(regex)
     for key in section:
         if regex_pattern.search(key):
-            if provider == "GeoPackage":  # TODO move this logic/condition into the rules if possible?
+            if (
+                provider == "GeoPackage"
+            ):  # TODO move this logic/condition into the rules if possible?
                 source_name_raw = search(GPKG_SERVICE_NAME_REGEX, key)
-                source_name = source_name_raw.group(0).replace("\\GPKG\\connections\\", "").replace("\\", "")
+                source_name = (
+                    source_name_raw.group(0)
+                    .replace("\\GPKG\\connections\\", "")
+                    .replace("\\", "")
+                )
             else:
                 source_name_raw = search(SERVICE_NAME_REGEX, key)
                 source_name = source_name_raw.group(0).replace("\\", "")
             # TODO what are the replacements needed for?!
 
             # TODO "Bing VirtualEarth 💩" is not rendered well, also fails to import to other profile...
-            source_name = unquote(source_name, 'latin-1')  # needed for e.g. %20 in connection names
+            source_name = unquote(
+                source_name, "latin-1"
+            )  # needed for e.g. %20 in connection names
             data_source_connections.append(source_name)
 
     return data_source_connections

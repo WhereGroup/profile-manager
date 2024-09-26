@@ -3,14 +3,14 @@ from os import path
 from pathlib import Path
 from shutil import copytree
 
-from ...utils import adjust_to_operating_system
+from profile_manager.utils import adjust_to_operating_system
 
 
 def import_plugins(
-        source_profile_path: str,
-        target_profile_path: str,
-        target_qgis_ini_file: str,
-        plugin_names: list[str],
+    source_profile_path: str,
+    target_profile_path: str,
+    target_qgis_ini_file: str,
+    plugin_names: list[str],
 ):
     """Copies the specified plugins from source to target profile.
 
@@ -42,16 +42,22 @@ def import_plugins(
     for plugin_name in plugin_names:
         ini_parser.set("PythonPlugins", plugin_name, "true")
 
-        source_plugin_dir = adjust_to_operating_system(source_profile_path + 'python/plugins/' + plugin_name + '/')
-        target_plugin_dir = adjust_to_operating_system(target_profile_path + 'python/plugins/' + plugin_name + '/')
+        source_plugin_dir = adjust_to_operating_system(
+            source_profile_path + "python/plugins/" + plugin_name + "/"
+        )
+        target_plugin_dir = adjust_to_operating_system(
+            target_profile_path + "python/plugins/" + plugin_name + "/"
+        )
 
         if path.exists(source_plugin_dir):
-            if not path.exists(target_profile_path + 'python/plugins/'):
-                Path(target_profile_path + 'python/plugins/').mkdir(parents=True, exist_ok=True)
+            if not path.exists(target_profile_path + "python/plugins/"):
+                Path(target_profile_path + "python/plugins/").mkdir(
+                    parents=True, exist_ok=True
+                )
             if not path.isdir(target_plugin_dir):
                 copytree(source_plugin_dir, target_plugin_dir)
         else:
             continue  # TODO error, dont skip silently!
 
-    with open(target_qgis_ini_file, 'w') as qgisconf:
+    with open(target_qgis_ini_file, "w") as qgisconf:
         ini_parser.write(qgisconf, space_around_delimiters=False)

@@ -1,8 +1,8 @@
 from qgis.PyQt.QtCore import Qt
 
-from .plugin_displayer import PluginDisplayer
-from .plugin_importer import import_plugins
-from .plugin_remover import remove_plugins
+from profile_manager.datasources.Plugins.plugin_displayer import PluginDisplayer
+from profile_manager.datasources.Plugins.plugin_importer import import_plugins
+from profile_manager.datasources.Plugins.plugin_remover import remove_plugins
 
 
 class PluginHandler:
@@ -16,19 +16,32 @@ class PluginHandler:
     def populate_plugins_list(self, only_for_target_profile=False):
         """Gets active plugins from ini file and displays them in treeWidget"""
         self.set_path_files()
-        self.plugin_displayer.set_ini_paths(self.source_qgis_ini_file, self.target_qgis_ini_file)
-        self.plugin_displayer.populate_plugins_list(only_populate_target_profile=only_for_target_profile)
+        self.plugin_displayer.set_ini_paths(
+            self.source_qgis_ini_file, self.target_qgis_ini_file
+        )
+        self.plugin_displayer.populate_plugins_list(
+            only_populate_target_profile=only_for_target_profile
+        )
 
     def import_selected_plugins(self):
         """Import selected plugins into target profile"""
-        source_profile_path, target_profile_path = self.profile_manager.get_profile_paths()
+        source_profile_path, target_profile_path = (
+            self.profile_manager.get_profile_paths()
+        )
 
         plugin_names = []
-        for item in self.profile_manager.dlg.list_plugins.findItems("", Qt.MatchContains | Qt.MatchRecursive):
+        for item in self.profile_manager.dlg.list_plugins.findItems(
+            "", Qt.MatchContains | Qt.MatchRecursive
+        ):
             if item.checkState() == Qt.Checked:
                 plugin_names.append(item.text())
 
-        import_plugins(source_profile_path, target_profile_path, self.target_qgis_ini_file, plugin_names)
+        import_plugins(
+            source_profile_path,
+            target_profile_path,
+            self.target_qgis_ini_file,
+            plugin_names,
+        )
         self.populate_plugins_list()
 
     def remove_selected_plugins(self):
@@ -36,7 +49,9 @@ class PluginHandler:
         source_profile_path, _ = self.profile_manager.get_profile_paths()
 
         plugin_names = []
-        for item in self.profile_manager.dlg.list_plugins.findItems("", Qt.MatchContains | Qt.MatchRecursive):
+        for item in self.profile_manager.dlg.list_plugins.findItems(
+            "", Qt.MatchContains | Qt.MatchRecursive
+        ):
             if item.checkState() == Qt.Checked:
                 plugin_names.append(item.text())
 

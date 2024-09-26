@@ -1,4 +1,4 @@
-from qgis.PyQt.QtCore import QRegularExpression, Qt
+from qgis.PyQt.QtCore import QRegularExpression
 from qgis.PyQt.QtGui import QRegularExpressionValidator
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QLineEdit, QVBoxLayout
 
@@ -22,7 +22,9 @@ class NameProfileDialog(QDialog):
         self.text_input = QLineEdit()
         self.text_input.setPlaceholderText(self.tr("Profile Name"))
         # validation rule from QGIS' QgsUserProfileSelectionDialog
-        self.text_input.setValidator(QRegularExpressionValidator(QRegularExpression("[^/\\\\]+")))
+        self.text_input.setValidator(
+            QRegularExpressionValidator(QRegularExpression("[^/\\\\]+"))
+        )
 
         self.button_box = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
         self.button_box = QDialogButtonBox(self.button_box)

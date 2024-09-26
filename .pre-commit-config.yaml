@@ -21,7 +21,7 @@ repos:
           - --markdown-linebreak-ext=md
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.5.0"
+    rev: "v0.6.7"
     hooks:
       - id: ruff
         args:
@@ -29,7 +29,7 @@ repos:
           - --target-version=py39
 
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 24.8.0
     hooks:
       - id: black
         args:
@@ -53,7 +53,7 @@ repos:
           - --filter-files
 
   - repo: https://github.com/pycqa/flake8
-    rev: 7.1.0
+    rev: 7.1.1
     hooks:
       - id: flake8
         additional_dependencies: ["flake8-qgis"]

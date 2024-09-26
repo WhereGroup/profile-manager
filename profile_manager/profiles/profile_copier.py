@@ -2,8 +2,8 @@ from shutil import copytree
 
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 
-from ..userInterface.name_profile_dialog import NameProfileDialog
-from ..utils import wait_cursor
+from profile_manager.userInterface.name_profile_dialog import NameProfileDialog
+from profile_manager.utils import wait_cursor
 
 
 class ProfileCopier(QDialog):
@@ -30,10 +30,16 @@ class ProfileCopier(QDialog):
                 try:
                     copytree(source_profile_path, profile_path)
                 except FileExistsError:
-                    error_message = self.tr("Profile directory '{}' already exists.").format(profile_name)
+                    error_message = self.tr(
+                        "Profile directory '{}' already exists."
+                    ).format(profile_name)
             if error_message:
-                QMessageBox.critical(None, self.tr("Profile could not be copied"), error_message)
+                QMessageBox.critical(
+                    None, self.tr("Profile could not be copied"), error_message
+                )
             else:
                 QMessageBox.information(
-                    None, self.tr("Profile copied"), self.tr("Profile '{}' successfully copied.").format(profile_name)
+                    None,
+                    self.tr("Profile copied"),
+                    self.tr("Profile '{}' successfully copied.").format(profile_name),
                 )
