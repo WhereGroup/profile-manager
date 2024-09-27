@@ -5,7 +5,7 @@ from qgis.PyQt.QtCore import Qt, QVariant
 from qgis.PyQt.QtGui import QColor, QIcon, QPalette
 from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
 
-from profile_manager.datasources.Dataservices.datasource_provider import (
+from profile_manager.datasources.dataservices.datasource_provider import (
     DATA_SOURCE_SEARCH_LOCATIONS,
     get_data_sources_tree,
 )

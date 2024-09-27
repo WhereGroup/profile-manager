@@ -29,6 +29,7 @@ from pathlib import Path
 from shutil import copytree
 from sys import platform
 
+# PyQGIS
 from qgis.core import Qgis, QgsMessageLog, QgsUserProfileManager
 from qgis.PyQt.QtCore import (
     QCoreApplication,
@@ -41,13 +42,13 @@ from qgis.PyQt.QtCore import (
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox, QWidget
 
-# Import subclasses
-from profile_manager.datasources.Dataservices.datasource_handler import (
+# plugin
+from profile_manager.datasources.dataservices.datasource_handler import (
     DataSourceHandler,
 )
+from profile_manager.gui.interface_handler import InterfaceHandler
 from profile_manager.profile_manager_dialog import ProfileManagerDialog
 from profile_manager.profiles.profile_action_handler import ProfileActionHandler
-from profile_manager.userInterface.interface_handler import InterfaceHandler
 from profile_manager.utils import adjust_to_operating_system, wait_cursor
 
 

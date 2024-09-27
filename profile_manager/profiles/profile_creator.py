@@ -3,7 +3,7 @@ from os import mkdir
 from qgis.core import QgsUserProfileManager
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 
-from profile_manager.userInterface.name_profile_dialog import NameProfileDialog
+from profile_manager.gui.name_profile_dialog import NameProfileDialog
 from profile_manager.utils import adjust_to_operating_system, wait_cursor
 
 
