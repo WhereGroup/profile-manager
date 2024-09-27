@@ -273,7 +273,6 @@ class ProfileManager:
                 + "/qgis.org/QGIS3.ini"
             )
             self.operating_system = "mac"
-            self.interface_handler.adjust_to_macOSDark()
         else:
             self.qgis_profiles_path = f"{home_path}/.local/share/QGIS/QGIS3/profiles"
             self.ini_path = (

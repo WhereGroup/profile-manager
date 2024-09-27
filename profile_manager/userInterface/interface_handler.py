@@ -111,24 +111,6 @@ class InterfaceHandler(QDialog):
         self.dlg.list_profiles.blockSignals(False)
         self.conditionally_enable_profile_buttons()
 
-    def adjust_to_macOSDark(self):
-        from profile_manager.darkdetect import _detect
-
-        if _detect.isDark():
-            # Change ComboBox selected from black to white
-            self.dlg.comboBoxNamesSource.setStyleSheet("color: white")
-            self.dlg.comboBoxNamesTarget.setStyleSheet("color: white")
-
-            # Set checkbox indicator of the treewidget from black to white
-            file_tree_palette = QPalette()
-            file_tree_palette.setColor(QPalette.Window, QColor(255, 255, 255))
-            file_tree_palette.setColor(QPalette.Base, QColor(30, 30, 30))
-            file_tree_palette.setColor(QPalette.Highlight, QColor(93, 93, 93))
-            self.dlg.treeWidgetSource.setPalette(file_tree_palette)
-
-            # set checkbox indicator of listwidget from black to white
-            self.dlg.list_plugins.setPalette(file_tree_palette)
-
     def setup_connections(self):
         """Set up connections"""
         # buttons
