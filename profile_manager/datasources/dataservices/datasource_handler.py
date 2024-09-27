@@ -1,21 +1,21 @@
 from qgis.PyQt.QtWidgets import QMessageBox
 
-from profile_manager.datasources.Bookmarks.bookmark_handler import import_bookmarks
-from profile_manager.datasources.Customizations.customization_handler import (
+from profile_manager.datasources.bookmarks.bookmark_handler import import_bookmarks
+from profile_manager.datasources.customizations.customization_handler import (
     import_customizations,
 )
-from profile_manager.datasources.Dataservices.datasource_distributor import (
+from profile_manager.datasources.dataservices.datasource_distributor import (
     import_data_sources,
     remove_data_sources,
 )
-from profile_manager.datasources.Favourites.favourites_handler import import_favourites
-from profile_manager.datasources.Functions.function_handler import (
+from profile_manager.datasources.favourites.favourites_handler import import_favourites
+from profile_manager.datasources.functions.function_handler import (
     import_expression_functions,
 )
-from profile_manager.datasources.Models.model_handler import import_models
-from profile_manager.datasources.Models.script_handler import import_scripts
-from profile_manager.datasources.Plugins.plugin_handler import PluginHandler
-from profile_manager.datasources.Styles.style_handler import import_styles
+from profile_manager.datasources.models.model_handler import import_models
+from profile_manager.datasources.models.script_handler import import_scripts
+from profile_manager.datasources.plugins.plugin_handler import PluginHandler
+from profile_manager.datasources.styles.style_handler import import_styles
 from profile_manager.utils import adjust_to_operating_system
 
 

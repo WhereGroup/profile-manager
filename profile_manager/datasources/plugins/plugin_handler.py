@@ -1,8 +1,8 @@
 from qgis.PyQt.QtCore import Qt
 
-from profile_manager.datasources.Plugins.plugin_displayer import PluginDisplayer
-from profile_manager.datasources.Plugins.plugin_importer import import_plugins
-from profile_manager.datasources.Plugins.plugin_remover import remove_plugins
+from profile_manager.datasources.plugins.plugin_displayer import PluginDisplayer
+from profile_manager.datasources.plugins.plugin_importer import import_plugins
+from profile_manager.datasources.plugins.plugin_remover import remove_plugins
 
 
 class PluginHandler:
