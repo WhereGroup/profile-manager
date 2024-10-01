@@ -122,7 +122,7 @@ class InterfaceHandler(QDialog):
         self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(
             self.conditionally_enable_import_button
         )
-        self.dlg.list_profiles.currentItemChanged.connect(
+        self.dlg.list_profiles.selectionModel().selectionChanged.connect(
             self.conditionally_enable_profile_buttons
         )
 

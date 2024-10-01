@@ -21,14 +21,18 @@
  ***************************************************************************/
 """
 
+# standard
 import os
 from pathlib import Path
 from typing import Optional
 
+# pyQGIS
 from qgis.PyQt import QtWidgets, uic
 from qgis.PyQt.QtWidgets import QMessageBox
-from .userInterface.mdl_profiles import ProfileListModel
-from .qdt_export.profile_export import export_profile_for_qdt, get_qdt_profile_infos_from_file, QDTProfileInfos
+
+# plugin
+from profile_manager.gui.mdl_profiles import ProfileListModel
+from profile_manager.qdt_export.profile_export import export_profile_for_qdt, get_qdt_profile_infos_from_file, QDTProfileInfos
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(

@@ -3,7 +3,7 @@ from qgis.PyQt.QtCore import QObject, Qt, QModelIndex
 from qgis.PyQt.QtGui import QStandardItemModel
 from qgis.core import QgsUserProfileManager, QgsUserProfile, QgsApplication
 
-from ..profiles.utils import qgis_profiles_path
+from profile_manager.profiles.utils import qgis_profiles_path
 
 
 class ProfileListModel(QStandardItemModel):

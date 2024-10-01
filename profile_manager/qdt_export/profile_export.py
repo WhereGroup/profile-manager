@@ -8,7 +8,7 @@ import json
 
 import pyplugin_installer
 
-from ..profiles.utils import (
+from profile_manager.profiles.utils import (
     qgis_profiles_path,
     get_profile_plugin_list_information,
 )
