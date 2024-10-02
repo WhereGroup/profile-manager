@@ -1,18 +1,16 @@
-from dataclasses import dataclass
 import dataclasses
+import json
+from dataclasses import dataclass
 from pathlib import Path
 from shutil import copytree, rmtree
 from typing import Any, Dict
 
-import json
-
 import pyplugin_installer
 
 from profile_manager.profiles.utils import (
-    qgis_profiles_path,
     get_profile_plugin_list_information,
+    qgis_profiles_path,
 )
-
 
 QDT_PROFILE_SCHEMA = "https://raw.githubusercontent.com/Guts/qgis-deployment-cli/main/docs/schemas/profile/qgis_profile.json"
 
@@ -28,7 +26,7 @@ class QDTProfileInfos:
     qgis_max_version: str = ""
 
 
-def get_qdt_profile_infos_from_file(profile_file : Path) -> QDTProfileInfos:
+def get_qdt_profile_infos_from_file(profile_file: Path) -> QDTProfileInfos:
     """Get QDT Profile informations from a profile.json file
     File must exists
 
@@ -38,7 +36,7 @@ def get_qdt_profile_infos_from_file(profile_file : Path) -> QDTProfileInfos:
     Returns:
         QDTProfileInfos: QDT Profile informations
     """
-    with open(profile_file, 'r') as f:
+    with open(profile_file, "r") as f:
         qdt_profile_data = json.load(f)
         return QDTProfileInfos(
             description=qdt_profile_data.get("description", ""),
@@ -47,6 +45,7 @@ def get_qdt_profile_infos_from_file(profile_file : Path) -> QDTProfileInfos:
             qgis_min_version=qdt_profile_data.get("qgisMinimumVersion", ""),
             qgis_max_version=qdt_profile_data.get("qgisMaximumVersion", ""),
         )
+
 
 def qdt_profile_dict(
     profile_name: str,

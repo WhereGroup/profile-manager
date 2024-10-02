@@ -32,7 +32,11 @@ from qgis.PyQt.QtWidgets import QMessageBox
 
 # plugin
 from profile_manager.gui.mdl_profiles import ProfileListModel
-from profile_manager.qdt_export.profile_export import export_profile_for_qdt, get_qdt_profile_infos_from_file, QDTProfileInfos
+from profile_manager.qdt_export.profile_export import (
+    QDTProfileInfos,
+    export_profile_for_qdt,
+    get_qdt_profile_infos_from_file,
+)
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(
@@ -71,7 +75,7 @@ class ProfileManagerDialog(QtWidgets.QDialog, FORM_CLASS):
         if index.isValid():
             return self.list_profiles.model().data(index, ProfileListModel.NAME_COL)
         return None
-    
+
     def _qdt_export_dir_changed(self) -> None:
         """Update UI when QDT export dir is changed:
         - enabled/disable button
@@ -82,10 +86,11 @@ class ProfileManagerDialog(QtWidgets.QDialog, FORM_CLASS):
             self.export_qdt_button.setEnabled(True)
             profile_json = Path(export_dir) / "profile.json"
             if profile_json.exists():
-                self._set_qdt_profile_infos(get_qdt_profile_infos_from_file(profile_json))
+                self._set_qdt_profile_infos(
+                    get_qdt_profile_infos_from_file(profile_json)
+                )
         else:
             self.export_qdt_button.setEnabled(False)
-
 
     def _get_qdt_profile_infos(self) -> QDTProfileInfos:
         """Get QDTProfileInfos from UI
@@ -94,14 +99,14 @@ class ProfileManagerDialog(QtWidgets.QDialog, FORM_CLASS):
             QDTProfileInfos: QDT Profile Information
         """
         return QDTProfileInfos(
-                description=self.qdt_description_edit.toPlainText(),
-                email=self.qdt_email_edit.text(),
-                version=self.qdt_version_edit.text(),
-                qgis_min_version=self.qdt_qgis_min_version_edit.text(),
-                qgis_max_version=self.qdt_qgis_max_version_edit.text(),
-            )   
+            description=self.qdt_description_edit.toPlainText(),
+            email=self.qdt_email_edit.text(),
+            version=self.qdt_version_edit.text(),
+            qgis_min_version=self.qdt_qgis_min_version_edit.text(),
+            qgis_max_version=self.qdt_qgis_max_version_edit.text(),
+        )
 
-    def _set_qdt_profile_infos(self, qdt_profile_infos : QDTProfileInfos) -> None:
+    def _set_qdt_profile_infos(self, qdt_profile_infos: QDTProfileInfos) -> None:
         """Set QDTProfileInfos in UI
 
         Args:
@@ -128,9 +133,5 @@ class ProfileManagerDialog(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(
                 self,
                 self.tr("QDT profile export"),
-                self.tr(
-                    "QDT profile have been successfully exported."
-                ),
+                self.tr("QDT profile have been successfully exported."),
             )
-
-

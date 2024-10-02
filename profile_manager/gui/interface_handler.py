@@ -1,9 +1,8 @@
 from pathlib import Path
 
 from qgis.core import Qgis, QgsApplication, QgsMessageLog
-from qgis.PyQt.QtCore import Qt, QVariant
-from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import QDialog
 
 from profile_manager.datasources.dataservices.datasource_provider import (
     DATA_SOURCE_SEARCH_LOCATIONS,

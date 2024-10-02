@@ -28,8 +28,10 @@ class ProfileCreator(QDialog):
                 assert profile_name != ""  # should be forced by the GUI
                 self.qgs_profile_manager.createUserProfile(profile_name)
                 try:
-                    if platform is 'darwin':
-                        profile_path = self.qgis_path + "/" + profile_name + "/qgis.org/"
+                    if platform == "darwin":
+                        profile_path = (
+                            self.qgis_path + "/" + profile_name + "/qgis.org/"
+                        )
                     else:
                         profile_path = self.qgis_path + "/" + profile_name + "/QGIS/"
 

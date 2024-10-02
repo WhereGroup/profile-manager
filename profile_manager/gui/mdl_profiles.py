@@ -1,7 +1,8 @@
 from pathlib import Path
-from qgis.PyQt.QtCore import QObject, Qt, QModelIndex
+
+from qgis.core import QgsApplication, QgsUserProfile, QgsUserProfileManager
+from qgis.PyQt.QtCore import QModelIndex, QObject, Qt
 from qgis.PyQt.QtGui import QStandardItemModel
-from qgis.core import QgsUserProfileManager, QgsUserProfile, QgsApplication
 
 from profile_manager.profiles.utils import qgis_profiles_path
 

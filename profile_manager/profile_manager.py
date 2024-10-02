@@ -27,7 +27,6 @@ from collections import defaultdict
 from os import path
 from pathlib import Path
 from shutil import copytree
-from sys import platform
 
 # PyQGIS
 from qgis.core import Qgis, QgsMessageLog, QgsUserProfileManager
@@ -49,8 +48,8 @@ from profile_manager.datasources.dataservices.datasource_handler import (
 from profile_manager.gui.interface_handler import InterfaceHandler
 from profile_manager.profile_manager_dialog import ProfileManagerDialog
 from profile_manager.profiles.profile_action_handler import ProfileActionHandler
+from profile_manager.profiles.utils import get_profile_qgis_ini_path, qgis_profiles_path
 from profile_manager.utils import adjust_to_operating_system, wait_cursor
-from profile_manager.profiles.utils import qgis_profiles_path, get_profile_qgis_ini_path
 
 
 class ProfileManager:
@@ -252,7 +251,7 @@ class ProfileManager:
 
     def set_paths(self):
         """Sets various OS and profile dependent paths"""
-        self.qgis_profiles_path = str(qgis_profiles_path())        
+        self.qgis_profiles_path = str(qgis_profiles_path())
 
         self.backup_path = adjust_to_operating_system(
             str(Path.home()) + "/QGIS Profile Manager Backup/"
@@ -458,8 +457,12 @@ class ProfileManager:
     def get_ini_paths(self):
         """Gets path to current chosen source and target qgis.ini file"""
         ini_paths = {
-            "source": str(get_profile_qgis_ini_path(self.dlg.comboBoxNamesSource.currentText())),
-            "target": str(get_profile_qgis_ini_path(self.dlg.comboBoxNamesTarget.currentText())),
+            "source": str(
+                get_profile_qgis_ini_path(self.dlg.comboBoxNamesSource.currentText())
+            ),
+            "target": str(
+                get_profile_qgis_ini_path(self.dlg.comboBoxNamesTarget.currentText())
+            ),
         }
 
         return ini_paths

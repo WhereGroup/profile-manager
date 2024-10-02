@@ -1,14 +1,12 @@
+from configparser import NoSectionError, RawConfigParser
 from dataclasses import dataclass
 from pathlib import Path
 from sys import platform
 from typing import Any, Dict, List, Optional
-from configparser import NoSectionError, RawConfigParser
-
-
-from qgis.core import QgsUserProfileManager
-from qgis.utils import iface
 
 import pyplugin_installer
+from qgis.core import QgsUserProfileManager
+from qgis.utils import iface
 
 
 def qgis_profiles_path() -> Path:
@@ -105,7 +103,7 @@ def get_installed_plugin_metadata(
 
 
 def get_plugin_info_from_qgis_manager(
-    plugin_slug_name: str, reload_manager : bool = False
+    plugin_slug_name: str, reload_manager: bool = False
 ) -> Optional[Dict[str, str]]:
     """Get plugin informations from QGIS plugin manager
 
