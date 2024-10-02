@@ -1,0 +1,34 @@
+ci-cd:
+  - changed-files:
+      - any-glob-to-any-file: .github/**
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - requirements/*.txt
+          - requirements.txt
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - docs/**
+          - requirements/documentation.txt
+
+enhancement:
+  - head-branch: ["^feature", "feature", "^improve", "improve"]
+
+packaging:
+  - head-branch: ["^packaging", "packaging"]
+
+tooling:
+  - head-branch: ["^tooling", "tooling"]
+  - changed-files:
+      - any-glob-to-any-file:
+          - .pre-commit-config.yaml
+
+UI:
+  - head-branch: ["^ui", "ui"]
+  - changed-files:
+      - any-glob-to-any-file:
+          - profile_manager/**/*.ui
+          - profile_manager/gui/**
