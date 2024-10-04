@@ -7,10 +7,13 @@ SOURCES = \
 	../../profiles/profile_remover.py \
 	../../profiles/profile_creator.py \
 	../../profiles/profile_action_handler.py \
+	../../profiles/utils.py \
 	../../profile_manager_dialog.py \
 	../../gui/interface_handler.py \
 	../../gui/name_profile_dialog.py \
+	../../gui/mdl_profiles.py \
 	../../profile_manager.py \
+	../../qdt_export/profile_export.py \
 	../../datasources/functions/function_handler.py \
 	../../datasources/dataservices/datasource_distributor.py \
 	../../datasources/dataservices/datasource_provider.py \

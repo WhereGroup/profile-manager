@@ -23,12 +23,11 @@ class ProfileRemover(QDialog):
 
         Aborts and shows an error message if no backup could be made.
         """
-        profile_item = self.dlg.list_profiles.currentItem()
+        profile_name = self.dlg.get_list_selection_profile_name()
         # bad states that should be prevented by the GUI
-        assert profile_item is not None
-        assert profile_item.text() != Path(QgsApplication.qgisSettingsDirPath()).name
+        assert profile_name is not None
+        assert profile_name != Path(QgsApplication.qgisSettingsDirPath()).name
 
-        profile_name = profile_item.text()
         profile_path = adjust_to_operating_system(self.qgis_path + "/" + profile_name)
 
         clicked_button = QMessageBox.question(

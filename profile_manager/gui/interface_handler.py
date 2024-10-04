@@ -1,9 +1,8 @@
 from pathlib import Path
 
 from qgis.core import Qgis, QgsApplication, QgsMessageLog
-from qgis.PyQt.QtCore import Qt, QVariant
-from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QDialog, QListWidgetItem
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import QDialog
 
 from profile_manager.datasources.dataservices.datasource_provider import (
     DATA_SOURCE_SEARCH_LOCATIONS,
@@ -73,36 +72,8 @@ class InterfaceHandler(QDialog):
 
         Also updates button states according to resulting selections.
         """
-        profile_names = self.profile_manager.qgs_profile_manager.allProfiles()
-        active_profile_name = Path(QgsApplication.qgisSettingsDirPath()).name
-
         self.dlg.comboBoxNamesSource.blockSignals(True)
-        self.dlg.comboBoxNamesTarget.blockSignals(True)
-        self.dlg.list_profiles.blockSignals(True)
-
-        self.dlg.comboBoxNamesSource.clear()
-        self.dlg.comboBoxNamesTarget.clear()
-        self.dlg.list_profiles.clear()
-        for i, name in enumerate(profile_names):
-            # Init source profiles combobox
-            self.dlg.comboBoxNamesSource.addItem(name)
-            if name == active_profile_name:
-                font = self.dlg.comboBoxNamesSource.font()
-                font.setItalic(True)
-                self.dlg.comboBoxNamesSource.setItemData(i, QVariant(font), Qt.FontRole)
-            # Init target profiles combobox
-            self.dlg.comboBoxNamesTarget.addItem(name)
-            if name == active_profile_name:
-                font = self.dlg.comboBoxNamesTarget.font()
-                font.setItalic(True)
-                self.dlg.comboBoxNamesTarget.setItemData(i, QVariant(font), Qt.FontRole)
-            # Add profiles to list view
-            list_item = QListWidgetItem(QIcon("../icon.png"), name)
-            if name == active_profile_name:
-                font = list_item.font()
-                font.setItalic(True)
-                list_item.setFont(font)
-            self.dlg.list_profiles.addItem(list_item)
+        active_profile_name = Path(QgsApplication.qgisSettingsDirPath()).name
 
         self.dlg.comboBoxNamesSource.setCurrentText(active_profile_name)
 
@@ -150,7 +121,7 @@ class InterfaceHandler(QDialog):
         self.dlg.comboBoxNamesTarget.currentIndexChanged.connect(
             self.conditionally_enable_import_button
         )
-        self.dlg.list_profiles.currentItemChanged.connect(
+        self.dlg.list_profiles.selectionModel().selectionChanged.connect(
             self.conditionally_enable_profile_buttons
         )
 
@@ -223,7 +194,7 @@ class InterfaceHandler(QDialog):
         Called when profile selection changes in the Profiles tab.
         """
         # A profile must be selected
-        if self.dlg.list_profiles.currentItem() is None:
+        if self.dlg.get_list_selection_profile_name() is None:
             self.dlg.removeProfileButton.setToolTip(
                 self.tr("Please choose a profile to remove")
             )
@@ -238,7 +209,7 @@ class InterfaceHandler(QDialog):
             self.dlg.copyProfileButton.setEnabled(False)
         # Some actions can/should not be done on the currently active profile
         elif (
-            self.dlg.list_profiles.currentItem().text()
+            self.dlg.get_list_selection_profile_name()
             == Path(QgsApplication.qgisSettingsDirPath()).name
         ):
             self.dlg.removeProfileButton.setToolTip(
