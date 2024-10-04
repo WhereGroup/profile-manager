@@ -18,6 +18,7 @@ Unreleased
 
 ## 0.5.0-beta1 - 2024-10-04
 
+- add tab to export profile for QGIS Deployment Toolbelt
 - add modern plugin's packaging using QGIS Plugin CI
 - apply Python coding rules to whole codebase (PEP8)
 - remove dead code
