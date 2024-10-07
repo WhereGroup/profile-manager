@@ -1,13 +1,13 @@
 [general]
 name=Profile Manager
 description=Makes handling profiles easy by giving you an UI to easily import settings from one profile to another
-about=A QGIS Plugin that provides an UI to easily manage your profiles and import various settings from one profile to another
+about=A QGIS Plugin that provides an UI to easily manage your profiles and import various settings from one profile to another. Compatible with QGIS Deployment Toolbelt (QDT).
 category=Plugins
-tags=profilemanager, manager, profiles, python
+tags=profilemanager, manager, profiles, QDT, deployment, customization
 icon=icon.png
 
 # credits and contact
-author=WhereGroup GmbH
+author=WhereGroup GmbH, Oslandia
 email=info@wheregroup.com
 homepage=https://wheregroup.com/
 repository=https://github.com/WhereGroup/profile-manager/
@@ -17,7 +17,7 @@ tracker=https://github.com/WhereGroup/profile-manager/issues
 deprecated=False
 experimental=True
 hasProcessingProvider=no
-qgisMinimumVersion=3.12
+qgisMinimumVersion=3.28
 qgisMaximumVersion=3.99
 server=False
 
