@@ -16,13 +16,13 @@ Unreleased
 
 -->
 
-## 0.5.0-beta1 - 2024-10-04
+## 0.5.0-beta1 - 2024-10-09
 
-- add tab to export profile for QGIS Deployment Toolbelt
-- add modern plugin's packaging using QGIS Plugin CI
+- add tab to export profile ready for [QGIS Deployment Toolbelt](https://github.com/Guts/qgis-deployment-cli/) - See related [issue](https://github.com/WhereGroup/profile-manager/issues/10)
+- add modern plugin's packaging using [QGIS Plugin CI](https://github.com/opengisch/qgis-plugin-ci/)
 - apply Python coding rules to whole codebase (PEP8)
-- remove dead code
-- add Git hooks and quality tooling
+- remove dead code and every Plugin builder related files
+- add Git hooks (pre-commit) and quality tooling
 - ships the big refactoring started in 2023
 
 ## 0.4 - 2023-06-29
