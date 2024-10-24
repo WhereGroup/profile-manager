@@ -18,8 +18,8 @@ KNOWN_WEB_SOURCES = [
 def import_data_sources(
     source_qgis_ini_file: str,
     target_qgis_ini_file: str,
-    dictionary_of_checked_database_sources: dict,
     dictionary_of_checked_web_sources: dict,
+    dictionary_of_checked_database_sources: dict,
 ):
     """Handles data source import"""
     dictionary_of_checked_sources = {
@@ -71,8 +71,8 @@ def import_data_sources(
 
 def remove_data_sources(
     qgis_ini_file: str,
-    dictionary_of_checked_database_sources: dict,
     dictionary_of_checked_web_sources: dict,
+    dictionary_of_checked_database_sources: dict,
 ):
     """Handles data source removal from file"""
     dictionary_of_checked_sources = {
