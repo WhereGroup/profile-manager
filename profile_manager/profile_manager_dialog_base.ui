@@ -148,7 +148,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="removeSourcesButton">
+           <widget class="QPushButton" name="removeThingsButton">
             <property name="toolTip">
              <string>Remove selected items from source profile</string>
             </property>
@@ -158,7 +158,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="importButton">
+           <widget class="QPushButton" name="importThingsButton">
             <property name="toolTip">
              <string>Import selected items from source to target profile</string>
             </property>
@@ -204,7 +204,7 @@
             <widget class="QTreeWidget" name="treeWidgetSource">
              <column>
               <property name="text">
-               <string>Source Profile:</string>
+               <string>Data sources in source profile</string>
               </property>
              </column>
             </widget>
@@ -219,7 +219,7 @@
              </property>
              <column>
               <property name="text">
-               <string>Target Profile:</string>
+               <string>Data sources in target profile</string>
               </property>
              </column>
             </widget>
@@ -310,16 +310,16 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="ui_check">
+               <widget class="QCheckBox" name="customization_check">
                 <property name="text">
                  <string>UI Customization (e.g. hidden toolbar icons)</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="functions_check">
+               <widget class="QCheckBox" name="expressions_check">
                 <property name="text">
-                 <string>Expression Functions</string>
+                 <string>Expressions</string>
                 </property>
                </widget>
               </item>
@@ -469,7 +469,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="closeDialog">
+    <widget class="QDialogButtonBox" name="closeButton">
      <property name="standardButtons">
       <set>QDialogButtonBox::Close</set>
      </property>
