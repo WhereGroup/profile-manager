@@ -22,5 +22,5 @@ qgisMaximumVersion=3.99
 server=False
 
 # versioning
-version=0.5.0-beta1
+version=0.5.0-beta2
 changelog=

@@ -15,6 +15,9 @@ Unreleased
 ### Removed
 
 -->
+## 0.5.0-beta2 - 2024-11-02
+
+- Fix data source importing
 
 ## 0.5.0-beta1 - 2024-10-09
 
