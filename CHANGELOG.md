@@ -15,6 +15,10 @@ Unreleased
 ### Removed
 
 -->
+## 0.5.0-beta3 - 2024-11-02
+
+- Another huge refactoring, vastly improving structure and simplicity
+
 ## 0.5.0-beta2 - 2024-11-02
 
 - Fix data source importing

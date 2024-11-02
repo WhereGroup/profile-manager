@@ -1,11 +1,9 @@
 from configparser import RawConfigParser
-from os import path
+from pathlib import Path
 from shutil import copy2
 
-from profile_manager.utils import adjust_to_operating_system
 
-
-def import_customizations(source_profile_path: str, target_profile_path: str):
+def import_customizations(source_profile_path: Path, target_profile_path: Path):
     """Imports UI customizations from source to target profile.
 
     Copies the whole QGISCUSTOMIZATION3.ini file and also transfers the [UI] section from QGIS3.ini if available
@@ -19,25 +17,18 @@ def import_customizations(source_profile_path: str, target_profile_path: str):
     ...
 
     Args:
-        TODO
+        source_profile_path: Path of profile directory to import from
+        target_profile_path: Path of profile directory to import to
     """
     # Copy (overwrite) the QGISCUSTOMIZATION3.ini if exist
-    source_customini_path = adjust_to_operating_system(
-        source_profile_path + "QGIS/QGISCUSTOMIZATION3.ini"
-    )
-    target_customini_path = adjust_to_operating_system(
-        target_profile_path + "QGIS/QGISCUSTOMIZATION3.ini"
-    )
-    if path.exists(source_customini_path):
+    source_customini_path = source_profile_path / "QGIS" / "QGISCUSTOMIZATION3.ini"
+    target_customini_path = target_profile_path / "QGIS" / "QGISCUSTOMIZATION3.ini"
+    if source_customini_path.exists():
         copy2(source_customini_path, target_customini_path)
 
     # Copy [UI] section from QGIS3.ini
-    source_qgis3ini_path = adjust_to_operating_system(
-        source_profile_path + "QGIS/QGIS3.ini"
-    )
-    target_qgis3ini_path = adjust_to_operating_system(
-        target_profile_path + "QGIS/QGIS3.ini"
-    )
+    source_qgis3ini_path = source_profile_path / "QGIS" / "QGIS3.ini"
+    target_qgis3ini_path = target_profile_path / "QGIS" / "QGIS3.ini"
 
     source_ini_parser = RawConfigParser()
     source_ini_parser.optionxform = str  # str = case-sensitive option names

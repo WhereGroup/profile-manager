@@ -33,8 +33,9 @@ To install the plugin manually just copy the folder into your QGIS profile direc
 - Importing (spatial) bookmarks
 - Importing (data source) favourites
 - Importing plugins
-- Importing expression functions
-- Importing models & scripts
+- Importing expressions
+- Importing models
+- Importing scripts
 - Importing some symbology types & label settings
 - Importing QGIS UI settings (e.g. hidden toolbar items)
 
