@@ -25,7 +25,7 @@
 import time
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication, QSize
-from PyQt5.QtWidgets import QAction, QWidget
+from PyQt5.QtWidgets import QAction, QPushButton, QMessageBox, QWidget
 from qgis.core import QgsUserProfileManager, Qgis
 from pathlib import Path
 from sys import platform
@@ -94,11 +94,34 @@ class ProfileManager:
 
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr(u'&Profile Manager')
+        self.menu = self.tr("&Profile Manager (Deprecated)")
 
         # Check if plugin was started the first time in current QGIS session
         # Must be set in initGui() to survive plugin reloads
         self.first_start = None
+
+        widget = self.iface.messageBar().createMessage(
+            "Deprecated plugin version",
+            "Please manually install the new Profile Manager plugin",
+        )
+        button = QPushButton(widget)
+        button.setText("Instructions")
+        button.pressed.connect(self.more_info)
+        widget.layout().addWidget(button)
+        self.iface.messageBar().pushWidget(widget, Qgis.Warning, duration=15)
+
+    def more_info(self):
+        QMessageBox.critical(
+            None,
+            "Deprecated plugin",
+            """The installed version of the Profile Manager plugin will not receive any updates.
+
+Please manually uninstall it, restart QGIS, then install the *new* Profile Manager plugin from the QGIS plugin repository. The old one is now called "Profile Manager (deprecated)".
+
+Sorry for the inconvenience and thanks for understanding!
+We did significant work on the source code to make future developments easier. One of the changes requires this update.
+- The Profile Manager developers""",
+        )
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -195,7 +218,7 @@ class ProfileManager:
         icon_path = ':/plugins/profile_manager/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'Profile Manager'),
+            text=self.tr("Profile Manager (Deprecated)"),
             callback=self.run,
             parent=self.iface.mainWindow())
 
@@ -206,8 +229,8 @@ class ProfileManager:
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr(u'&Profile Manager'),
-                action)
+                self.tr("&Profile Manager (Deprecated)"), action
+            )
             self.iface.removeToolBarIcon(action)
 
     def run(self):

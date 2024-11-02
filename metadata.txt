@@ -3,14 +3,14 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=Profile Manager
+name=Profile Manager (Deprecated)
 qgisMinimumVersion=3.12
-description=Makes handling profiles easy by giving you an UI to easily import settings from one profile to another
-version=0.31
+description=(Deprecated, please update to the new Profile Manager plugin.) Makes handling profiles easy by giving you an UI to easily import settings from one profile to another
+version=0.31.1
 author=(C) 2022 by WhereGroup GmbH
 email=info@wheregroup.com
 
-about=A QGIS Plugin that provides an UI to easily manage your profiles and import various settings from one profile to another
+about=(Deprecated, please update to the new Profile Manager plugin.) A QGIS Plugin that provides an UI to easily manage your profiles and import various settings from one profile to another
 
 repository=https://github.com/WhereGroup/profile-manager/
 # End of mandatory metadata
@@ -32,12 +32,12 @@ tracker=https://github.com/WhereGroup/profile-manager/issues
 experimental=True
 
 # deprecated flag (applies to the whole plugin, not just a single version)
-deprecated=False
+deprecated=True
 
 # Since QGIS 3.8, a comma separated list of plugins to be installed
 # (or upgraded) can be specified.
 # Check the documentation for more information.
-# plugin_dependencies=
+plugin_dependencies=Plugin Manager
 
 Category of the plugin: Raster, Vector, Database or Web
 # category=
