@@ -5,47 +5,36 @@ from shutil import copytree
 from typing import Optional
 
 from qgis.core import Qgis, QgsMessageLog, QgsUserProfileManager
-from qgis.PyQt.QtCore import (
-    QCoreApplication,
-    QLocale,
-    QSettings,
-    QTranslator,
-)
+from qgis.PyQt.QtCore import QCoreApplication, QLocale, QSettings, QTranslator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QWidget
 
 from profile_manager.datasources.bookmarks import import_bookmarks
-from profile_manager.datasources.customization import (
-    import_customizations,
-)
+from profile_manager.datasources.customization import import_customizations
 from profile_manager.datasources.data_sources import (
     collect_data_sources,
     import_data_sources,
     remove_data_sources,
 )
+from profile_manager.datasources.expressions import import_expressions
 from profile_manager.datasources.favourites import import_favourites
-from profile_manager.datasources.expressions import (
-    import_expressions,
-)
 from profile_manager.datasources.models import import_models
-from profile_manager.datasources.scripts import import_scripts
 from profile_manager.datasources.plugins import (
     collect_plugin_names,
-    remove_plugins,
     import_plugins,
+    remove_plugins,
 )
+from profile_manager.datasources.scripts import import_scripts
 from profile_manager.datasources.styles import import_styles
-
 from profile_manager.profile_manager_dialog import ProfileManagerDialog
 from profile_manager.profiles.profile_handler import (
-    create_profile,
     copy_profile,
-    rename_profile,
+    create_profile,
     remove_profile,
+    rename_profile,
 )
 from profile_manager.profiles.utils import get_profile_qgis_ini_path, qgis_profiles_path
 from profile_manager.utils import wait_cursor
-
 
 LOGGER = logging.getLogger("profile_manager")
 logging.basicConfig(

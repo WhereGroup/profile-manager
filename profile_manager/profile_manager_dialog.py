@@ -1,24 +1,15 @@
 from collections import defaultdict
 from pathlib import Path
-from typing import Optional, Literal
-
-from qgis.PyQt import QtWidgets, uic
-from qgis.PyQt.QtCore import QSize, Qt
-from qgis.PyQt.QtWidgets import (
-    QDialog,
-    QListWidget,
-    QMessageBox,
-    QTreeWidget,
-)
+from typing import Literal, Optional
 
 from qgis.core import QgsApplication
+from qgis.PyQt import QtWidgets, uic
+from qgis.PyQt.QtCore import QSize, Qt
+from qgis.PyQt.QtWidgets import QDialog, QListWidget, QMessageBox, QTreeWidget
 
 from profile_manager.gui.mdl_profiles import ProfileListModel
 from profile_manager.gui.name_profile_dialog import NameProfileDialog
-from profile_manager.gui.utils import (
-    data_sources_as_tree,
-    plugins_as_items,
-)
+from profile_manager.gui.utils import data_sources_as_tree, plugins_as_items
 from profile_manager.qdt_export.profile_export import (
     QDTProfileInfos,
     export_profile_for_qdt,

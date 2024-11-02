@@ -1,12 +1,10 @@
 import logging
-
 from configparser import RawConfigParser
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from re import compile
 from urllib.parse import unquote
-
 
 LOGGER = logging.getLogger("profile_manager")
 

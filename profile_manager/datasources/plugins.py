@@ -1,10 +1,8 @@
 import logging
-
 from configparser import NoSectionError, RawConfigParser
 from datetime import datetime
 from pathlib import Path
-from shutil import rmtree, copytree
-
+from shutil import copytree, rmtree
 
 LOGGER = logging.getLogger("profile_manager")
 

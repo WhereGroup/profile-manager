@@ -1,11 +1,10 @@
 import re
-
 from os import rename
 from pathlib import Path
-from shutil import rmtree, copytree
+from shutil import copytree, rmtree
 from sys import platform
 
-from qgis.core import QgsUserProfileManager, QgsApplication
+from qgis.core import QgsApplication, QgsUserProfileManager
 
 from profile_manager.profiles.utils import qgis_profiles_path
 
