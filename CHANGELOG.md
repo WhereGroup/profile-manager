@@ -15,9 +15,13 @@ Unreleased
 ### Removed
 
 -->
-## 0.5.0-beta2 - 2024-11-02
 
-- Fix data source importing
+## 0.5.0-beta2 - 2024-11-05
+
+- First version after plugin's folder renaming under the hood (`profile-manager` --> `profile_manager` to comply with Python guidelines)
+- Fix parameter order (broken import/removal of data sources) by @kannes in <https://github.com/WhereGroup/profile_manager/pull/33>
+- Switch dialog tabs to back sensible defaults by @kannes in <https://github.com/WhereGroup/profile_manager/pull/32>
+- update(ci): rm deprecated `set-output` command by @Guts in <https://github.com/WhereGroup/profile_manager/pull/31>
 
 ## 0.5.0-beta1 - 2024-10-09
 
